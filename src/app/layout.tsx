@@ -97,6 +97,30 @@ export default function RootLayout({
                 office for region-specific advice.
               </p>
               <p className="text-xs text-[var(--color-text-muted)]">
+                Some links are affiliate links. See our{" "}
+                <Link
+                  href="/disclosure"
+                  className="underline hover:text-[var(--color-text)]"
+                >
+                  disclosure
+                </Link>
+                .
+              </p>
+              <nav className="flex gap-4 text-xs text-[var(--color-text-muted)]">
+                <Link
+                  href="/about"
+                  className="underline hover:text-[var(--color-text)]"
+                >
+                  About
+                </Link>
+                <Link
+                  href="/disclosure"
+                  className="underline hover:text-[var(--color-text)]"
+                >
+                  Disclosure
+                </Link>
+              </nav>
+              <p className="text-xs text-[var(--color-text-muted)]">
                 &copy; {new Date().getFullYear()} PlantingCalc. All rights reserved.
               </p>
             </div>

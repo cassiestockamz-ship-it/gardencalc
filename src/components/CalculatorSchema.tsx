@@ -13,18 +13,19 @@ export default function CalculatorSchema({
     name,
     description,
     url,
-    applicationCategory: "FinanceApplication",
+    applicationCategory: "CalculatorApplication",
     operatingSystem: "Any",
     offers: {
       "@type": "Offer",
       price: "0",
       priceCurrency: "USD",
     },
-    creator: {
+    author: {
       "@type": "Organization",
-      name: "ChargeMath",
-      url: "https://chargemath.com",
+      name: "PlantingCalc",
+      url: "https://plantingcalc.com/about",
     },
+    dateModified: "2026-03-21",
   };
 
   return (
