@@ -2,8 +2,8 @@
   "redirects": [
     {
       "source": "/:path(.*)",
-      "has": [{ "type": "host", "value": "www.gardencalc.com" }],
-      "destination": "https://gardencalc.com/:path",
+      "has": [{ "type": "host", "value": "www.plantingcalc.com" }],
+      "destination": "https://plantingcalc.com/:path",
       "permanent": true
     }
   ]

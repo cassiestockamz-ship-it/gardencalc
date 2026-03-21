@@ -202,9 +202,9 @@ export default function SoilCalculatorPage() {
       <CalculatorSchema
         name="Raised Bed Soil Calculator"
         description="Calculate how many cubic feet or yards of soil you need for a raised garden bed. Supports multiple bed shapes and soil mix recipes."
-        url="https://gardencalc.com/soil-calculator"
+        url="https://plantingcalc.com/soil-calculator"
       />
-      <BreadcrumbSchema items={[{ name: "Home", url: "https://gardencalc.com" }, { name: "Soil Calculator", url: "https://gardencalc.com/soil-calculator" }]} />
+      <BreadcrumbSchema items={[{ name: "Home", url: "https://plantingcalc.com" }, { name: "Soil Calculator", url: "https://plantingcalc.com/soil-calculator" }]} />
 
       {/* Inputs */}
       <div className="grid gap-6 sm:grid-cols-2">

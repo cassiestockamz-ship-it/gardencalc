@@ -10,7 +10,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://gardencalc.com"),
+  metadataBase: new URL("https://plantingcalc.com"),
   alternates: { canonical: "/" },
   title: {
     default: "GardenCalc — Free Gardening Calculators & Planting Tools",
