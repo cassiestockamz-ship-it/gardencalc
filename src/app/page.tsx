@@ -23,7 +23,7 @@ const calculators = [
       "Plan your garden layout with optimal spacing for maximum yield in your available space.",
     href: "/seed-spacing",
     icon: "🌱",
-    live: false,
+    live: true,
   },
   {
     title: "Companion Planting Checker",
@@ -31,7 +31,7 @@ const calculators = [
       "Find out which plants grow well together and which ones to keep apart.",
     href: "/companion-planting",
     icon: "🤝",
-    live: false,
+    live: true,
   },
   {
     title: "Fertilizer Calculator",
@@ -39,7 +39,7 @@ const calculators = [
       "Calculate the right NPK ratio and amount for your plants and garden size.",
     href: "/fertilizer",
     icon: "🧪",
-    live: false,
+    live: true,
   },
   {
     title: "Watering Schedule Calculator",
@@ -47,7 +47,7 @@ const calculators = [
       "Get a personalized watering schedule based on your plants, zone, and season.",
     href: "/watering",
     icon: "💧",
-    live: false,
+    live: true,
   },
 ];
 
@@ -143,11 +143,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Why GardenCalc */}
+      {/* Why PlantingCalc */}
       <section className="border-t border-[var(--color-border)] bg-[var(--color-surface-alt)]">
         <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
           <h2 className="mb-10 text-center text-2xl font-bold text-[var(--color-text)]">
-            Why GardenCalc?
+            Why PlantingCalc?
           </h2>
           <div className="grid gap-8 sm:grid-cols-3">
             {features.map((f) => (

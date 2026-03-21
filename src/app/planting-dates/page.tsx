@@ -6,6 +6,9 @@ import ShareResults from "@/components/ShareResults";
 import CalculatorSchema from "@/components/CalculatorSchema";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import { VEGETABLES, CATEGORIES } from "@/data/vegetables";
+import FAQSection from "@/components/FAQSection";
+import RelatedCalculators from "@/components/RelatedCalculators";
+import { plantingDatesFAQ } from "@/data/faq-data";
 
 const AMAZON_TAG = "kawaiiguy0f-20";
 
@@ -387,6 +390,8 @@ export default function PlantingDatesPage() {
           </a>
         </div>
       </div>
+      <FAQSection questions={plantingDatesFAQ} />
+      <RelatedCalculators currentPath="/planting-dates" />
     </CalculatorLayout>
   );
 }

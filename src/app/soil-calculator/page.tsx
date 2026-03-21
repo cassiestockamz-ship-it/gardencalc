@@ -8,6 +8,9 @@ import ResultCard from "@/components/ResultCard";
 import ShareResults from "@/components/ShareResults";
 import CalculatorSchema from "@/components/CalculatorSchema";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
+import FAQSection from "@/components/FAQSection";
+import RelatedCalculators from "@/components/RelatedCalculators";
+import { soilFAQ } from "@/data/faq-data";
 
 const AMAZON_TAG = "kawaiiguy0f-20";
 
@@ -482,6 +485,8 @@ export default function SoilCalculatorPage() {
           </a>
         </div>
       </div>
+      <FAQSection questions={soilFAQ} />
+      <RelatedCalculators currentPath="/soil-calculator" />
     </CalculatorLayout>
   );
 }

@@ -13,21 +13,21 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://plantingcalc.com"),
   alternates: { canonical: "/" },
   title: {
-    default: "GardenCalc — Free Gardening Calculators & Planting Tools",
-    template: "%s — GardenCalc",
+    default: "PlantingCalc — Free Gardening Calculators & Planting Tools",
+    template: "%s — PlantingCalc",
   },
   description:
     "Free gardening calculators: raised bed soil volume, planting dates by ZIP code, seed spacing, companion planting, and more. Powered by USDA zone data.",
   openGraph: {
     type: "website",
-    siteName: "GardenCalc",
-    title: "GardenCalc — Free Gardening Calculators",
+    siteName: "PlantingCalc",
+    title: "PlantingCalc — Free Gardening Calculators",
     description:
       "Calculate soil volume, planting dates, seed spacing, and more. Powered by USDA hardiness zone data.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "GardenCalc — Free Gardening Calculators",
+    title: "PlantingCalc — Free Gardening Calculators",
     description:
       "Calculate soil volume, planting dates, seed spacing, and more.",
   },
@@ -52,7 +52,7 @@ export default function RootLayout({
               <span className="text-2xl" aria-hidden="true">
                 🌱
               </span>
-              GardenCalc
+              PlantingCalc
             </Link>
             <nav className="hidden items-center gap-0.5 md:flex">
               <Link href="/soil-calculator" className="whitespace-nowrap rounded-lg px-2 py-1.5 text-xs font-medium text-[var(--color-text-muted)] transition-colors hover:bg-[var(--color-surface-alt)] hover:text-[var(--color-text)] lg:px-2.5 lg:py-2 lg:text-sm">
@@ -85,7 +85,7 @@ export default function RootLayout({
           <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
             <div className="flex flex-col items-center gap-3 text-center">
               <p className="text-sm font-medium text-[var(--color-text)]">
-                🌱 GardenCalc
+                🌱 PlantingCalc
               </p>
               <p className="text-xs text-[var(--color-text-muted)]">
                 Built with USDA zone data &amp; agricultural extension research
@@ -97,7 +97,7 @@ export default function RootLayout({
                 office for region-specific advice.
               </p>
               <p className="text-xs text-[var(--color-text-muted)]">
-                &copy; {new Date().getFullYear()} GardenCalc. All rights reserved.
+                &copy; {new Date().getFullYear()} PlantingCalc. All rights reserved.
               </p>
             </div>
           </div>
