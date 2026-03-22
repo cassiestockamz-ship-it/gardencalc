@@ -75,6 +75,18 @@ const features = [
 export default function HomePage() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "PlantingCalc",
+        "url": "https://plantingcalc.com",
+        "description": "Free gardening calculators powered by USDA zone data and agricultural research.",
+        "publisher": {
+          "@type": "Organization",
+          "name": "PlantingCalc",
+          "url": "https://plantingcalc.com/about"
+        }
+      })}} />
       {/* Hero */}
       <section className="px-4 pb-16 pt-20 text-center sm:px-6">
         <h1 className="text-4xl font-extrabold tracking-tight text-[var(--color-text)] sm:text-5xl lg:text-6xl">

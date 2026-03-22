@@ -3,11 +3,11 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Fertilizer Calculator",
   description:
-    "Find the right fertilizer and NPK ratio for your vegetables. Calculates how much fertilizer you need based on garden size and plant type.",
+    "Find the right NPK fertilizer ratio for your vegetable garden. Free calculator shows exactly how much fertilizer you need based on plant type and garden size. Try it now.",
   openGraph: {
     title: "Fertilizer Calculator",
     description:
-      "Find the right fertilizer and NPK ratio for your vegetables. Calculates how much fertilizer you need based on garden size and plant type.",
+      "Find the right NPK fertilizer ratio for your vegetable garden. Free calculator shows exactly how much fertilizer you need based on plant type and garden size. Try it now.",
   },
   alternates: { canonical: "/fertilizer" },
 };

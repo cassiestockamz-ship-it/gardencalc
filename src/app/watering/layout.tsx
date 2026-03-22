@@ -3,11 +3,11 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Watering Schedule Calculator",
   description:
-    "Get a personalized watering schedule for your vegetable garden based on plants, climate, soil type, and growing method.",
+    "Calculate exactly how much and how often to water your vegetable garden. Free tool based on plant type, climate zone, soil, and growing method. Try it now.",
   openGraph: {
     title: "Watering Schedule Calculator",
     description:
-      "Get a personalized watering schedule for your vegetable garden based on plants, climate, soil type, and growing method.",
+      "Calculate exactly how much and how often to water your vegetable garden. Free tool based on plant type, climate zone, soil, and growing method. Try it now.",
   },
   alternates: { canonical: "/watering" },
 };

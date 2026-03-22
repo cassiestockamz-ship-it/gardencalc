@@ -432,6 +432,9 @@ export default function SoilCalculatorPage() {
           title={`Soil Needed: ${fmt(results.totalCuFt)} cu ft`}
           text={`My ${shape} raised bed (${shape === "circle" ? `${diameterFt}ft diameter` : `${widthFt}×${lengthFt}ft`}, ${heightIn}" deep${numBeds > 1 ? `, ×${numBeds} beds` : ""}) needs ${fmt(results.totalCuFt)} cubic feet of soil (${fmt(results.totalCuYd)} cubic yards).`}
         />
+        <p className="text-sm text-[var(--color-muted)] mt-4">
+          <a href="/planting-dates" className="text-[var(--color-primary)] hover:underline">Find out when to plant in your bed &rarr;</a>
+        </p>
       </div>
 
       {/* Affiliate Cards */}

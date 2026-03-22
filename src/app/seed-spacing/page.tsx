@@ -286,6 +286,9 @@ export default function SeedSpacingPage() {
           title={`${veg.name} Spacing: ${results.totalPlants} plants`}
           text={`My ${bedWidth}x${bedLength}ft bed fits ${results.totalPlants} ${veg.name.toLowerCase()} plants (${results.numRows} rows x ${results.plantsPerRow} per row). Estimated yield: ${fmt(results.totalYield)} lbs.`}
         />
+        <p className="text-sm text-[var(--color-muted)] mt-4">
+          <a href="/companion-planting" className="text-[var(--color-primary)] hover:underline">Check which plants grow well together &rarr;</a>
+        </p>
       </div>
 
       {/* Affiliate Cards */}

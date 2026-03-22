@@ -221,6 +221,9 @@ export default function FertilizerCalculatorPage() {
           title={`Fertilizer for ${plant.name}: ${n}-${p}-${k}`}
           text={`My ${widthFt}x${lengthFt}ft ${plant.name} garden needs ${results.lbsN.toFixed(2)} lbs nitrogen per season. Recommended NPK: ${n}-${p}-${k}. ${feeder.label} — ${plant.feedFrequency}.`}
         />
+        <p className="text-sm text-[var(--color-muted)] mt-4">
+          <a href="/watering" className="text-[var(--color-primary)] hover:underline">See how much to water your plants &rarr;</a>
+        </p>
       </div>
 
       {/* Affiliate Cards */}

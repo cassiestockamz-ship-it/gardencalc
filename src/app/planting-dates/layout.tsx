@@ -3,11 +3,11 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Planting Date Calculator by ZIP Code",
   description:
-    "Enter your ZIP code to get personalized planting dates for 35+ vegetables. Based on USDA hardiness zones and local frost dates.",
+    "Enter your ZIP code to get personalized planting dates for 35+ vegetables based on your USDA hardiness zone and local frost dates. Free calculator — try it now.",
   openGraph: {
     title: "Planting Date Calculator by ZIP Code",
     description:
-      "Enter your ZIP code to get personalized planting dates for 35+ vegetables. Based on USDA hardiness zones and local frost dates.",
+      "Enter your ZIP code to get personalized planting dates for 35+ vegetables based on your USDA hardiness zone and local frost dates. Free calculator — try it now.",
   },
   alternates: { canonical: "/planting-dates" },
 };

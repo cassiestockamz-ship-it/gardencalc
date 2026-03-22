@@ -43,6 +43,6 @@ export const COMPANION_PLANTS: CompanionPlant[] = [
   // Flowers
   { name: "Marigold", icon: "🌼", type: "flower", companions: ["Tomato", "Pepper", "Cucumber", "Squash", "Bean", "Potato", "Rose"], foes: ["Cabbage"], notes: "Repels nematodes, whiteflies, and aphids" },
   { name: "Nasturtium", icon: "🌸", type: "flower", companions: ["Squash", "Cucumber", "Radish", "Cabbage", "Bean", "Tomato"], foes: [], notes: "Excellent trap crop for aphids" },
-  { name: "Sunflower", icon: "🌻", type: "flower", companions: ["Cucumber", "Corn", "Bean", "Lettuce", "Squash"], foes: ["Potato", "Bean"], notes: "Attracts pollinators, provides support for vines" },
+  { name: "Sunflower", icon: "🌻", type: "flower", companions: ["Cucumber", "Corn", "Bean", "Lettuce", "Squash"], foes: ["Potato"], notes: "Attracts pollinators, provides support for vines" },
   { name: "Borage", icon: "🌸", type: "flower", companions: ["Tomato", "Squash", "Strawberry", "Cabbage"], foes: [], notes: "Attracts pollinators, deters tomato hornworm" },
 ];
