@@ -10,7 +10,7 @@ import FAQSection from "@/components/FAQSection";
 import RelatedCalculators from "@/components/RelatedCalculators";
 import { plantingDatesFAQ } from "@/data/faq-data";
 
-const AMAZON_TAG = "kawaiiguy0f-20";
+const AMAZON_TAG = "kawaiiguy0f-pc-20";
 
 interface ZoneData {
   zip: string;

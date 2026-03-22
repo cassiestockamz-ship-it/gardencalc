@@ -12,7 +12,7 @@ import FAQSection from "@/components/FAQSection";
 import RelatedCalculators from "@/components/RelatedCalculators";
 import { soilFAQ } from "@/data/faq-data";
 
-const AMAZON_TAG = "kawaiiguy0f-20";
+const AMAZON_TAG = "kawaiiguy0f-pc-20";
 
 type BedShape = "rectangle" | "square" | "circle" | "lshaped";
 type SoilMix = "standard" | "mellsbed" | "hugelkultur" | "custom";

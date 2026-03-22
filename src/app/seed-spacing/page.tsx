@@ -13,7 +13,7 @@ import FAQSection from "@/components/FAQSection";
 import RelatedCalculators from "@/components/RelatedCalculators";
 import { seedSpacingFAQ } from "@/data/faq-data";
 
-const AMAZON_TAG = "kawaiiguy0f-20";
+const AMAZON_TAG = "kawaiiguy0f-pc-20";
 
 // Rough yield per plant in lbs (conservative averages)
 const YIELD_PER_PLANT: Record<string, number> = {
