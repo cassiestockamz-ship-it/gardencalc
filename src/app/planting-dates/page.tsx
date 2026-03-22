@@ -91,8 +91,6 @@ export default function PlantingDatesPage() {
     if (!zoneData) return [];
 
     return VEGETABLES.map((veg) => {
-      const inZone = true; // Show all, but flag out-of-zone
-
       const indoorDate = veg.indoorStart !== null ? addWeeks(zoneData.lastFrost, veg.indoorStart) : null;
       const transplantDate = veg.transplant !== null ? addWeeks(zoneData.lastFrost, veg.transplant) : null;
       const directSowDate = veg.directSow !== null ? addWeeks(zoneData.lastFrost, veg.directSow) : null;
@@ -109,7 +107,6 @@ export default function PlantingDatesPage() {
 
       return {
         ...veg,
-        inZone,
         indoorDate,
         transplantDate,
         directSowDate,
@@ -347,7 +344,7 @@ export default function PlantingDatesPage() {
           <a
             href={`https://www.amazon.com/s?k=seed+starting+kit+indoor&tag=${AMAZON_TAG}`}
             target="_blank"
-            rel="noopener noreferrer nofollow"
+            rel="noopener noreferrer nofollow sponsored"
             className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
           >
             <div className="flex h-32 items-center justify-center bg-gradient-to-br from-green-50 to-emerald-100">
@@ -369,7 +366,7 @@ export default function PlantingDatesPage() {
           <a
             href={`https://www.amazon.com/s?k=vegetable+seed+variety+pack&tag=${AMAZON_TAG}`}
             target="_blank"
-            rel="noopener noreferrer nofollow"
+            rel="noopener noreferrer nofollow sponsored"
             className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
           >
             <div className="flex h-32 items-center justify-center bg-gradient-to-br from-amber-50 to-yellow-100">

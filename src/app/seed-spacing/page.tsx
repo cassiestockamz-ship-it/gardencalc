@@ -297,7 +297,7 @@ export default function SeedSpacingPage() {
           <a
             href={`https://www.amazon.com/s?k=seed+starting+trays+with+dome&tag=${AMAZON_TAG}`}
             target="_blank"
-            rel="noopener noreferrer nofollow"
+            rel="noopener noreferrer nofollow sponsored"
             className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
           >
             <div className="flex h-32 items-center justify-center bg-gradient-to-br from-green-50 to-emerald-100">
@@ -319,7 +319,7 @@ export default function SeedSpacingPage() {
           <a
             href={`https://www.amazon.com/s?k=garden+row+markers+plant+labels&tag=${AMAZON_TAG}`}
             target="_blank"
-            rel="noopener noreferrer nofollow"
+            rel="noopener noreferrer nofollow sponsored"
             className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
           >
             <div className="flex h-32 items-center justify-center bg-gradient-to-br from-amber-50 to-yellow-100">

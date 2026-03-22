@@ -363,7 +363,7 @@ export default function WateringCalculatorPage() {
           <a
             href={`https://www.amazon.com/s?k=soaker+hose+garden&tag=${AMAZON_TAG}`}
             target="_blank"
-            rel="noopener noreferrer nofollow"
+            rel="noopener noreferrer nofollow sponsored"
             className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
           >
             <div className="flex h-32 items-center justify-center bg-gradient-to-br from-blue-50 to-cyan-100">
@@ -385,7 +385,7 @@ export default function WateringCalculatorPage() {
           <a
             href={`https://www.amazon.com/s?k=garden+watering+timer+automatic&tag=${AMAZON_TAG}`}
             target="_blank"
-            rel="noopener noreferrer nofollow"
+            rel="noopener noreferrer nofollow sponsored"
             className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
           >
             <div className="flex h-32 items-center justify-center bg-gradient-to-br from-green-50 to-emerald-100">
@@ -407,7 +407,7 @@ export default function WateringCalculatorPage() {
           <a
             href={`https://www.amazon.com/s?k=rain+gauge+garden+outdoor&tag=${AMAZON_TAG}`}
             target="_blank"
-            rel="noopener noreferrer nofollow"
+            rel="noopener noreferrer nofollow sponsored"
             className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
           >
             <div className="flex h-32 items-center justify-center bg-gradient-to-br from-amber-50 to-yellow-100">

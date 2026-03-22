@@ -56,7 +56,7 @@ export const VEGETABLES: Vegetable[] = [
 
   // Alliums
   { name: "Onion", category: "allium", icon: "🧅", indoorStart: -10, transplant: -4, directSow: -4, daysToHarvest: [90, 120], spacingInches: 4, rowSpacingInches: 12, depthInches: 0.5, minZone: 3, maxZone: 9, notes: "Match day-length variety to latitude" },
-  { name: "Garlic", category: "allium", icon: "🧄", indoorStart: null, transplant: null, directSow: -6, daysToHarvest: [240, 270], spacingInches: 6, rowSpacingInches: 12, depthInches: 2, minZone: 3, maxZone: 8, notes: "Plant in fall for summer harvest" },
+  { name: "Garlic", category: "allium", icon: "🧄", indoorStart: null, transplant: null, directSow: -6, daysToHarvest: [90, 150], spacingInches: 6, rowSpacingInches: 12, depthInches: 2, minZone: 3, maxZone: 8, notes: "Spring-planted: 90-150 days. Fall planting preferred for larger bulbs." },
   { name: "Leek", category: "allium", icon: "🧅", indoorStart: -10, transplant: -2, directSow: null, daysToHarvest: [100, 130], spacingInches: 6, rowSpacingInches: 18, depthInches: 0.5, minZone: 3, maxZone: 9, notes: "Blanch stems by hilling soil" },
 
   // Herbs

@@ -42,7 +42,7 @@ export default function AboutPage() {
           </li>
           <li>
             <strong className="text-[var(--color-text)]">
-              Plant-Harmony Companion Planting Database
+              Open-source companion planting databases and agricultural extension research
             </strong>{" "}
             &mdash; research-backed companion and antagonist plant pairings
           </li>

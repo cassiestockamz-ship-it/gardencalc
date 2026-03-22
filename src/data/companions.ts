@@ -38,11 +38,11 @@ export const COMPANION_PLANTS: CompanionPlant[] = [
   { name: "Rosemary", icon: "🌿", type: "herb", companions: ["Carrot", "Cabbage", "Bean", "Sage", "Broccoli"], foes: ["Cucumber", "Pumpkin"], notes: "Repels cabbage moth and carrot fly" },
   { name: "Thyme", icon: "🌿", type: "herb", companions: ["Cabbage", "Tomato", "Eggplant", "Strawberry", "Rose"], foes: ["Basil"], notes: "Deters cabbage worm" },
   { name: "Sage", icon: "🌿", type: "herb", companions: ["Rosemary", "Cabbage", "Carrot", "Tomato", "Strawberry"], foes: ["Cucumber", "Onion", "Basil", "Rue"], notes: "Repels cabbage moth and carrot fly" },
-  { name: "Chives", icon: "🌿", type: "herb", companions: ["Carrot", "Tomato", "Rose", "Apple", "Lettuce", "Pea"], foes: ["Bean", "Pea"], notes: "Deters aphids and Japanese beetles" },
+  { name: "Chives", icon: "🌿", type: "herb", companions: ["Carrot", "Tomato", "Rose", "Apple", "Lettuce"], foes: ["Bean", "Pea"], notes: "Deters aphids and Japanese beetles" },
 
   // Flowers
-  { name: "Marigold", icon: "🌼", type: "flower", companions: ["Tomato", "Pepper", "Cucumber", "Squash", "Bean", "Potato", "Rose"], foes: ["Cabbage", "Bean"], notes: "Repels nematodes, whiteflies, and aphids" },
+  { name: "Marigold", icon: "🌼", type: "flower", companions: ["Tomato", "Pepper", "Cucumber", "Squash", "Bean", "Potato", "Rose"], foes: ["Cabbage"], notes: "Repels nematodes, whiteflies, and aphids" },
   { name: "Nasturtium", icon: "🌸", type: "flower", companions: ["Squash", "Cucumber", "Radish", "Cabbage", "Bean", "Tomato"], foes: [], notes: "Excellent trap crop for aphids" },
-  { name: "Sunflower", icon: "🌻", type: "flower", companions: ["Cucumber", "Corn", "Bean", "Lettuce", "Squash"], foes: ["Potato", "Pole Bean"], notes: "Attracts pollinators, provides support for vines" },
+  { name: "Sunflower", icon: "🌻", type: "flower", companions: ["Cucumber", "Corn", "Bean", "Lettuce", "Squash"], foes: ["Potato", "Bean"], notes: "Attracts pollinators, provides support for vines" },
   { name: "Borage", icon: "🌸", type: "flower", companions: ["Tomato", "Squash", "Strawberry", "Cabbage"], foes: [], notes: "Attracts pollinators, deters tomato hornworm" },
 ];
