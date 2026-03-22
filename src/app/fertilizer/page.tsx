@@ -230,7 +230,7 @@ export default function FertilizerCalculatorPage() {
         </h2>
         <div className="grid gap-4 sm:grid-cols-2">
           <a
-            href={`https://www.amazon.com/s?k=organic+vegetable+fertilizer&tag=${AMAZON_TAG}`}
+            href={`https://www.amazon.com/s?k=organic+vegetable+fertilizer&tag=${AMAZON_TAG}&ascsubtag=fertilizer`}
             target="_blank"
             rel="noopener noreferrer nofollow sponsored"
             className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
@@ -252,7 +252,7 @@ export default function FertilizerCalculatorPage() {
             </div>
           </a>
           <a
-            href={`https://www.amazon.com/s?k=soil+test+kit+garden&tag=${AMAZON_TAG}`}
+            href={`https://www.amazon.com/s?k=soil+test+kit+garden&tag=${AMAZON_TAG}&ascsubtag=fertilizer`}
             target="_blank"
             rel="noopener noreferrer nofollow sponsored"
             className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"

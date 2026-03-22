@@ -4,6 +4,11 @@ export const metadata: Metadata = {
   title: "Seed Spacing & Yield Calculator",
   description:
     "Calculate how many plants fit in your garden bed, estimated yield, seed depth, and row spacing for 35+ vegetables. Visual spacing diagrams included.",
+  openGraph: {
+    title: "Seed Spacing & Yield Calculator",
+    description:
+      "Calculate how many plants fit in your garden bed, estimated yield, seed depth, and row spacing for 35+ vegetables. Visual spacing diagrams included.",
+  },
   alternates: { canonical: "/seed-spacing" },
 };
 

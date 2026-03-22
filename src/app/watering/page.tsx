@@ -361,7 +361,7 @@ export default function WateringCalculatorPage() {
         </h2>
         <div className="grid gap-4 sm:grid-cols-3">
           <a
-            href={`https://www.amazon.com/s?k=soaker+hose+garden&tag=${AMAZON_TAG}`}
+            href={`https://www.amazon.com/s?k=soaker+hose+garden&tag=${AMAZON_TAG}&ascsubtag=watering`}
             target="_blank"
             rel="noopener noreferrer nofollow sponsored"
             className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
@@ -383,7 +383,7 @@ export default function WateringCalculatorPage() {
             </div>
           </a>
           <a
-            href={`https://www.amazon.com/s?k=garden+watering+timer+automatic&tag=${AMAZON_TAG}`}
+            href={`https://www.amazon.com/s?k=garden+watering+timer+automatic&tag=${AMAZON_TAG}&ascsubtag=watering`}
             target="_blank"
             rel="noopener noreferrer nofollow sponsored"
             className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
@@ -405,7 +405,7 @@ export default function WateringCalculatorPage() {
             </div>
           </a>
           <a
-            href={`https://www.amazon.com/s?k=rain+gauge+garden+outdoor&tag=${AMAZON_TAG}`}
+            href={`https://www.amazon.com/s?k=rain+gauge+garden+outdoor&tag=${AMAZON_TAG}&ascsubtag=watering`}
             target="_blank"
             rel="noopener noreferrer nofollow sponsored"
             className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"

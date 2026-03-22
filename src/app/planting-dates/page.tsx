@@ -132,6 +132,7 @@ export default function PlantingDatesPage() {
       title="Planting Date Calculator"
       description="Enter your ZIP code to get personalized planting dates for 35+ vegetables based on your USDA hardiness zone and local frost dates."
       lastUpdated="March 2026"
+      intro="Your planting dates depend on your USDA hardiness zone and local last frost date. Most vegetables should be started indoors 6-8 weeks before the last frost, while cold-hardy crops like peas, spinach, and kale can be direct-sown 4-6 weeks before. Enter your ZIP code below for personalized dates."
     >
       <CalculatorSchema
         name="Planting Date Calculator by ZIP Code"
@@ -342,7 +343,7 @@ export default function PlantingDatesPage() {
         </h2>
         <div className="grid gap-4 sm:grid-cols-2">
           <a
-            href={`https://www.amazon.com/s?k=seed+starting+kit+indoor&tag=${AMAZON_TAG}`}
+            href={`https://www.amazon.com/s?k=seed+starting+kit+indoor&tag=${AMAZON_TAG}&ascsubtag=planting-dates`}
             target="_blank"
             rel="noopener noreferrer nofollow sponsored"
             className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
@@ -364,7 +365,7 @@ export default function PlantingDatesPage() {
             </div>
           </a>
           <a
-            href={`https://www.amazon.com/s?k=vegetable+seed+variety+pack&tag=${AMAZON_TAG}`}
+            href={`https://www.amazon.com/s?k=vegetable+seed+variety+pack&tag=${AMAZON_TAG}&ascsubtag=planting-dates`}
             target="_blank"
             rel="noopener noreferrer nofollow sponsored"
             className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"

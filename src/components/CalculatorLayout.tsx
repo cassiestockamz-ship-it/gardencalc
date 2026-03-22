@@ -6,6 +6,7 @@ interface CalculatorLayoutProps {
   description: string;
   children: ReactNode;
   lastUpdated?: string;
+  intro?: string;
 }
 
 export default function CalculatorLayout({
@@ -13,6 +14,7 @@ export default function CalculatorLayout({
   description,
   children,
   lastUpdated,
+  intro,
 }: CalculatorLayoutProps) {
   return (
     <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
@@ -24,6 +26,11 @@ export default function CalculatorLayout({
         <p className="mx-auto mt-3 max-w-2xl text-lg text-[var(--color-text-muted)]">
           {description}
         </p>
+        {intro && (
+          <p className="mx-auto mt-4 max-w-2xl text-base font-normal leading-relaxed text-[var(--color-text-muted)]">
+            {intro}
+          </p>
+        )}
         {lastUpdated && (
           <p className="mt-2 text-xs text-[var(--color-text-muted)]">
             Data last updated: {lastUpdated}

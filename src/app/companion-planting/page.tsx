@@ -77,6 +77,7 @@ export default function CompanionPlantingPage() {
       title="Companion Planting Checker"
       description="Find out which plants grow well together and which to keep apart. Look up companions for any plant, or check if a specific pair is compatible."
       lastUpdated="March 2026"
+      intro="Companion planting pairs vegetables, herbs, and flowers that benefit each other through pest repulsion, pollinator attraction, or nutrient sharing. Classic examples include tomatoes with basil, corn with beans and squash (the Three Sisters), and marigolds near most vegetables to repel harmful nematodes."
     >
       <CalculatorSchema
         name="Companion Planting Checker"
@@ -266,7 +267,7 @@ export default function CompanionPlantingPage() {
         </h2>
         <div className="grid gap-4 sm:grid-cols-2">
           <a
-            href={`https://www.amazon.com/s?k=companion+planting+book+garden&tag=${AMAZON_TAG}`}
+            href={`https://www.amazon.com/s?k=companion+planting+book+garden&tag=${AMAZON_TAG}&ascsubtag=companion-planting`}
             target="_blank"
             rel="noopener noreferrer nofollow sponsored"
             className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
@@ -288,7 +289,7 @@ export default function CompanionPlantingPage() {
             </div>
           </a>
           <a
-            href={`https://www.amazon.com/s?k=garden+planning+tools+layout&tag=${AMAZON_TAG}`}
+            href={`https://www.amazon.com/s?k=garden+planning+tools+layout&tag=${AMAZON_TAG}&ascsubtag=companion-planting`}
             target="_blank"
             rel="noopener noreferrer nofollow sponsored"
             className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"

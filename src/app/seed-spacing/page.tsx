@@ -295,7 +295,7 @@ export default function SeedSpacingPage() {
         </h2>
         <div className="grid gap-4 sm:grid-cols-2">
           <a
-            href={`https://www.amazon.com/s?k=seed+starting+trays+with+dome&tag=${AMAZON_TAG}`}
+            href={`https://www.amazon.com/s?k=seed+starting+trays+with+dome&tag=${AMAZON_TAG}&ascsubtag=seed-spacing`}
             target="_blank"
             rel="noopener noreferrer nofollow sponsored"
             className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
@@ -317,7 +317,7 @@ export default function SeedSpacingPage() {
             </div>
           </a>
           <a
-            href={`https://www.amazon.com/s?k=garden+row+markers+plant+labels&tag=${AMAZON_TAG}`}
+            href={`https://www.amazon.com/s?k=garden+row+markers+plant+labels&tag=${AMAZON_TAG}&ascsubtag=seed-spacing`}
             target="_blank"
             rel="noopener noreferrer nofollow sponsored"
             className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"

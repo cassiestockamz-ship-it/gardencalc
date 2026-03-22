@@ -4,6 +4,11 @@ export const metadata: Metadata = {
   title: "Raised Bed Soil Calculator",
   description:
     "Calculate exactly how many cubic feet or yards of soil, compost, and amendments you need for your raised garden bed. Works for any size bed.",
+  openGraph: {
+    title: "Raised Bed Soil Calculator",
+    description:
+      "Calculate exactly how many cubic feet or yards of soil, compost, and amendments you need for your raised garden bed. Works for any size bed.",
+  },
   alternates: { canonical: "/soil-calculator" },
 };
 
