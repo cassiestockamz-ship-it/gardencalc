@@ -88,9 +88,35 @@ export default function AboutPage() {
           Who We Are
         </h2>
         <p className="mt-4 text-[var(--color-text-muted)]">
-          Built by gardeners and data analysts who believe everyone deserves
-          access to the same planning tools professional growers use.
+          PlantingCalc is built by home gardeners who got tired of guessing. We maintain raised beds and in-ground gardens across multiple USDA zones, and we built these tools because we wanted the same data-driven planning resources that commercial growers have — without the $200/year software subscriptions.
         </p>
+        <p className="mt-3 text-[var(--color-text-muted)]">
+          Every calculator on this site is backed by published agricultural data, not guesswork. When we say &ldquo;plant tomatoes 2 weeks after your last frost,&rdquo; that comes from the same extension office guidelines that professional farmers follow.
+        </p>
+      </section>
+
+      {/* Methodology */}
+      <section className="mt-10">
+        <h2 className="text-2xl font-bold text-[var(--color-text)]">
+          How We Calculate
+        </h2>
+        <ul className="mt-4 list-disc space-y-2 pl-6 text-[var(--color-text-muted)]">
+          <li>
+            <strong className="text-[var(--color-text)]">Frost dates</strong> are averaged from 30-year NOAA climate normals, cross-referenced with your USDA hardiness zone via the official phzmapi.org API.
+          </li>
+          <li>
+            <strong className="text-[var(--color-text)]">Planting windows</strong> use the standard extension office formula: weeks before or after your local last frost date, calibrated per crop.
+          </li>
+          <li>
+            <strong className="text-[var(--color-text)]">Spacing recommendations</strong> come from university agricultural extension publications (Cornell, UMass, UF/IFAS, Oregon State).
+          </li>
+          <li>
+            <strong className="text-[var(--color-text)]">Fertilizer profiles</strong> are based on published NPK requirements per crop from soil science research and extension guides.
+          </li>
+          <li>
+            <strong className="text-[var(--color-text)]">Watering estimates</strong> use base rates from agricultural research, adjusted by multipliers for climate, soil type, container vs. in-ground, and season.
+          </li>
+        </ul>
       </section>
 
       {/* Calculator Links */}

@@ -313,6 +313,22 @@ export default function CompanionPlantingPage() {
         </div>
       </div>
       <FAQSection questions={companionFAQ} />
+
+      {/* Educational Content */}
+      <div className="mt-10 space-y-6">
+        <h2 className="text-lg font-bold text-[var(--color-text)]">How Companion Planting Works</h2>
+        <p className="text-sm leading-relaxed text-[var(--color-text-muted)]">
+          Companion planting relationships are drawn from agricultural extension research, traditional farming practices, and documented scientific studies on allelopathy (chemical interactions between plants). Plants benefit each other through several mechanisms: nitrogen fixation (beans and peas feed neighboring plants), pest confusion (strong-scented herbs mask crop scents from pests), trap cropping (nasturtiums lure aphids away from vegetables), and pollinator attraction (flowers near crops improve fruit set). Antagonistic relationships typically involve chemical compounds — for example, black walnut trees release juglone, which inhibits tomato and pepper growth.
+        </p>
+        <h3 className="text-base font-semibold text-[var(--color-text)]">Putting Companions Into Practice</h3>
+        <ul className="list-disc space-y-1.5 pl-5 text-sm text-[var(--color-text-muted)]">
+          <li>The Three Sisters (corn, beans, squash) is the most well-documented companion planting system — corn provides a trellis for beans, beans fix nitrogen for all three, and squash leaves shade the soil to retain moisture.</li>
+          <li>Plant basil within 18 inches of tomatoes. Research from Purdue University shows basil repels thrips and may improve tomato flavor.</li>
+          <li>Border your garden with marigolds — their roots release thiopene, a compound that suppresses harmful root-knot nematodes in the surrounding soil for up to a year.</li>
+          <li>Use the <a href="/seed-spacing" className="text-[var(--color-primary)] hover:underline">spacing calculator</a> to plan how many companions fit alongside your main crops, and check the <a href="/watering" className="text-[var(--color-primary)] hover:underline">watering calculator</a> to balance water needs when pairing plants with different requirements.</li>
+        </ul>
+      </div>
+
       <RelatedCalculators currentPath="/companion-planting" />
     </CalculatorLayout>
   );

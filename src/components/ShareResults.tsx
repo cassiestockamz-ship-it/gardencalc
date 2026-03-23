@@ -26,7 +26,7 @@ export default function ShareResults({ title, text, url }: ShareResultsProps) {
   };
 
   const handleCopy = async () => {
-    const shareText = `${title}\n${text}\n\nCalculated on ChargeMath: ${shareUrl}`;
+    const shareText = `${title}\n${text}\n\nCalculated on PlantingCalc: ${shareUrl}`;
     try {
       await navigator.clipboard.writeText(shareText);
       setCopied(true);

@@ -24,6 +24,7 @@ export const metadata: Metadata = {
     title: "PlantingCalc — Free Gardening Calculators",
     description:
       "Calculate soil volume, planting dates, seed spacing, and more. Powered by USDA hardiness zone data.",
+    images: [{ url: "/og/home", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",

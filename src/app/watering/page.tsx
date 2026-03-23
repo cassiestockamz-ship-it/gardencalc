@@ -9,6 +9,7 @@ import CalculatorSchema from "@/components/CalculatorSchema";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import FAQSection from "@/components/FAQSection";
 import RelatedCalculators from "@/components/RelatedCalculators";
+import EmailCapture from "@/components/EmailCapture";
 import { wateringFAQ } from "@/data/faq-data";
 
 const AMAZON_TAG = "kawaiiguy0f-pc-20";
@@ -428,7 +429,24 @@ export default function WateringCalculatorPage() {
           </a>
         </div>
       </div>
+      <EmailCapture variant="inline" context="watering" />
       <FAQSection questions={wateringFAQ} />
+
+      {/* Educational Content */}
+      <div className="mt-10 space-y-6">
+        <h2 className="text-lg font-bold text-[var(--color-text)]">How This Calculator Works</h2>
+        <p className="text-sm leading-relaxed text-[var(--color-text-muted)]">
+          Base water requirements come from agricultural extension recommendations for each crop, measured in inches of water per week. The calculator adjusts these baselines using four multipliers: climate (arid conditions increase evaporation by 50%), soil type (sandy soil drains 30% faster than loam), growing method (containers dry out 50% faster than in-ground beds), and season (summer peak demands 20% more water). Gallons-per-100-square-feet conversions use the standard rate of 0.623 gallons per inch of water per square foot.
+        </p>
+        <h3 className="text-base font-semibold text-[var(--color-text)]">Watering Strategies That Save Water and Improve Yields</h3>
+        <ul className="list-disc space-y-1.5 pl-5 text-sm text-[var(--color-text-muted)]">
+          <li>Drip irrigation and soaker hoses deliver water directly to roots with 90% efficiency, compared to 50-70% for overhead sprinklers. They also keep foliage dry, reducing fungal disease risk.</li>
+          <li>Mulching with 2-3 inches of straw, wood chips, or shredded leaves can cut watering needs by up to 70%. Mulch also suppresses weeds and regulates soil temperature.</li>
+          <li>Inconsistent watering causes more problems than slight under-watering. Blossom end rot in tomatoes, cracked carrots, and bitter cucumbers are all linked to irregular moisture levels.</li>
+          <li>Need help with the rest of your garden setup? Check how much <a href="/soil-calculator" className="text-[var(--color-primary)] hover:underline">soil your raised beds need</a> or find the right <a href="/fertilizer" className="text-[var(--color-primary)] hover:underline">fertilizer for your crops</a>.</li>
+        </ul>
+      </div>
+
       <RelatedCalculators currentPath="/watering" />
     </CalculatorLayout>
   );

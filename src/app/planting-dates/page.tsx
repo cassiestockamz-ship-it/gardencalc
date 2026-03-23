@@ -8,6 +8,7 @@ import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import { VEGETABLES, CATEGORIES } from "@/data/vegetables";
 import FAQSection from "@/components/FAQSection";
 import RelatedCalculators from "@/components/RelatedCalculators";
+import EmailCapture from "@/components/EmailCapture";
 import { plantingDatesFAQ } from "@/data/faq-data";
 
 const AMAZON_TAG = "kawaiiguy0f-pc-20";
@@ -388,7 +389,24 @@ export default function PlantingDatesPage() {
           </a>
         </div>
       </div>
+      <EmailCapture variant="banner" context="planting-dates" />
       <FAQSection questions={plantingDatesFAQ} />
+
+      {/* Educational Content */}
+      <div className="mt-10 space-y-6">
+        <h2 className="text-lg font-bold text-[var(--color-text)]">How This Calculator Works</h2>
+        <p className="text-sm leading-relaxed text-[var(--color-text-muted)]">
+          Planting dates are calculated relative to your local last frost date, which we determine using your USDA hardiness zone. We look up your zone via the USDA Plant Hardiness Zone Map API (phzmapi.org), then cross-reference it with 30-year average frost date normals from NOAA. Each vegetable has a planting window defined as weeks before or after the last frost — for example, tomatoes are typically transplanted 1-2 weeks after the last frost, while peas can be direct-sown 4-6 weeks before it.
+        </p>
+        <h3 className="text-base font-semibold text-[var(--color-text)]">Making the Most of Your Growing Season</h3>
+        <ul className="list-disc space-y-1.5 pl-5 text-sm text-[var(--color-text-muted)]">
+          <li>Start warm-season crops (tomatoes, peppers, eggplant) indoors 6-8 weeks before your last frost date to get a head start. Our schedule shows indoor start dates when applicable.</li>
+          <li>Succession plant quick-maturing crops like lettuce, radishes, and beans every 2-3 weeks for continuous harvests through the season.</li>
+          <li>Your growing season length determines which varieties you can grow. Short-season gardeners (under 120 days) should choose &ldquo;early&rdquo; or &ldquo;short-season&rdquo; varieties of tomatoes, melons, and squash.</li>
+          <li>Once you know your planting dates, check the <a href="/seed-spacing" className="text-[var(--color-primary)] hover:underline">seed spacing calculator</a> to plan how many plants fit in your beds, and use the <a href="/companion-planting" className="text-[var(--color-primary)] hover:underline">companion planting checker</a> to pair crops that help each other thrive.</li>
+        </ul>
+      </div>
+
       <RelatedCalculators currentPath="/planting-dates" />
     </CalculatorLayout>
   );

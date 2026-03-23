@@ -490,6 +490,22 @@ export default function SoilCalculatorPage() {
         </div>
       </div>
       <FAQSection questions={soilFAQ} />
+
+      {/* Educational Content */}
+      <div className="mt-10 space-y-6">
+        <h2 className="text-lg font-bold text-[var(--color-text)]">How This Calculator Works</h2>
+        <p className="text-sm leading-relaxed text-[var(--color-text-muted)]">
+          This calculator computes soil volume using standard geometric formulas: length × width × height for rectangular beds, π × r² × height for circular beds, and a 75% area factor for L-shaped beds. Weight estimates use an average of 40 lbs per cubic foot of garden soil mix. Cost estimates are based on typical retail pricing: topsoil at $0.75/cu ft, compost at $1.50/cu ft, and peat moss/vermiculite at $2.00-$3.50/cu ft. Bulk delivery (by the cubic yard) is usually 30-50% cheaper than bagged soil for beds larger than 4×8 feet.
+        </p>
+        <h3 className="text-base font-semibold text-[var(--color-text)]">Tips for Filling Raised Beds</h3>
+        <ul className="list-disc space-y-1.5 pl-5 text-sm text-[var(--color-text-muted)]">
+          <li>For beds deeper than 12 inches, fill the bottom third with logs, sticks, or leaves (hugelkultur method) to reduce soil cost and improve drainage.</li>
+          <li>A 60/40 topsoil-to-compost ratio works for most vegetables. Mel&apos;s Mix (⅓ compost, ⅓ peat, ⅓ vermiculite) is popular for square-foot gardening but costs 2-3x more.</li>
+          <li>Soil settles 10-15% in the first season. Consider overfilling slightly and topping off with compost each spring.</li>
+          <li>Once your bed is filled, use our <a href="/planting-dates" className="text-[var(--color-primary)] hover:underline">planting date calculator</a> to find the best time to plant in your zone, then check <a href="/seed-spacing" className="text-[var(--color-primary)] hover:underline">seed spacing</a> to maximize your harvest.</li>
+        </ul>
+      </div>
+
       <RelatedCalculators currentPath="/soil-calculator" />
     </CalculatorLayout>
   );
