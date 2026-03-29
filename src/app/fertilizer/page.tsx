@@ -15,6 +15,7 @@ import {
 } from "@/data/fertilizer";
 import FAQSection from "@/components/FAQSection";
 import RelatedCalculators from "@/components/RelatedCalculators";
+import EmailCapture from "@/components/EmailCapture";
 import { fertilizerFAQ } from "@/data/faq-data";
 
 const AMAZON_TAG = "kawaiiguy0f-pc-20";
@@ -295,6 +296,7 @@ export default function FertilizerCalculatorPage() {
         </ul>
       </div>
 
+      <EmailCapture variant="inline" context="fertilizer" />
       <RelatedCalculators currentPath="/fertilizer" />
     </CalculatorLayout>
   );

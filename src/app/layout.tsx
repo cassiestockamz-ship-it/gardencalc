@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Link from "next/link";
 import MobileMenu from "@/components/MobileMenu";
+import NavDropdown from "@/components/NavDropdown";
 import "./globals.css";
 
 const inter = Inter({
@@ -62,24 +63,10 @@ export default function RootLayout({
               </span>
               PlantingCalc
             </Link>
-            <nav className="hidden items-center gap-0.5 md:flex">
-              <Link href="/soil-calculator" className="whitespace-nowrap rounded-lg px-2 py-1.5 text-xs font-medium text-[var(--color-text-muted)] transition-colors hover:bg-[var(--color-surface-alt)] hover:text-[var(--color-text)] lg:px-2.5 lg:py-2 lg:text-sm">
-                Soil
-              </Link>
-              <Link href="/planting-dates" className="whitespace-nowrap rounded-lg px-2 py-1.5 text-xs font-medium text-[var(--color-text-muted)] transition-colors hover:bg-[var(--color-surface-alt)] hover:text-[var(--color-text)] lg:px-2.5 lg:py-2 lg:text-sm">
-                Planting Dates
-              </Link>
-              <Link href="/seed-spacing" className="whitespace-nowrap rounded-lg px-2 py-1.5 text-xs font-medium text-[var(--color-text-muted)] transition-colors hover:bg-[var(--color-surface-alt)] hover:text-[var(--color-text)] lg:px-2.5 lg:py-2 lg:text-sm">
-                Spacing
-              </Link>
-              <Link href="/companion-planting" className="whitespace-nowrap rounded-lg px-2 py-1.5 text-xs font-medium text-[var(--color-text-muted)] transition-colors hover:bg-[var(--color-surface-alt)] hover:text-[var(--color-text)] lg:px-2.5 lg:py-2 lg:text-sm">
-                Companions
-              </Link>
-              <Link href="/fertilizer" className="whitespace-nowrap rounded-lg px-2 py-1.5 text-xs font-medium text-[var(--color-text-muted)] transition-colors hover:bg-[var(--color-surface-alt)] hover:text-[var(--color-text)] lg:px-2.5 lg:py-2 lg:text-sm">
-                Fertilizer
-              </Link>
-              <Link href="/watering" className="whitespace-nowrap rounded-lg px-2 py-1.5 text-xs font-medium text-[var(--color-text-muted)] transition-colors hover:bg-[var(--color-surface-alt)] hover:text-[var(--color-text)] lg:px-2.5 lg:py-2 lg:text-sm">
-                Watering
+            <nav className="hidden items-center gap-1 md:flex">
+              <NavDropdown />
+              <Link href="/guides" className="whitespace-nowrap rounded-lg px-2.5 py-2 text-sm font-medium text-[var(--color-text-muted)] transition-colors hover:bg-[var(--color-surface-alt)] hover:text-[var(--color-text)]">
+                Zone Guides
               </Link>
             </nav>
             <MobileMenu />

@@ -1,53 +1,54 @@
 import Link from "next/link";
 
-const calculators = [
+const categories = [
   {
-    title: "Raised Bed Soil Calculator",
-    description:
-      "Calculate exactly how much soil, compost, and amendments you need for any raised bed size.",
-    href: "/soil-calculator",
-    icon: "🪴",
-    live: true,
-  },
-  {
-    title: "Planting Date Calculator",
-    description:
-      "Enter your ZIP code to get personalized planting dates based on USDA zone and frost dates.",
-    href: "/planting-dates",
+    id: "planning",
+    label: "Planning & Timing",
     icon: "📅",
-    live: true,
+    calculators: [
+      { title: "Planting Dates", description: "When to plant by ZIP code", href: "/planting-dates", icon: "📅" },
+      { title: "Frost Dates", description: "First and last frost by ZIP", href: "/frost-dates", icon: "❄️" },
+      { title: "Growing Season", description: "Season length by zone", href: "/growing-season", icon: "🌤️" },
+      { title: "Succession Planting", description: "Stagger for continuous harvest", href: "/succession-planting", icon: "🔁" },
+      { title: "Seed Starting", description: "When to start seeds indoors", href: "/seed-starting", icon: "🌱" },
+      { title: "Harvest Date", description: "When your crop will be ready", href: "/harvest-date", icon: "🗓️" },
+    ],
   },
   {
-    title: "Seed Spacing & Yield Calculator",
-    description:
-      "Plan your garden layout with optimal spacing for maximum yield in your available space.",
-    href: "/seed-spacing",
-    icon: "🌱",
-    live: true,
+    id: "design",
+    label: "Garden Design",
+    icon: "📐",
+    calculators: [
+      { title: "Soil Calculator", description: "How much soil for your bed", href: "/soil-calculator", icon: "🪴" },
+      { title: "Bed Layout", description: "Plan your raised bed layout", href: "/bed-layout", icon: "📐" },
+      { title: "Square Foot Garden", description: "SFG spacing planner", href: "/square-foot", icon: "🌿" },
+      { title: "Seed Spacing", description: "How many plants fit", href: "/seed-spacing", icon: "📏" },
+      { title: "Container Garden", description: "Pot size and plant count", href: "/container-garden", icon: "🪻" },
+      { title: "Mulch Calculator", description: "Mulch and compost volume", href: "/mulch-calculator", icon: "🪵" },
+    ],
   },
   {
-    title: "Companion Planting Checker",
-    description:
-      "Find out which plants grow well together and which ones to keep apart.",
-    href: "/companion-planting",
-    icon: "🤝",
-    live: true,
-  },
-  {
-    title: "Fertilizer Calculator",
-    description:
-      "Calculate the right NPK ratio and amount for your plants and garden size.",
-    href: "/fertilizer",
-    icon: "🧪",
-    live: true,
-  },
-  {
-    title: "Watering Schedule Calculator",
-    description:
-      "Get a personalized watering schedule based on your plants, zone, and season.",
-    href: "/watering",
+    id: "care",
+    label: "Plant Care",
     icon: "💧",
-    live: true,
+    calculators: [
+      { title: "Companion Planting", description: "What grows well together", href: "/companion-planting", icon: "🤝" },
+      { title: "Fertilizer", description: "NPK ratios for your plants", href: "/fertilizer", icon: "🧪" },
+      { title: "Watering Schedule", description: "How much and how often", href: "/watering", icon: "💧" },
+      { title: "Sunlight Guide", description: "Match plants to your light", href: "/sunlight", icon: "☀️" },
+      { title: "Soil pH", description: "pH matching and amendments", href: "/soil-ph", icon: "🔬" },
+      { title: "Pest Guide", description: "Identify and treat pests", href: "/pest-guide", icon: "🐛" },
+    ],
+  },
+  {
+    id: "harvest",
+    label: "Harvest & Yield",
+    icon: "🥕",
+    calculators: [
+      { title: "Yield Estimator", description: "Expected harvest weight", href: "/yield-estimator", icon: "⚖️" },
+      { title: "Canning Calculator", description: "Jars needed for preserving", href: "/canning", icon: "🫙" },
+      { title: "Cost Savings", description: "Garden vs grocery savings", href: "/cost-savings", icon: "💰" },
+    ],
   },
 ];
 
@@ -62,7 +63,7 @@ const features = [
     icon: "📐",
     title: "Precise Calculations",
     description:
-      "Exact soil volumes, seed counts, and spacing — no more guessing at the garden center.",
+      "Exact soil volumes, seed counts, and spacing. No more guessing at the garden center.",
   },
   {
     icon: "🌿",
@@ -71,6 +72,8 @@ const features = [
       "Optimize your garden layout and timing to maximize your harvest season.",
   },
 ];
+
+const totalCalcs = categories.reduce((s, c) => s + c.calculators.length, 0);
 
 export default function HomePage() {
   return (
@@ -90,74 +93,53 @@ export default function HomePage() {
       {/* Hero */}
       <section className="px-4 pb-16 pt-20 text-center sm:px-6">
         <h1 className="text-4xl font-extrabold tracking-tight text-[var(--color-text)] sm:text-5xl lg:text-6xl">
-          Plan Your{" "}
-          <span className="text-[var(--color-primary)]">Garden</span> With
-          Confidence
+          {totalCalcs} Free{" "}
+          <span className="text-[var(--color-primary)]">Gardening</span>{" "}
+          Calculators
         </h1>
         <p className="mx-auto mt-5 max-w-2xl text-lg text-[var(--color-text-muted)] sm:text-xl">
-          Free gardening calculators powered by USDA zone data and agricultural
-          research. Know exactly what to plant, when, and how much.
+          Planting dates, soil volume, seed spacing, companion planting, and more.
+          Powered by USDA zone data and agricultural research.
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <Link
-            href="/soil-calculator"
-            className="rounded-xl bg-[var(--color-primary)] px-6 py-3 text-sm font-semibold text-white shadow-md transition-colors hover:bg-[var(--color-primary-dark)]"
-          >
-            Calculate Soil Volume
-          </Link>
-          <Link
-            href="/planting-dates"
-            className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-6 py-3 text-sm font-semibold text-[var(--color-text)] shadow-sm transition-colors hover:bg-[var(--color-surface-alt)]"
-          >
+          <Link href="/planting-dates" className="rounded-xl bg-[var(--color-primary)] px-6 py-3 text-sm font-semibold text-white shadow-md transition-colors hover:bg-[var(--color-primary-dark)]">
             Find Planting Dates
+          </Link>
+          <Link href="/calculators" className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-6 py-3 text-sm font-semibold text-[var(--color-text)] shadow-sm transition-colors hover:bg-[var(--color-surface-alt)]">
+            Browse All Calculators
           </Link>
         </div>
       </section>
 
-      {/* Calculator Cards */}
+      {/* Calculator Cards by Category */}
       <section className="mx-auto max-w-6xl px-4 pb-20 sm:px-6">
-        <h2 className="mb-8 text-center text-2xl font-bold text-[var(--color-text)]">
-          Garden Calculators
-        </h2>
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {calculators.map((calc) => {
-            const cardClass = `group relative rounded-xl border bg-[var(--color-surface)] p-6 transition-all ${
-              calc.live
-                ? "border-[var(--color-border)] shadow-sm hover:border-[var(--color-primary)]/30 hover:shadow-md"
-                : "border-dashed border-[var(--color-border)] opacity-70"
-            }`;
-            const cardContent = (
-              <>
-                {!calc.live && (
-                  <span className="absolute right-4 top-4 rounded-full bg-[var(--color-surface-alt)] px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-[var(--color-text-muted)]">
-                    Coming Soon
-                  </span>
-                )}
-                <span className="mb-3 block text-2xl">{calc.icon}</span>
-                <h3 className="text-base font-semibold text-[var(--color-text)] group-hover:text-[var(--color-primary)]">
-                  {calc.title}
-                </h3>
-                <p className="mt-1.5 text-sm text-[var(--color-text-muted)]">
-                  {calc.description}
-                </p>
-                {calc.live && (
-                  <span className="mt-4 inline-block text-sm font-medium text-[var(--color-primary)]">
+        {categories.map((cat) => (
+          <div key={cat.id} className="mb-12">
+            <h2 className="mb-4 text-lg font-bold text-[var(--color-text)]">
+              <span className="mr-2">{cat.icon}</span>{cat.label}
+            </h2>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {cat.calculators.map((calc) => (
+                <Link
+                  key={calc.href}
+                  href={calc.href}
+                  className="group relative rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5 shadow-sm transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
+                >
+                  <span className="mb-2 block text-2xl">{calc.icon}</span>
+                  <h3 className="text-sm font-semibold text-[var(--color-text)] group-hover:text-[var(--color-primary)]">
+                    {calc.title}
+                  </h3>
+                  <p className="mt-1 text-xs text-[var(--color-text-muted)]">
+                    {calc.description}
+                  </p>
+                  <span className="mt-3 inline-block text-xs font-medium text-[var(--color-primary)]">
                     Try it &rarr;
                   </span>
-                )}
-              </>
-            );
-            return calc.live ? (
-              <Link key={calc.title} href={calc.href} className={cardClass}>
-                {cardContent}
-              </Link>
-            ) : (
-              <div key={calc.title} className={cardClass}>
-                {cardContent}
-              </div>
-            );
-          })}
-        </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        ))}
       </section>
 
       {/* Why PlantingCalc */}
@@ -180,6 +162,17 @@ export default function HomePage() {
             ))}
           </div>
         </div>
+      </section>
+
+      {/* Zone Guides CTA */}
+      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 text-center">
+        <h2 className="text-2xl font-bold text-[var(--color-text)]">Planting Guides by Zone</h2>
+        <p className="mt-3 text-[var(--color-text-muted)]">
+          Detailed guides for all 13 USDA hardiness zones.
+        </p>
+        <Link href="/guides" className="mt-6 inline-block rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-6 py-3 text-sm font-semibold text-[var(--color-text)] shadow-sm transition-colors hover:bg-[var(--color-surface-alt)]">
+          View Zone Guides &rarr;
+        </Link>
       </section>
     </>
   );

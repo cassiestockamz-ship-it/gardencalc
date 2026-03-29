@@ -11,6 +11,10 @@ const NAV_LINKS = [
   { href: "/companion-planting", label: "Companion Planting", icon: "🤝" },
   { href: "/fertilizer", label: "Fertilizer", icon: "🧪" },
   { href: "/watering", label: "Watering Schedule", icon: "💧" },
+  { href: "/bed-layout", label: "Bed Layout", icon: "📐" },
+  { href: "/mulch-calculator", label: "Mulch Calculator", icon: "🪵" },
+  { href: "/canning", label: "Canning & Preserving", icon: "🫙" },
+  { href: "/pest-guide", label: "Pest Guide", icon: "🐛" },
 ];
 
 export default function MobileMenu() {

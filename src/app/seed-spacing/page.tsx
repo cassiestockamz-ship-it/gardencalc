@@ -11,6 +11,7 @@ import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import { VEGETABLES } from "@/data/vegetables";
 import FAQSection from "@/components/FAQSection";
 import RelatedCalculators from "@/components/RelatedCalculators";
+import EmailCapture from "@/components/EmailCapture";
 import { seedSpacingFAQ } from "@/data/faq-data";
 
 const AMAZON_TAG = "kawaiiguy0f-pc-20";
@@ -360,6 +361,7 @@ export default function SeedSpacingPage() {
         </ul>
       </div>
 
+      <EmailCapture variant="inline" context="seed-spacing" />
       <RelatedCalculators currentPath="/seed-spacing" />
     </CalculatorLayout>
   );

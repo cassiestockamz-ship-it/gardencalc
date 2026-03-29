@@ -10,6 +10,7 @@ import CalculatorSchema from "@/components/CalculatorSchema";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import FAQSection from "@/components/FAQSection";
 import RelatedCalculators from "@/components/RelatedCalculators";
+import EmailCapture from "@/components/EmailCapture";
 import { soilFAQ } from "@/data/faq-data";
 
 const AMAZON_TAG = "kawaiiguy0f-pc-20";
@@ -506,6 +507,7 @@ export default function SoilCalculatorPage() {
         </ul>
       </div>
 
+      <EmailCapture variant="inline" context="soil-calculator" />
       <RelatedCalculators currentPath="/soil-calculator" />
     </CalculatorLayout>
   );

@@ -9,6 +9,7 @@ import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import { COMPANION_PLANTS } from "@/data/companions";
 import FAQSection from "@/components/FAQSection";
 import RelatedCalculators from "@/components/RelatedCalculators";
+import EmailCapture from "@/components/EmailCapture";
 import { companionFAQ } from "@/data/faq-data";
 
 const AMAZON_TAG = "kawaiiguy0f-pc-20";
@@ -180,7 +181,7 @@ export default function CompanionPlantingPage() {
                 <strong>{plant.name}:</strong> {plant.notes}
               </p>
               <p className="mt-3 text-xs text-[var(--color-text-muted)]">
-                Companion planting leverages natural relationships between plants. Good companions may repel pests, attract pollinators, fix nitrogen, provide shade, or improve flavor. Foes may compete for nutrients, attract the same pests, or release growth-inhibiting chemicals.
+                Companion planting uses natural relationships between plants. Good companions may repel pests, attract pollinators, fix nitrogen, provide shade, or improve flavor. Foes may compete for nutrients, attract the same pests, or release growth-inhibiting chemicals.
               </p>
             </div>
           )}
@@ -329,6 +330,7 @@ export default function CompanionPlantingPage() {
         </ul>
       </div>
 
+      <EmailCapture variant="inline" context="companion-planting" />
       <RelatedCalculators currentPath="/companion-planting" />
     </CalculatorLayout>
   );

@@ -1,16 +1,48 @@
 import Link from "next/link";
 
-const ALL_CALCULATORS = [
-  { title: "Soil Calculator", description: "How much soil for your raised bed", href: "/soil-calculator", icon: "🪴" },
-  { title: "Planting Dates", description: "When to plant by ZIP code", href: "/planting-dates", icon: "📅" },
-  { title: "Seed Spacing", description: "How many plants fit in your bed", href: "/seed-spacing", icon: "🌱" },
-  { title: "Companion Planting", description: "What grows well together", href: "/companion-planting", icon: "🤝" },
-  { title: "Fertilizer", description: "NPK ratios for your plants", href: "/fertilizer", icon: "🧪" },
-  { title: "Watering Schedule", description: "How much and how often", href: "/watering", icon: "💧" },
+interface Calc {
+  title: string;
+  description: string;
+  href: string;
+  icon: string;
+  category: string;
+}
+
+const ALL_CALCULATORS: Calc[] = [
+  // Planning & Timing
+  { title: "Planting Dates", description: "When to plant by ZIP code", href: "/planting-dates", icon: "📅", category: "planning" },
+  { title: "Frost Dates", description: "First and last frost by ZIP", href: "/frost-dates", icon: "❄️", category: "planning" },
+  { title: "Growing Season", description: "Season length by zone", href: "/growing-season", icon: "🌤️", category: "planning" },
+  { title: "Succession Planting", description: "Stagger for continuous harvest", href: "/succession-planting", icon: "🔁", category: "planning" },
+  { title: "Seed Starting", description: "When to start seeds indoors", href: "/seed-starting", icon: "🌱", category: "planning" },
+  { title: "Harvest Date", description: "When your crop will be ready", href: "/harvest-date", icon: "🗓️", category: "planning" },
+  // Garden Design
+  { title: "Soil Calculator", description: "How much soil for your bed", href: "/soil-calculator", icon: "🪴", category: "design" },
+  { title: "Bed Layout", description: "Plan your raised bed layout", href: "/bed-layout", icon: "📐", category: "design" },
+  { title: "Square Foot Garden", description: "SFG spacing planner", href: "/square-foot", icon: "🌿", category: "design" },
+  { title: "Seed Spacing", description: "How many plants fit", href: "/seed-spacing", icon: "📏", category: "design" },
+  { title: "Container Garden", description: "Pot size and plant count", href: "/container-garden", icon: "🪻", category: "design" },
+  { title: "Mulch Calculator", description: "Mulch and compost volume", href: "/mulch-calculator", icon: "🪵", category: "design" },
+  // Plant Care
+  { title: "Companion Planting", description: "What grows well together", href: "/companion-planting", icon: "🤝", category: "care" },
+  { title: "Fertilizer", description: "NPK ratios for your plants", href: "/fertilizer", icon: "🧪", category: "care" },
+  { title: "Watering Schedule", description: "How much and how often", href: "/watering", icon: "💧", category: "care" },
+  { title: "Sunlight Guide", description: "Match plants to your light", href: "/sunlight", icon: "☀️", category: "care" },
+  { title: "Soil pH", description: "pH matching and amendments", href: "/soil-ph", icon: "🔬", category: "care" },
+  { title: "Pest Guide", description: "Identify and treat pests", href: "/pest-guide", icon: "🐛", category: "care" },
+  // Harvest & Yield
+  { title: "Yield Estimator", description: "Expected harvest weight", href: "/yield-estimator", icon: "⚖️", category: "harvest" },
+  { title: "Canning Calculator", description: "Jars needed for preserving", href: "/canning", icon: "🫙", category: "harvest" },
+  { title: "Cost Savings", description: "Garden vs grocery savings", href: "/cost-savings", icon: "💰", category: "harvest" },
 ];
 
 export default function RelatedCalculators({ currentPath }: { currentPath: string }) {
-  const related = ALL_CALCULATORS.filter((c) => c.href !== currentPath);
+  const current = ALL_CALCULATORS.find((c) => c.href === currentPath);
+  const currentCategory = current?.category || "planning";
+  const others = ALL_CALCULATORS.filter((c) => c.href !== currentPath);
+  const sameCategory = others.filter((c) => c.category === currentCategory);
+  const diffCategory = others.filter((c) => c.category !== currentCategory);
+  const related = [...sameCategory, ...diffCategory].slice(0, 6);
 
   return (
     <div className="mt-12 border-t border-[var(--color-border)] pt-10">
@@ -33,6 +65,11 @@ export default function RelatedCalculators({ currentPath }: { currentPath: strin
             </p>
           </Link>
         ))}
+      </div>
+      <div className="mt-6 text-center">
+        <Link href="/calculators" className="text-sm font-medium text-[var(--color-primary)] hover:underline">
+          View all {ALL_CALCULATORS.length} calculators &rarr;
+        </Link>
       </div>
     </div>
   );
