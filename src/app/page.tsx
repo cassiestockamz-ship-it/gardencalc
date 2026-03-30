@@ -1,4 +1,5 @@
 import Link from "next/link";
+import CalculatorSearch from "@/components/CalculatorSearch";
 
 const featured = [
   { title: "Planting Date Calculator", description: "Enter your ZIP code to get personalized planting dates for 45+ vegetables based on your USDA zone.", href: "/planting-dates", icon: "📅" },
@@ -117,6 +118,11 @@ export default function HomePage() {
             </Link>
           ))}
         </div>
+      </section>
+
+      {/* Search */}
+      <section className="mx-auto max-w-6xl px-4 pb-12 sm:px-6">
+        <CalculatorSearch />
       </section>
 
       {/* All Calculators - compact directory */}

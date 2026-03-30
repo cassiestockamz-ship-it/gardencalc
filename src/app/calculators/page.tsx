@@ -1,4 +1,5 @@
 import Link from "next/link";
+import CalculatorSearch from "@/components/CalculatorSearch";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -15,12 +16,12 @@ const categories = [
     icon: "📅",
     description: "Know exactly when to plant, start seeds, and harvest in your zone.",
     calculators: [
-      { title: "Planting Dates", description: "When to plant by ZIP code", href: "/planting-dates", icon: "📅" },
-      { title: "Frost Dates", description: "First and last frost by ZIP", href: "/frost-dates", icon: "❄️" },
-      { title: "Growing Season", description: "Season length by zone", href: "/growing-season", icon: "🌤️" },
-      { title: "Succession Planting", description: "Stagger for continuous harvest", href: "/succession-planting", icon: "🔁" },
-      { title: "Seed Starting", description: "When to start seeds indoors", href: "/seed-starting", icon: "🌱" },
-      { title: "Harvest Date", description: "When your crop will be ready", href: "/harvest-date", icon: "🗓️" },
+      { title: "Planting Dates", description: "When to plant by ZIP code", href: "/planting-dates" },
+      { title: "Frost Dates", description: "First and last frost by ZIP", href: "/frost-dates" },
+      { title: "Growing Season", description: "Season length by zone", href: "/growing-season" },
+      { title: "Succession Planting", description: "Stagger for continuous harvest", href: "/succession-planting" },
+      { title: "Seed Starting", description: "When to start seeds indoors", href: "/seed-starting" },
+      { title: "Harvest Date", description: "When your crop will be ready", href: "/harvest-date" },
     ],
   },
   {
@@ -29,12 +30,12 @@ const categories = [
     icon: "📐",
     description: "Plan your beds, calculate soil, and figure out spacing.",
     calculators: [
-      { title: "Soil Calculator", description: "How much soil for your bed", href: "/soil-calculator", icon: "🪴" },
-      { title: "Bed Layout", description: "Plan your raised bed layout", href: "/bed-layout", icon: "📐" },
-      { title: "Square Foot Garden", description: "SFG spacing planner", href: "/square-foot", icon: "🌿" },
-      { title: "Seed Spacing", description: "How many plants fit", href: "/seed-spacing", icon: "📏" },
-      { title: "Container Garden", description: "Pot size and plant count", href: "/container-garden", icon: "🪻" },
-      { title: "Mulch Calculator", description: "Mulch and compost volume", href: "/mulch-calculator", icon: "🪵" },
+      { title: "Soil Calculator", description: "How much soil for your bed", href: "/soil-calculator" },
+      { title: "Bed Layout", description: "Plan your raised bed layout", href: "/bed-layout" },
+      { title: "Square Foot Garden", description: "SFG spacing planner", href: "/square-foot" },
+      { title: "Seed Spacing", description: "How many plants fit", href: "/seed-spacing" },
+      { title: "Container Garden", description: "Pot size and plant count", href: "/container-garden" },
+      { title: "Mulch Calculator", description: "Mulch and compost volume", href: "/mulch-calculator" },
     ],
   },
   {
@@ -43,12 +44,12 @@ const categories = [
     icon: "💧",
     description: "Keep your plants healthy with the right companions, nutrients, water, and light.",
     calculators: [
-      { title: "Companion Planting", description: "What grows well together", href: "/companion-planting", icon: "🤝" },
-      { title: "Fertilizer", description: "NPK ratios for your plants", href: "/fertilizer", icon: "🧪" },
-      { title: "Watering Schedule", description: "How much and how often", href: "/watering", icon: "💧" },
-      { title: "Sunlight Guide", description: "Match plants to your light", href: "/sunlight", icon: "☀️" },
-      { title: "Soil pH", description: "pH matching and amendments", href: "/soil-ph", icon: "🔬" },
-      { title: "Pest Guide", description: "Identify and treat pests", href: "/pest-guide", icon: "🐛" },
+      { title: "Companion Planting", description: "What grows well together", href: "/companion-planting" },
+      { title: "Fertilizer", description: "NPK ratios for your plants", href: "/fertilizer" },
+      { title: "Watering Schedule", description: "How much and how often", href: "/watering" },
+      { title: "Sunlight Guide", description: "Match plants to your light", href: "/sunlight" },
+      { title: "Soil pH", description: "pH matching and amendments", href: "/soil-ph" },
+      { title: "Pest Guide", description: "Identify and treat pests", href: "/pest-guide" },
     ],
   },
   {
@@ -57,9 +58,9 @@ const categories = [
     icon: "🥕",
     description: "Estimate yields, preserve your harvest, and calculate savings.",
     calculators: [
-      { title: "Yield Estimator", description: "Expected harvest weight", href: "/yield-estimator", icon: "⚖️" },
-      { title: "Canning Calculator", description: "Jars needed for preserving", href: "/canning", icon: "🫙" },
-      { title: "Cost Savings", description: "Garden vs grocery savings", href: "/cost-savings", icon: "💰" },
+      { title: "Yield Estimator", description: "Expected harvest weight", href: "/yield-estimator" },
+      { title: "Canning Calculator", description: "Jars needed for preserving", href: "/canning" },
+      { title: "Cost Savings", description: "Garden vs grocery savings", href: "/cost-savings" },
     ],
   },
 ];
@@ -68,60 +69,46 @@ export default function CalculatorsPage() {
   const totalCalcs = categories.reduce((sum, c) => sum + c.calculators.length, 0);
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
-      <h1 className="text-3xl font-extrabold text-[var(--color-text)] sm:text-4xl">
+    <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6">
+      <h1 className="text-3xl font-extrabold text-[var(--color-text)]">
         All Gardening Calculators
       </h1>
-      <p className="mt-3 text-lg text-[var(--color-text-muted)]">
+      <p className="mt-2 text-[var(--color-text-muted)]">
         {totalCalcs} free tools powered by USDA zone data and agricultural research.
       </p>
 
+      {/* Search */}
+      <div className="mt-6 mb-10">
+        <CalculatorSearch />
+      </div>
+
+      {/* Category sections - compact list with descriptions */}
       {categories.map((cat) => (
-        <section key={cat.id} id={cat.id} className="mt-12">
-          <div className="mb-4">
-            <h2 className="text-xl font-bold text-[var(--color-text)]">
-              <span className="mr-2">{cat.icon}</span>
-              {cat.label}
+        <section key={cat.id} id={cat.id} className="mb-10">
+          <div className="mb-4 flex h-8 items-end border-b-2 border-[var(--color-primary)]/20 pb-2">
+            <h2 className="text-sm font-bold uppercase tracking-wider text-[var(--color-primary)]">
+              <span className="mr-1.5">{cat.icon}</span>{cat.label}
             </h2>
-            <p className="mt-1 text-sm text-[var(--color-text-muted)]">{cat.description}</p>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <p className="mb-3 text-xs text-[var(--color-text-muted)]">{cat.description}</p>
+          <div className="grid gap-x-8 gap-y-2 sm:grid-cols-2 lg:grid-cols-3">
             {cat.calculators.map((calc) => (
               <Link
                 key={calc.href}
                 href={calc.href}
-                className="group rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5 transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
+                className="group flex items-baseline gap-2 rounded-lg py-1.5 transition-colors hover:text-[var(--color-primary)]"
               >
-                <span className="mb-2 block text-2xl">{calc.icon}</span>
-                <h3 className="text-sm font-semibold text-[var(--color-text)] group-hover:text-[var(--color-primary)]">
+                <span className="text-sm font-medium text-[var(--color-text)] group-hover:text-[var(--color-primary)]">
                   {calc.title}
-                </h3>
-                <p className="mt-1 text-xs text-[var(--color-text-muted)]">
+                </span>
+                <span className="text-xs text-[var(--color-text-muted)] group-hover:text-[var(--color-primary)]/70">
                   {calc.description}
-                </p>
-                <span className="mt-3 inline-block text-xs font-medium text-[var(--color-primary)]">
-                  Try it &rarr;
                 </span>
               </Link>
             ))}
           </div>
         </section>
       ))}
-
-      <div className="mt-16 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-6 text-center">
-        <h2 className="text-lg font-bold text-[var(--color-text)]">Quick Jump</h2>
-        <div className="mt-3 flex flex-wrap justify-center gap-3">
-          {categories.map((cat) => (
-            <a
-              key={cat.id}
-              href={`#${cat.id}`}
-              className="rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-2 text-sm font-medium text-[var(--color-text)] transition-colors hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]"
-            >
-              {cat.icon} {cat.label}
-            </a>
-          ))}
-        </div>
-      </div>
     </div>
   );
 }
