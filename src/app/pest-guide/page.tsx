@@ -10,8 +10,6 @@ import RelatedCalculators from "@/components/RelatedCalculators";
 import EmailCapture from "@/components/EmailCapture";
 import { VEGETABLES } from "@/data/vegetables";
 
-const AMAZON_TAG = "kawaiiguy0f-pc-20";
-
 /* ────────── Symptom options ────────── */
 
 const SYMPTOMS = [
@@ -561,81 +559,6 @@ export default function PestGuidePage() {
               </div>
             );
           })}
-        </div>
-      </div>
-
-      {/* Affiliate Cards */}
-      <div className="mt-10">
-        <h2 className="mb-5 text-lg font-bold text-[var(--color-text)]">
-          Organic Pest Control Essentials
-        </h2>
-        <div className="grid gap-4 sm:grid-cols-3">
-          <a
-            href={`https://www.amazon.com/s?k=neem+oil+organic+garden+spray&tag=${AMAZON_TAG}&ascsubtag=pest-guide`}
-            target="_blank"
-            rel="noopener noreferrer nofollow sponsored"
-            className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
-          >
-            <div className="flex h-28 items-center justify-center bg-gradient-to-br from-green-50 to-emerald-100">
-              <span className="text-4xl">{"🌿"}</span>
-            </div>
-            <div className="p-4">
-              <div className="mb-2 flex items-center justify-between">
-                <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--color-text-muted)]">Recommended</span>
-                <span className="rounded-full bg-[var(--color-surface-alt)] px-2 py-0.5 text-[10px] font-medium text-[var(--color-text-muted)]">Ad</span>
-              </div>
-              <h3 className="text-sm font-semibold text-[var(--color-text)] group-hover:text-[var(--color-primary)]">Neem Oil Spray</h3>
-              <p className="mt-1 text-xs text-[var(--color-text-muted)]">Organic neem oil concentrate for aphids, whiteflies, mites, and fungal issues. Safe for vegetables.</p>
-              <div className="mt-3 flex items-center justify-between">
-                <span className="text-sm font-bold text-[var(--color-text)]">$10 - $20</span>
-                <span className="text-xs font-medium text-[var(--color-primary)] group-hover:underline">View on Amazon &rarr;</span>
-              </div>
-            </div>
-          </a>
-          <a
-            href={`https://www.amazon.com/s?k=food+grade+diatomaceous+earth+garden&tag=${AMAZON_TAG}&ascsubtag=pest-guide`}
-            target="_blank"
-            rel="noopener noreferrer nofollow sponsored"
-            className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
-          >
-            <div className="flex h-28 items-center justify-center bg-gradient-to-br from-amber-50 to-yellow-100">
-              <span className="text-4xl">{"🪨"}</span>
-            </div>
-            <div className="p-4">
-              <div className="mb-2 flex items-center justify-between">
-                <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--color-text-muted)]">Recommended</span>
-                <span className="rounded-full bg-[var(--color-surface-alt)] px-2 py-0.5 text-[10px] font-medium text-[var(--color-text-muted)]">Ad</span>
-              </div>
-              <h3 className="text-sm font-semibold text-[var(--color-text)] group-hover:text-[var(--color-primary)]">Diatomaceous Earth</h3>
-              <p className="mt-1 text-xs text-[var(--color-text-muted)]">Food-grade DE for slugs, flea beetles, cutworms, and crawling insects. Natural and chemical-free.</p>
-              <div className="mt-3 flex items-center justify-between">
-                <span className="text-sm font-bold text-[var(--color-text)]">$10 - $18</span>
-                <span className="text-xs font-medium text-[var(--color-primary)] group-hover:underline">View on Amazon &rarr;</span>
-              </div>
-            </div>
-          </a>
-          <a
-            href={`https://www.amazon.com/s?k=floating+row+cover+garden+fabric&tag=${AMAZON_TAG}&ascsubtag=pest-guide`}
-            target="_blank"
-            rel="noopener noreferrer nofollow sponsored"
-            className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
-          >
-            <div className="flex h-28 items-center justify-center bg-gradient-to-br from-blue-50 to-sky-100">
-              <span className="text-4xl">{"🪡"}</span>
-            </div>
-            <div className="p-4">
-              <div className="mb-2 flex items-center justify-between">
-                <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--color-text-muted)]">Recommended</span>
-                <span className="rounded-full bg-[var(--color-surface-alt)] px-2 py-0.5 text-[10px] font-medium text-[var(--color-text-muted)]">Ad</span>
-              </div>
-              <h3 className="text-sm font-semibold text-[var(--color-text)] group-hover:text-[var(--color-primary)]">Floating Row Covers</h3>
-              <p className="mt-1 text-xs text-[var(--color-text-muted)]">Lightweight garden fabric that blocks pests while letting light and water through. Essential for organic gardens.</p>
-              <div className="mt-3 flex items-center justify-between">
-                <span className="text-sm font-bold text-[var(--color-text)]">$12 - $30</span>
-                <span className="text-xs font-medium text-[var(--color-primary)] group-hover:underline">View on Amazon &rarr;</span>
-              </div>
-            </div>
-          </a>
         </div>
       </div>
 

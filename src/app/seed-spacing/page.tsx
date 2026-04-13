@@ -14,8 +14,6 @@ import RelatedCalculators from "@/components/RelatedCalculators";
 import EmailCapture from "@/components/EmailCapture";
 import { seedSpacingFAQ } from "@/data/faq-data";
 
-const AMAZON_TAG = "kawaiiguy0f-pc-20";
-
 // Rough yield per plant in lbs (conservative averages)
 const YIELD_PER_PLANT: Record<string, number> = {
   "Lettuce": 0.5,
@@ -292,58 +290,6 @@ export default function SeedSpacingPage() {
         </p>
       </div>
 
-      {/* Affiliate Cards */}
-      <div className="mt-10">
-        <h2 className="mb-5 text-lg font-bold text-[var(--color-text)]">
-          Recommended Products
-        </h2>
-        <div className="grid gap-4 sm:grid-cols-2">
-          <a
-            href={`https://www.amazon.com/s?k=seed+starting+trays+with+dome&tag=${AMAZON_TAG}&ascsubtag=seed-spacing`}
-            target="_blank"
-            rel="noopener noreferrer nofollow sponsored"
-            className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
-          >
-            <div className="flex h-32 items-center justify-center bg-gradient-to-br from-green-50 to-emerald-100">
-              <span className="text-5xl">🌱</span>
-            </div>
-            <div className="p-5">
-              <div className="mb-2 flex items-center justify-between">
-                <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--color-text-muted)]">Recommended</span>
-                <span className="rounded-full bg-[var(--color-surface-alt)] px-2 py-0.5 text-[10px] font-medium text-[var(--color-text-muted)]">Ad</span>
-              </div>
-              <h3 className="text-base font-semibold text-[var(--color-text)] group-hover:text-[var(--color-primary)]">Seed Starting Trays</h3>
-              <p className="mt-1 text-sm text-[var(--color-text-muted)]">Seed starting trays with humidity domes and drain holes. Perfect for starting seeds indoors before transplanting.</p>
-              <div className="mt-3 flex items-center justify-between">
-                <span className="text-sm font-bold text-[var(--color-text)]">$8 - $25</span>
-                <span className="text-sm font-medium text-[var(--color-primary)] group-hover:underline">View on Amazon &rarr;</span>
-              </div>
-            </div>
-          </a>
-          <a
-            href={`https://www.amazon.com/s?k=garden+row+markers+plant+labels&tag=${AMAZON_TAG}&ascsubtag=seed-spacing`}
-            target="_blank"
-            rel="noopener noreferrer nofollow sponsored"
-            className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
-          >
-            <div className="flex h-32 items-center justify-center bg-gradient-to-br from-amber-50 to-yellow-100">
-              <span className="text-5xl">🏷️</span>
-            </div>
-            <div className="p-5">
-              <div className="mb-2 flex items-center justify-between">
-                <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--color-text-muted)]">Recommended</span>
-                <span className="rounded-full bg-[var(--color-surface-alt)] px-2 py-0.5 text-[10px] font-medium text-[var(--color-text-muted)]">Ad</span>
-              </div>
-              <h3 className="text-base font-semibold text-[var(--color-text)] group-hover:text-[var(--color-primary)]">Garden Row Markers</h3>
-              <p className="mt-1 text-sm text-[var(--color-text-muted)]">Weatherproof plant labels and row markers to keep your garden organized. Metal and bamboo options available.</p>
-              <div className="mt-3 flex items-center justify-between">
-                <span className="text-sm font-bold text-[var(--color-text)]">$8 - $20</span>
-                <span className="text-sm font-medium text-[var(--color-primary)] group-hover:underline">View on Amazon &rarr;</span>
-              </div>
-            </div>
-          </a>
-        </div>
-      </div>
       <FAQSection questions={seedSpacingFAQ} />
 
       {/* Educational Content */}

@@ -176,6 +176,132 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* What is a hardiness zone — educational */}
+      <section className="border-t border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-16 sm:px-6">
+        <div className="mx-auto max-w-3xl space-y-5 text-[15px] leading-relaxed text-[var(--color-text-muted)]">
+          <h2 className="text-2xl font-bold text-[var(--color-text)]">
+            What is a USDA hardiness zone, really?
+          </h2>
+          <p>
+            A USDA plant hardiness zone is a geographic region defined by its average annual <em>minimum</em>{" "}
+            winter temperature. The continental United States is divided into 13 main zones, each 10 degrees
+            Fahrenheit wide, with &quot;a&quot; and &quot;b&quot; sub-zones that split each band in half. Zone 1 is the
+            coldest (below -50&deg;F winter lows, mostly interior Alaska), Zone 13 is the warmest (60&deg;F and above,
+            the Florida Keys and Hawaiian coast).
+          </p>
+          <p>
+            The practical reason gardeners care about their zone has almost nothing to do with summer. It&apos;s a
+            question of which perennials survive a typical winter without dying and which annuals have enough
+            frost-free days to finish their life cycle. If you plant a blueberry bush rated for Zones 4–7 in Zone 3,
+            the extreme winter low will eventually kill it no matter how well you care for it in summer. If you plant
+            a 120-day pumpkin variety in Zone 4, where the frost-free growing season averages under 120 days, you will
+            watch the vines die in early September with immature fruit still on them. The zone is the hard constraint.
+            Everything else — fertilizer, water, spacing, pest management — only matters if you respect the zone first.
+          </p>
+          <p>
+            The zones were updated by USDA most recently in 2023, using 30-year climate normals from 1991–2020, and
+            they shifted noticeably warmer across much of the country. If you haven&apos;t checked your zone since the
+            mid-2010s, there&apos;s a meaningful chance you&apos;re one half-zone warmer than the map you grew up with.
+            Use the planting-dates calculator above to pin down your current zone from a ZIP code; the answer comes
+            from the official USDA Plant Hardiness Zone Map API and is as current as the map itself.
+          </p>
+        </div>
+      </section>
+
+      {/* The three mistakes — educational */}
+      <section className="border-t border-[var(--color-border)] bg-[var(--color-surface-alt)] px-4 py-16 sm:px-6">
+        <div className="mx-auto max-w-3xl space-y-5 text-[15px] leading-relaxed text-[var(--color-text-muted)]">
+          <h2 className="text-2xl font-bold text-[var(--color-text)]">
+            The three mistakes almost every new gardener makes
+          </h2>
+          <p>
+            After working through extension publications and talking to a lot of first-season gardeners, the same
+            three planning mistakes come up over and over. None of them are about gardening skill. They&apos;re all
+            planning decisions made before a single seed hits the dirt, and all three are the exact kind of problem
+            that a calculator is designed to solve.
+          </p>
+          <ul className="list-disc space-y-3 pl-5">
+            <li>
+              <strong className="text-[var(--color-text)]">Buying too many plants for the bed.</strong> A new 4&times;8
+              raised bed looks cavernous in March. People buy 6 tomato starts, 4 pepper starts, 2 zucchini, a row of
+              basil, and a few lettuces. By July the bed is a thicket, airflow is zero, powdery mildew shows up, and
+              fruiting stalls. The seed-spacing calculator exists because the extension office answer to &quot;how
+              many tomato plants in a 4&times;8 bed&quot; is three, not six.
+            </li>
+            <li>
+              <strong className="text-[var(--color-text)]">Planting warm-season crops before last frost.</strong>
+              {" "}Tomatoes, peppers, basil, squash, and cucumbers all shut down below 50&deg;F night temperatures and
+              can be killed outright by a light frost. But every spring, gardeners see a 70&deg;F afternoon in late
+              March and transplant everything that weekend. The planting-dates calculator ties your ZIP code to the
+              official NOAA frost-date normals so that when you ask &quot;when can I put my tomatoes out,&quot; the
+              answer is a real date for your real county, not a vague &quot;after the last frost.&quot;
+            </li>
+            <li>
+              <strong className="text-[var(--color-text)]">Under-ordering soil for a raised bed.</strong> A cubic yard
+              looks like a lot of soil in a pile, but a single 4&times;8&times;1 foot raised bed needs about 32
+              cubic feet — more than a cubic yard on its own, before you even start the second bed. Gardeners routinely
+              buy half of what they need, panic on installation day, drive back to the nursery, and end up mixing two
+              different soil blends in the same bed. The soil calculator handles the math and adds a 10–15% settling
+              buffer that matches extension-office guidance.
+            </li>
+          </ul>
+          <p>
+            None of this is complicated math. It&apos;s just the kind of math that&apos;s easy to get wrong on a
+            napkin, especially when you&apos;re excited to plant. That&apos;s the job the calculators above are built
+            to do.
+          </p>
+        </div>
+      </section>
+
+      {/* Why use PlantingCalc vs extension office */}
+      <section className="border-t border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-16 sm:px-6">
+        <div className="mx-auto max-w-3xl space-y-5 text-[15px] leading-relaxed text-[var(--color-text-muted)]">
+          <h2 className="text-2xl font-bold text-[var(--color-text)]">
+            Why use PlantingCalc instead of your local extension office?
+          </h2>
+          <p>
+            You shouldn&apos;t, in the strongest cases. Your local university extension office is the gold standard for
+            region-specific gardening advice. They know your soil, they know your pest pressure, they know the exact
+            cultivars that have historically performed well in your county, and they answer questions for free. If you
+            have a specific, individualized question — especially anything involving chemical application or a sick
+            plant — call them first, and call them before you call us.
+          </p>
+          <p>
+            What PlantingCalc is good for is the other 90% of the time: the quick planning question at 9pm on a
+            Sunday in February when the extension office is closed and you just want to know how many seed packets to
+            order. That&apos;s the use case these calculators are built around. We sit on top of the same USDA, NOAA,
+            and extension data that the professional sources use, and we make certain specific workflows faster:
+          </p>
+          <ul className="list-disc space-y-2 pl-5">
+            <li>
+              <strong className="text-[var(--color-text)]">One-shot planting-date lookup by ZIP.</strong> Instead of
+              cross-referencing an extension PDF with a frost-date table, you type in a ZIP and get the dates.
+            </li>
+            <li>
+              <strong className="text-[var(--color-text)]">Zone-aware vegetable lists.</strong> Every zone guide
+              lists the vegetables that reliably complete their cycle in that zone&apos;s growing-season window, which
+              is rarely broken out that cleanly in a single extension publication.
+            </li>
+            <li>
+              <strong className="text-[var(--color-text)]">Spacing and yield in the same place.</strong> Extension
+              spacing charts and yield tables usually live in separate publications. Our calculators combine them so
+              you can ask &quot;how many plants fit and how much will I get&quot; in one pass.
+            </li>
+            <li>
+              <strong className="text-[var(--color-text)]">Zero subscription.</strong> Every tool is free, every result
+              page shows the underlying logic, and nothing is gated behind an email signup.
+            </li>
+          </ul>
+          <p>
+            For anything we&apos;re not sure about, or for a specific garden question that depends on your exact soil
+            and microclimate, we&apos;ll always tell you to call your extension office. That&apos;s not false modesty,
+            it&apos;s how home gardening actually works. See our{" "}
+            <Link href="/methodology" className="text-[var(--color-primary)] underline">methodology page</Link> for
+            the full list of data sources and how each calculator works.
+          </p>
+        </div>
+      </section>
+
       {/* Zone Guides CTA */}
       <section className="border-t border-[var(--color-border)] px-4 py-16 sm:px-6 text-center">
         <h2 className="text-2xl font-bold text-[var(--color-text)]">Planting Guides by Zone</h2>

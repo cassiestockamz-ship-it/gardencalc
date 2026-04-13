@@ -13,8 +13,6 @@ import RelatedCalculators from "@/components/RelatedCalculators";
 import EmailCapture from "@/components/EmailCapture";
 import { canningFAQ } from "@/data/faq-data";
 
-const AMAZON_TAG = "kawaiiguy0f-pc-20";
-
 type ProduceType = "tomatoes" | "green_beans" | "pickles" | "salsa" | "jam" | "applesauce" | "peaches" | "corn" | "beets" | "peppers";
 type JarSize = "pint" | "quart";
 type PreservationMethod = "water_bath" | "pressure" | "freezing";
@@ -301,81 +299,6 @@ export default function CanningCalculatorPage() {
           title={`Canning Plan: ${results.jarsNeeded} jars of ${data.label}`}
           text={`My ${harvestLbs} lbs of ${data.label.toLowerCase()} will fill ${results.jarsNeeded} ${jarSize} jars in ${results.batchCount} batch${results.batchCount !== 1 ? "es" : ""}, taking about ${results.totalHours >= 1 ? results.totalHours.toFixed(1) + " hours" : results.totalMinutes + " minutes"} total.`}
         />
-      </div>
-
-      {/* Affiliate Cards */}
-      <div className="mt-10">
-        <h2 className="mb-5 text-lg font-bold text-[var(--color-text)]">
-          Recommended Canning Supplies
-        </h2>
-        <div className="grid gap-4 sm:grid-cols-3">
-          <a
-            href={`https://www.amazon.com/s?k=Ball+mason+jars+canning&tag=${AMAZON_TAG}&ascsubtag=canning`}
-            target="_blank"
-            rel="noopener noreferrer nofollow sponsored"
-            className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
-          >
-            <div className="flex h-32 items-center justify-center bg-gradient-to-br from-blue-50 to-sky-100">
-              <span className="text-5xl">🫙</span>
-            </div>
-            <div className="p-5">
-              <div className="mb-2 flex items-center justify-between">
-                <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--color-text-muted)]">Recommended</span>
-                <span className="rounded-full bg-[var(--color-surface-alt)] px-2 py-0.5 text-[10px] font-medium text-[var(--color-text-muted)]">Ad</span>
-              </div>
-              <h3 className="text-base font-semibold text-[var(--color-text)] group-hover:text-[var(--color-primary)]">Ball Mason Jars</h3>
-              <p className="mt-1 text-sm text-[var(--color-text-muted)]">Pint and quart canning jars with lids and bands. The gold standard for home canning.</p>
-              <div className="mt-3 flex items-center justify-between">
-                <span className="text-sm font-bold text-[var(--color-text)]">$10 - $25</span>
-                <span className="text-sm font-medium text-[var(--color-primary)] group-hover:underline">View on Amazon &rarr;</span>
-              </div>
-            </div>
-          </a>
-          <a
-            href={`https://www.amazon.com/s?k=pressure+canner&tag=${AMAZON_TAG}&ascsubtag=canning`}
-            target="_blank"
-            rel="noopener noreferrer nofollow sponsored"
-            className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
-          >
-            <div className="flex h-32 items-center justify-center bg-gradient-to-br from-orange-50 to-amber-100">
-              <span className="text-5xl">♨️</span>
-            </div>
-            <div className="p-5">
-              <div className="mb-2 flex items-center justify-between">
-                <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--color-text-muted)]">Recommended</span>
-                <span className="rounded-full bg-[var(--color-surface-alt)] px-2 py-0.5 text-[10px] font-medium text-[var(--color-text-muted)]">Ad</span>
-              </div>
-              <h3 className="text-base font-semibold text-[var(--color-text)] group-hover:text-[var(--color-primary)]">Pressure Canners</h3>
-              <p className="mt-1 text-sm text-[var(--color-text-muted)]">Essential for low-acid foods like green beans, corn, and beets. Safe and reliable models.</p>
-              <div className="mt-3 flex items-center justify-between">
-                <span className="text-sm font-bold text-[var(--color-text)]">$80 - $200</span>
-                <span className="text-sm font-medium text-[var(--color-primary)] group-hover:underline">View on Amazon &rarr;</span>
-              </div>
-            </div>
-          </a>
-          <a
-            href={`https://www.amazon.com/s?k=canning+kit+starter+set&tag=${AMAZON_TAG}&ascsubtag=canning`}
-            target="_blank"
-            rel="noopener noreferrer nofollow sponsored"
-            className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
-          >
-            <div className="flex h-32 items-center justify-center bg-gradient-to-br from-green-50 to-emerald-100">
-              <span className="text-5xl">🧰</span>
-            </div>
-            <div className="p-5">
-              <div className="mb-2 flex items-center justify-between">
-                <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--color-text-muted)]">Recommended</span>
-                <span className="rounded-full bg-[var(--color-surface-alt)] px-2 py-0.5 text-[10px] font-medium text-[var(--color-text-muted)]">Ad</span>
-              </div>
-              <h3 className="text-base font-semibold text-[var(--color-text)] group-hover:text-[var(--color-primary)]">Canning Starter Kits</h3>
-              <p className="mt-1 text-sm text-[var(--color-text-muted)]">Jar lifter, funnel, bubble remover, lid wand, and tongs. Everything you need to get started.</p>
-              <div className="mt-3 flex items-center justify-between">
-                <span className="text-sm font-bold text-[var(--color-text)]">$15 - $35</span>
-                <span className="text-sm font-medium text-[var(--color-primary)] group-hover:underline">View on Amazon &rarr;</span>
-              </div>
-            </div>
-          </a>
-        </div>
       </div>
 
       <FAQSection questions={canningFAQ} />

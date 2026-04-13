@@ -13,8 +13,6 @@ import RelatedCalculators from "@/components/RelatedCalculators";
 import EmailCapture from "@/components/EmailCapture";
 import { VEGETABLES } from "@/data/vegetables";
 
-const AMAZON_TAG = "kawaiiguy0f-pc-20";
-
 type LightQuality = "full-sun" | "partial-shade" | "mostly-shade" | "dappled";
 
 const LIGHT_OPTIONS: { value: string; label: string }[] = [
@@ -386,59 +384,6 @@ export default function SunlightCalculatorPage() {
         title="My Sunlight Results"
         text={`With ${sunHours} hours of ${lightQuality.replace("-", " ")} (${effectiveHours.toFixed(1)} effective hours): ${results.perfect.length} perfect matches, ${results.marginal.length} marginal, ${results.insufficient.length} not enough light.`}
       />
-
-      {/* Affiliate Cards */}
-      <div className="mt-10">
-        <h2 className="mb-5 text-lg font-bold text-[var(--color-text)]">
-          Recommended Resources
-        </h2>
-        <div className="grid gap-4 sm:grid-cols-2">
-          <a
-            href={`https://www.amazon.com/s?k=garden+sun+meter+light+sensor&tag=${AMAZON_TAG}&ascsubtag=sunlight`}
-            target="_blank"
-            rel="noopener noreferrer nofollow sponsored"
-            className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
-          >
-            <div className="flex h-32 items-center justify-center bg-gradient-to-br from-yellow-50 to-amber-100">
-              <span className="text-5xl">☀️</span>
-            </div>
-            <div className="p-5">
-              <div className="mb-2 flex items-center justify-between">
-                <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--color-text-muted)]">Recommended</span>
-                <span className="rounded-full bg-[var(--color-surface-alt)] px-2 py-0.5 text-[10px] font-medium text-[var(--color-text-muted)]">Ad</span>
-              </div>
-              <h3 className="text-base font-semibold text-[var(--color-text)] group-hover:text-[var(--color-primary)]">Garden Sun Meters</h3>
-              <p className="mt-1 text-sm text-[var(--color-text-muted)]">Accurately measure sunlight levels in your garden with a digital light meter. Know exactly how many hours of direct sun each spot receives.</p>
-              <div className="mt-3 flex items-center justify-between">
-                <span className="text-sm font-bold text-[var(--color-text)]">$15 - $40</span>
-                <span className="text-sm font-medium text-[var(--color-primary)] group-hover:underline">View on Amazon &rarr;</span>
-              </div>
-            </div>
-          </a>
-          <a
-            href={`https://www.amazon.com/s?k=rolling+plant+caddy+dolly+wheels&tag=${AMAZON_TAG}&ascsubtag=sunlight`}
-            target="_blank"
-            rel="noopener noreferrer nofollow sponsored"
-            className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
-          >
-            <div className="flex h-32 items-center justify-center bg-gradient-to-br from-green-50 to-emerald-100">
-              <span className="text-5xl">🪴</span>
-            </div>
-            <div className="p-5">
-              <div className="mb-2 flex items-center justify-between">
-                <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--color-text-muted)]">Recommended</span>
-                <span className="rounded-full bg-[var(--color-surface-alt)] px-2 py-0.5 text-[10px] font-medium text-[var(--color-text-muted)]">Ad</span>
-              </div>
-              <h3 className="text-base font-semibold text-[var(--color-text)] group-hover:text-[var(--color-primary)]">Rolling Plant Caddies</h3>
-              <p className="mt-1 text-sm text-[var(--color-text-muted)]">Move heavy containers to follow the sun throughout the day. Rolling caddies make container gardening practical for shady yards.</p>
-              <div className="mt-3 flex items-center justify-between">
-                <span className="text-sm font-bold text-[var(--color-text)]">$10 - $30</span>
-                <span className="text-sm font-medium text-[var(--color-primary)] group-hover:underline">View on Amazon &rarr;</span>
-              </div>
-            </div>
-          </a>
-        </div>
-      </div>
 
       <FAQSection questions={sunlightFAQ} />
 

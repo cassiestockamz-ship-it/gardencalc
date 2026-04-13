@@ -2,7 +2,6 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
-import FAQSection from "@/components/FAQSection";
 import EmailCapture from "@/components/EmailCapture";
 import { getZoneGuide, getZoneSlugs } from "@/data/zone-guides";
 
@@ -49,27 +48,6 @@ export default async function ZoneGuidePage({
     { key: "herb", label: "Herbs", icon: "🌿" },
   ];
 
-  const faqs = [
-    {
-      question: `What vegetables grow best in Zone ${guide.zone}?`,
-      answer: `Zone ${guide.zone} supports ${guide.bestVegetables.length} common vegetables. ${guide.bestVegetables.length > 25 ? "Nearly all standard garden vegetables grow well" : "Focus on varieties with shorter days to maturity"}, including ${guide.bestVegetables.slice(0, 5).map((v) => v.name).join(", ")}, and more. See the full list above.`,
-    },
-    {
-      question: `How long is the growing season in Zone ${guide.zone}?`,
-      answer: `Zone ${guide.zone} has approximately ${guide.growingSeasonWeeks} weeks of frost-free growing season. The minimum winter temperature ranges from ${guide.tempRange}. You can extend this by 3-6 weeks using cold frames, row covers, or greenhouses.`,
-    },
-    {
-      question: `When should I start planting in Zone ${guide.zone}?`,
-      answer: `Cool-season crops (lettuce, peas, broccoli) can go out 2-4 weeks before your last frost date. Warm-season crops (tomatoes, peppers, cucumbers) should wait until 1-2 weeks after last frost. Use our Planting Dates calculator with your ZIP code for exact dates.`,
-    },
-    {
-      question: `Can I grow tomatoes in Zone ${guide.zone}?`,
-      answer: guide.zone >= 3 && guide.zone <= 11
-        ? `Yes, tomatoes grow well in Zone ${guide.zone}. Start seeds indoors 6-8 weeks before last frost, and transplant after all danger of frost has passed. Choose varieties with days-to-maturity under ${guide.growingSeasonWeeks < 20 ? "70" : "85"} for best results.`
-        : `Tomatoes are challenging in Zone ${guide.zone}. You'll need a greenhouse or very protected microclimate. Consider cold-hardy varieties like 'Glacier' or 'Stupice'.`,
-    },
-  ];
-
   return (
     <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
       <BreadcrumbSchema
@@ -78,21 +56,6 @@ export default async function ZoneGuidePage({
           { name: "Zone Guides", url: "https://plantingcalc.com/guides" },
           { name: `Zone ${guide.zone}`, url: `https://plantingcalc.com/guides/${guide.slug}` },
         ]}
-      />
-
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            mainEntity: faqs.map((faq) => ({
-              "@type": "Question",
-              name: faq.question,
-              acceptedAnswer: { "@type": "Answer", text: faq.answer },
-            })),
-          }),
-        }}
       />
 
       {/* Hero */}
@@ -217,8 +180,6 @@ export default async function ZoneGuidePage({
       </div>
 
       <EmailCapture variant="inline" context={`zone-${guide.zone}-guide`} />
-
-      <FAQSection questions={faqs} />
 
       <div className="mt-10 text-center">
         <Link

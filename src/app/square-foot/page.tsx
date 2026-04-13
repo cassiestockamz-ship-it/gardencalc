@@ -14,8 +14,6 @@ import RelatedCalculators from "@/components/RelatedCalculators";
 import EmailCapture from "@/components/EmailCapture";
 import { squareFootFAQ } from "@/data/faq-data";
 
-const AMAZON_TAG = "kawaiiguy0f-pc-20";
-
 // SFG category based on spacing in inches
 type SFGCategory = "extra-large" | "large" | "medium" | "small" | "tiny";
 
@@ -363,59 +361,6 @@ export default function SquareFootPage() {
           title={`Square Foot Garden: ${bedWidth}x${bedLength}ft, ${results.totalPlants} plants`}
           text={`My ${bedWidth}x${bedLength}ft square foot garden (${results.totalSquares} squares): ${shareText}. Total: ${results.totalPlants} plants.`}
         />
-      </div>
-
-      {/* Affiliate Cards */}
-      <div className="mt-10">
-        <h2 className="mb-5 text-lg font-bold text-[var(--color-text)]">
-          Recommended Products
-        </h2>
-        <div className="grid gap-4 sm:grid-cols-2">
-          <a
-            href={`https://www.amazon.com/s?k=square+foot+gardening+grid&tag=${AMAZON_TAG}&ascsubtag=square-foot`}
-            target="_blank"
-            rel="noopener noreferrer nofollow sponsored"
-            className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
-          >
-            <div className="flex h-32 items-center justify-center bg-gradient-to-br from-green-50 to-emerald-100">
-              <span className="text-5xl">📐</span>
-            </div>
-            <div className="p-5">
-              <div className="mb-2 flex items-center justify-between">
-                <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--color-text-muted)]">Recommended</span>
-                <span className="rounded-full bg-[var(--color-surface-alt)] px-2 py-0.5 text-[10px] font-medium text-[var(--color-text-muted)]">Ad</span>
-              </div>
-              <h3 className="text-base font-semibold text-[var(--color-text)] group-hover:text-[var(--color-primary)]">Square Foot Garden Grids</h3>
-              <p className="mt-1 text-sm text-[var(--color-text-muted)]">Pre-made grid overlays that divide your raised bed into perfect 1-foot squares. Fits standard 4x4 and 4x8 beds.</p>
-              <div className="mt-3 flex items-center justify-between">
-                <span className="text-sm font-bold text-[var(--color-text)]">$15 - $35</span>
-                <span className="text-sm font-medium text-[var(--color-primary)] group-hover:underline">View on Amazon &rarr;</span>
-              </div>
-            </div>
-          </a>
-          <a
-            href={`https://www.amazon.com/s?k=raised+bed+garden+kit+4x4&tag=${AMAZON_TAG}&ascsubtag=square-foot`}
-            target="_blank"
-            rel="noopener noreferrer nofollow sponsored"
-            className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
-          >
-            <div className="flex h-32 items-center justify-center bg-gradient-to-br from-amber-50 to-yellow-100">
-              <span className="text-5xl">🪴</span>
-            </div>
-            <div className="p-5">
-              <div className="mb-2 flex items-center justify-between">
-                <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--color-text-muted)]">Recommended</span>
-                <span className="rounded-full bg-[var(--color-surface-alt)] px-2 py-0.5 text-[10px] font-medium text-[var(--color-text-muted)]">Ad</span>
-              </div>
-              <h3 className="text-base font-semibold text-[var(--color-text)] group-hover:text-[var(--color-primary)]">Raised Bed Garden Kits</h3>
-              <p className="mt-1 text-sm text-[var(--color-text-muted)]">Cedar and composite raised bed kits in popular sizes. Easy to assemble and built to last multiple growing seasons.</p>
-              <div className="mt-3 flex items-center justify-between">
-                <span className="text-sm font-bold text-[var(--color-text)]">$40 - $120</span>
-                <span className="text-sm font-medium text-[var(--color-primary)] group-hover:underline">View on Amazon &rarr;</span>
-              </div>
-            </div>
-          </a>
-        </div>
       </div>
 
       <FAQSection questions={squareFootFAQ} />

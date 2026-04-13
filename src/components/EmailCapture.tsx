@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 interface EmailCaptureProps {
   variant?: "inline" | "banner";
@@ -36,7 +37,7 @@ export default function EmailCapture({ variant = "inline", context }: EmailCaptu
   if (status === "success") {
     return (
       <div className={`rounded-xl border border-green-200 bg-green-50 p-5 text-center ${variant === "banner" ? "my-8" : "mt-8"}`}>
-        <p className="text-sm font-semibold text-green-700">You&apos;re in! We&apos;ll send planting reminders when it&apos;s time to start seeds in your area.</p>
+        <p className="text-sm font-semibold text-green-700">You&apos;re on the list. We&apos;ll send our next seasonal newsletter when it goes out.</p>
       </div>
     );
   }
@@ -47,10 +48,11 @@ export default function EmailCapture({ variant = "inline", context }: EmailCaptu
         <div className="flex flex-col items-center gap-4 sm:flex-row">
           <div className="flex-1 text-center sm:text-left">
             <h3 className="text-base font-bold text-[var(--color-text)]">
-              Get Planting Reminders
+              Seasonal gardening newsletter
             </h3>
             <p className="mt-1 text-sm text-[var(--color-text-muted)]">
-              We&apos;ll email you when it&apos;s time to start seeds, transplant, and harvest based on your zone. No spam, just seasonal alerts.
+              Opt-in mailing list with occasional seasonal tips, new calculators, and notes on growing-zone updates.
+              No sharing, unsubscribe in one click. See our <Link href="/privacy" className="underline hover:text-[var(--color-text)]">privacy policy</Link>.
             </p>
           </div>
           <form onSubmit={handleSubmit} className="flex w-full gap-2 sm:w-auto">
@@ -82,10 +84,10 @@ export default function EmailCapture({ variant = "inline", context }: EmailCaptu
   return (
     <div className="mt-8 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-5 text-center">
       <h3 className="text-sm font-bold text-[var(--color-text)]">
-        Never Miss Planting Season
+        Seasonal gardening newsletter
       </h3>
       <p className="mt-1 text-xs text-[var(--color-text-muted)]">
-        Get seasonal reminders straight to your inbox — we&apos;ll tell you when to start seeds, transplant, and harvest.
+        Opt-in email list with occasional seasonal tips and new calculators. No sharing, unsubscribe in one click.
       </p>
       <form onSubmit={handleSubmit} className="mt-3 flex justify-center gap-2">
         <input

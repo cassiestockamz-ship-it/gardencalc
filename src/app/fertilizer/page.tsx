@@ -18,8 +18,6 @@ import RelatedCalculators from "@/components/RelatedCalculators";
 import EmailCapture from "@/components/EmailCapture";
 import { fertilizerFAQ } from "@/data/faq-data";
 
-const AMAZON_TAG = "kawaiiguy0f-pc-20";
-
 export default function FertilizerCalculatorPage() {
   const [selectedPlant, setSelectedPlant] = useState("0");
   const [widthFt, setWidthFt] = useState(4);
@@ -227,58 +225,6 @@ export default function FertilizerCalculatorPage() {
         </p>
       </div>
 
-      {/* Affiliate Cards */}
-      <div className="mt-10">
-        <h2 className="mb-5 text-lg font-bold text-[var(--color-text)]">
-          Recommended Products
-        </h2>
-        <div className="grid gap-4 sm:grid-cols-2">
-          <a
-            href={`https://www.amazon.com/s?k=organic+vegetable+fertilizer&tag=${AMAZON_TAG}&ascsubtag=fertilizer`}
-            target="_blank"
-            rel="noopener noreferrer nofollow sponsored"
-            className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
-          >
-            <div className="flex h-32 items-center justify-center bg-gradient-to-br from-green-50 to-emerald-100">
-              <span className="text-5xl">🌿</span>
-            </div>
-            <div className="p-5">
-              <div className="mb-2 flex items-center justify-between">
-                <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--color-text-muted)]">Recommended</span>
-                <span className="rounded-full bg-[var(--color-surface-alt)] px-2 py-0.5 text-[10px] font-medium text-[var(--color-text-muted)]">Ad</span>
-              </div>
-              <h3 className="text-base font-semibold text-[var(--color-text)] group-hover:text-[var(--color-primary)]">Organic Vegetable Fertilizer</h3>
-              <p className="mt-1 text-sm text-[var(--color-text-muted)]">Top-rated organic fertilizers for vegetable gardens. Espoma, Dr. Earth, and more.</p>
-              <div className="mt-3 flex items-center justify-between">
-                <span className="text-sm font-bold text-[var(--color-text)]">$10 - $25</span>
-                <span className="text-sm font-medium text-[var(--color-primary)] group-hover:underline">View on Amazon &rarr;</span>
-              </div>
-            </div>
-          </a>
-          <a
-            href={`https://www.amazon.com/s?k=soil+test+kit+garden&tag=${AMAZON_TAG}&ascsubtag=fertilizer`}
-            target="_blank"
-            rel="noopener noreferrer nofollow sponsored"
-            className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
-          >
-            <div className="flex h-32 items-center justify-center bg-gradient-to-br from-amber-50 to-yellow-100">
-              <span className="text-5xl">🧪</span>
-            </div>
-            <div className="p-5">
-              <div className="mb-2 flex items-center justify-between">
-                <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--color-text-muted)]">Recommended</span>
-                <span className="rounded-full bg-[var(--color-surface-alt)] px-2 py-0.5 text-[10px] font-medium text-[var(--color-text-muted)]">Ad</span>
-              </div>
-              <h3 className="text-base font-semibold text-[var(--color-text)] group-hover:text-[var(--color-primary)]">Soil Test Kits</h3>
-              <p className="mt-1 text-sm text-[var(--color-text-muted)]">Test your soil's NPK levels, pH, and nutrients before fertilizing. Know exactly what your garden needs.</p>
-              <div className="mt-3 flex items-center justify-between">
-                <span className="text-sm font-bold text-[var(--color-text)]">$10 - $30</span>
-                <span className="text-sm font-medium text-[var(--color-primary)] group-hover:underline">View on Amazon &rarr;</span>
-              </div>
-            </div>
-          </a>
-        </div>
-      </div>
       <FAQSection questions={fertilizerFAQ} />
 
       {/* Educational Content */}

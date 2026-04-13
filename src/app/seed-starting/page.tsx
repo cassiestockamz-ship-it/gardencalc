@@ -13,8 +13,6 @@ import EmailCapture from "@/components/EmailCapture";
 import { VEGETABLES } from "@/data/vegetables";
 import { seedStartingFAQ } from "@/data/faq-data";
 
-const AMAZON_TAG = "kawaiiguy0f-pc-20";
-
 // Last frost dates by zone (approximate averages)
 const ZONE_FROST_DATES: Record<string, string | null> = {
   "3": "2026-05-10",
@@ -326,111 +324,6 @@ export default function SeedStartingPage() {
           />
         </>
       )}
-
-      {/* Affiliate Cards */}
-      <div className="mt-10">
-        <h2 className="mb-5 text-lg font-bold text-[var(--color-text)]">
-          Seed Starting Essentials
-        </h2>
-        <div className="grid gap-4 sm:grid-cols-3">
-          <a
-            href={`https://www.amazon.com/s?k=LED+grow+light+seed+starting&tag=${AMAZON_TAG}&ascsubtag=seed-starting`}
-            target="_blank"
-            rel="noopener noreferrer nofollow sponsored"
-            className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
-          >
-            <div className="flex h-28 items-center justify-center bg-gradient-to-br from-violet-50 to-purple-100">
-              <span className="text-5xl">💡</span>
-            </div>
-            <div className="p-4">
-              <div className="mb-2 flex items-center justify-between">
-                <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--color-text-muted)]">
-                  Recommended
-                </span>
-                <span className="rounded-full bg-[var(--color-surface-alt)] px-2 py-0.5 text-[10px] font-medium text-[var(--color-text-muted)]">
-                  Ad
-                </span>
-              </div>
-              <h3 className="text-base font-semibold text-[var(--color-text)] group-hover:text-[var(--color-primary)]">
-                LED Grow Lights
-              </h3>
-              <p className="mt-1 text-sm text-[var(--color-text-muted)]">
-                Full-spectrum grow lights give seedlings the light intensity they need to grow strong and stocky instead of leggy.
-              </p>
-              <div className="mt-3 flex items-center justify-between">
-                <span className="text-sm font-bold text-[var(--color-text)]">$20 - $60</span>
-                <span className="text-sm font-medium text-[var(--color-primary)] group-hover:underline">
-                  View on Amazon &rarr;
-                </span>
-              </div>
-            </div>
-          </a>
-          <a
-            href={`https://www.amazon.com/s?k=seed+starting+tray+with+dome&tag=${AMAZON_TAG}&ascsubtag=seed-starting`}
-            target="_blank"
-            rel="noopener noreferrer nofollow sponsored"
-            className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
-          >
-            <div className="flex h-28 items-center justify-center bg-gradient-to-br from-green-50 to-emerald-100">
-              <span className="text-5xl">🌱</span>
-            </div>
-            <div className="p-4">
-              <div className="mb-2 flex items-center justify-between">
-                <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--color-text-muted)]">
-                  Recommended
-                </span>
-                <span className="rounded-full bg-[var(--color-surface-alt)] px-2 py-0.5 text-[10px] font-medium text-[var(--color-text-muted)]">
-                  Ad
-                </span>
-              </div>
-              <h3 className="text-base font-semibold text-[var(--color-text)] group-hover:text-[var(--color-primary)]">
-                Seed Starting Trays
-              </h3>
-              <p className="mt-1 text-sm text-[var(--color-text-muted)]">
-                Cell trays with humidity domes keep soil moist during germination. Look for trays with drainage holes and sturdy construction.
-              </p>
-              <div className="mt-3 flex items-center justify-between">
-                <span className="text-sm font-bold text-[var(--color-text)]">$10 - $25</span>
-                <span className="text-sm font-medium text-[var(--color-primary)] group-hover:underline">
-                  View on Amazon &rarr;
-                </span>
-              </div>
-            </div>
-          </a>
-          <a
-            href={`https://www.amazon.com/s?k=seedling+heat+mat&tag=${AMAZON_TAG}&ascsubtag=seed-starting`}
-            target="_blank"
-            rel="noopener noreferrer nofollow sponsored"
-            className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
-          >
-            <div className="flex h-28 items-center justify-center bg-gradient-to-br from-orange-50 to-amber-100">
-              <span className="text-5xl">🔥</span>
-            </div>
-            <div className="p-4">
-              <div className="mb-2 flex items-center justify-between">
-                <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--color-text-muted)]">
-                  Recommended
-                </span>
-                <span className="rounded-full bg-[var(--color-surface-alt)] px-2 py-0.5 text-[10px] font-medium text-[var(--color-text-muted)]">
-                  Ad
-                </span>
-              </div>
-              <h3 className="text-base font-semibold text-[var(--color-text)] group-hover:text-[var(--color-primary)]">
-                Seedling Heat Mats
-              </h3>
-              <p className="mt-1 text-sm text-[var(--color-text-muted)]">
-                Heat mats warm soil 10 to 20 degrees above room temperature, speeding up germination for peppers, tomatoes, and eggplant.
-              </p>
-              <div className="mt-3 flex items-center justify-between">
-                <span className="text-sm font-bold text-[var(--color-text)]">$15 - $35</span>
-                <span className="text-sm font-medium text-[var(--color-primary)] group-hover:underline">
-                  View on Amazon &rarr;
-                </span>
-              </div>
-            </div>
-          </a>
-        </div>
-      </div>
 
       <EmailCapture variant="banner" context="seed-starting" />
       <FAQSection questions={seedStartingFAQ} />

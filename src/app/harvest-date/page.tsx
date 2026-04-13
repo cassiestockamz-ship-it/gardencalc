@@ -14,8 +14,6 @@ import EmailCapture from "@/components/EmailCapture";
 import { VEGETABLES } from "@/data/vegetables";
 import { harvestDateFAQ } from "@/data/faq-data";
 
-const AMAZON_TAG = "kawaiiguy0f-pc-20";
-
 type GrowingCondition = "ideal" | "average" | "challenging";
 
 const CONDITION_OPTIONS = [
@@ -423,117 +421,6 @@ export default function HarvestDatePage() {
           />
         </div>
       )}
-
-      {/* Affiliate Cards */}
-      <div className="mt-10">
-        <h2 className="mb-5 text-lg font-bold text-[var(--color-text)]">
-          Harvest Season Essentials
-        </h2>
-        <div className="grid gap-4 sm:grid-cols-3">
-          <a
-            href={`https://www.amazon.com/s?k=garden+harvest+basket&tag=${AMAZON_TAG}&ascsubtag=harvest-date`}
-            target="_blank"
-            rel="noopener noreferrer nofollow sponsored"
-            className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
-          >
-            <div className="flex h-32 items-center justify-center bg-gradient-to-br from-amber-50 to-yellow-100">
-              <span className="text-5xl">🧺</span>
-            </div>
-            <div className="p-5">
-              <div className="mb-2 flex items-center justify-between">
-                <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--color-text-muted)]">
-                  Recommended
-                </span>
-                <span className="rounded-full bg-[var(--color-surface-alt)] px-2 py-0.5 text-[10px] font-medium text-[var(--color-text-muted)]">
-                  Ad
-                </span>
-              </div>
-              <h3 className="text-base font-semibold text-[var(--color-text)] group-hover:text-[var(--color-primary)]">
-                Garden Harvest Baskets
-              </h3>
-              <p className="mt-1 text-sm text-[var(--color-text-muted)]">
-                Sturdy, washable harvest baskets and garden hods for collecting vegetables straight from the garden.
-              </p>
-              <div className="mt-3 flex items-center justify-between">
-                <span className="text-sm font-bold text-[var(--color-text)]">
-                  $15 - $40
-                </span>
-                <span className="text-sm font-medium text-[var(--color-primary)] group-hover:underline">
-                  View on Amazon &rarr;
-                </span>
-              </div>
-            </div>
-          </a>
-          <a
-            href={`https://www.amazon.com/s?k=garden+pruning+shears&tag=${AMAZON_TAG}&ascsubtag=harvest-date`}
-            target="_blank"
-            rel="noopener noreferrer nofollow sponsored"
-            className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
-          >
-            <div className="flex h-32 items-center justify-center bg-gradient-to-br from-green-50 to-emerald-100">
-              <span className="text-5xl">✂️</span>
-            </div>
-            <div className="p-5">
-              <div className="mb-2 flex items-center justify-between">
-                <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--color-text-muted)]">
-                  Recommended
-                </span>
-                <span className="rounded-full bg-[var(--color-surface-alt)] px-2 py-0.5 text-[10px] font-medium text-[var(--color-text-muted)]">
-                  Ad
-                </span>
-              </div>
-              <h3 className="text-base font-semibold text-[var(--color-text)] group-hover:text-[var(--color-primary)]">
-                Pruning Shears & Snips
-              </h3>
-              <p className="mt-1 text-sm text-[var(--color-text-muted)]">
-                Sharp, ergonomic pruning shears for clean cuts when harvesting tomatoes, peppers, herbs, and more.
-              </p>
-              <div className="mt-3 flex items-center justify-between">
-                <span className="text-sm font-bold text-[var(--color-text)]">
-                  $8 - $25
-                </span>
-                <span className="text-sm font-medium text-[var(--color-primary)] group-hover:underline">
-                  View on Amazon &rarr;
-                </span>
-              </div>
-            </div>
-          </a>
-          <a
-            href={`https://www.amazon.com/s?k=garden+harvest+knife+hori+hori&tag=${AMAZON_TAG}&ascsubtag=harvest-date`}
-            target="_blank"
-            rel="noopener noreferrer nofollow sponsored"
-            className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
-          >
-            <div className="flex h-32 items-center justify-center bg-gradient-to-br from-stone-50 to-orange-100">
-              <span className="text-5xl">🔪</span>
-            </div>
-            <div className="p-5">
-              <div className="mb-2 flex items-center justify-between">
-                <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--color-text-muted)]">
-                  Recommended
-                </span>
-                <span className="rounded-full bg-[var(--color-surface-alt)] px-2 py-0.5 text-[10px] font-medium text-[var(--color-text-muted)]">
-                  Ad
-                </span>
-              </div>
-              <h3 className="text-base font-semibold text-[var(--color-text)] group-hover:text-[var(--color-primary)]">
-                Hori Hori Garden Knives
-              </h3>
-              <p className="mt-1 text-sm text-[var(--color-text-muted)]">
-                Versatile stainless steel garden knives for harvesting root vegetables, cutting stems, and digging.
-              </p>
-              <div className="mt-3 flex items-center justify-between">
-                <span className="text-sm font-bold text-[var(--color-text)]">
-                  $15 - $35
-                </span>
-                <span className="text-sm font-medium text-[var(--color-primary)] group-hover:underline">
-                  View on Amazon &rarr;
-                </span>
-              </div>
-            </div>
-          </a>
-        </div>
-      </div>
 
       <EmailCapture variant="banner" context="harvest-date" />
       <FAQSection questions={harvestDateFAQ} />

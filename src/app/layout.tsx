@@ -47,7 +47,7 @@ export default function RootLayout({
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7557739369186741" crossOrigin="anonymous" />
       </head>
       <body className="flex min-h-screen flex-col">
-        <script dangerouslySetInnerHTML={{ __html: `(function(){try{var s=sessionStorage.getItem('_sid');if(!s){s=Math.random().toString(36).slice(2)+Date.now().toString(36);sessionStorage.setItem('_sid',s)}var d=screen.width<768?'mobile':screen.width<1024?'tablet':'desktop';fetch('https://project-dash-psi.vercel.app/api/track',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({site_id:'17156a6b-a5cd-4caf-ac2c-c9c3977b436f',path:location.pathname,referrer:document.referrer||null,device_type:d,session_id:s}),keepalive:true}).catch(function(){})}catch(e){}})();` }} />
+        <script dangerouslySetInnerHTML={{ __html: `(function(){try{if(new URLSearchParams(location.search).has('notrack')){localStorage.setItem('_no_track','1')}if(localStorage.getItem('_no_track')==='1')return;var s=sessionStorage.getItem('_sid');if(!s){s=Math.random().toString(36).slice(2)+Date.now().toString(36);sessionStorage.setItem('_sid',s)}var d=screen.width<768?'mobile':screen.width<1024?'tablet':'desktop';fetch('https://project-dash-psi.vercel.app/api/track',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({site_id:'17156a6b-a5cd-4caf-ac2c-c9c3977b436f',path:location.pathname,referrer:document.referrer||null,device_type:d,session_id:s}),keepalive:true}).catch(function(){})}catch(e){}})();` }} />
         <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2 focus:bg-white focus:text-green-700 focus:rounded focus:shadow-lg">
           Skip to content
         </a>
@@ -86,43 +86,22 @@ export default function RootLayout({
                 Built with USDA zone data &amp; agricultural extension research
               </p>
               <p className="max-w-lg text-xs text-[var(--color-text-muted)]">
-                Disclaimer: Calculations are estimates based on average
-                conditions. Actual results vary by soil type, microclimate,
-                and local conditions. Always consult your local extension
-                office for region-specific advice.
+                PlantingCalc is an independent publisher. Calculations are estimates based on averaged USDA, NOAA, and
+                extension data. Actual results vary by soil type, microclimate, and local conditions. Always consult
+                your local extension office for region-specific advice.
               </p>
-              <p className="text-xs text-[var(--color-text-muted)]">
-                Some links are affiliate links. See our{" "}
-                <Link
-                  href="/disclosure"
-                  className="underline hover:text-[var(--color-text)]"
-                >
-                  disclosure
-                </Link>
-                .
-              </p>
-              <nav className="flex flex-wrap justify-center gap-4 text-xs text-[var(--color-text-muted)]">
-                <Link
-                  href="/guides"
-                  className="underline hover:text-[var(--color-text)]"
-                >
-                  Zone Guides
-                </Link>
-                <Link
-                  href="/about"
-                  className="underline hover:text-[var(--color-text)]"
-                >
-                  About
-                </Link>
-                <Link
-                  href="/disclosure"
-                  className="underline hover:text-[var(--color-text)]"
-                >
-                  Disclosure
-                </Link>
+              <nav className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-xs text-[var(--color-text-muted)]">
+                <Link href="/guides" className="underline hover:text-[var(--color-text)]">Zone Guides</Link>
+                <Link href="/about" className="underline hover:text-[var(--color-text)]">About</Link>
+                <Link href="/methodology" className="underline hover:text-[var(--color-text)]">How We Research</Link>
+                <Link href="/contact" className="underline hover:text-[var(--color-text)]">Contact</Link>
+                <Link href="/privacy" className="underline hover:text-[var(--color-text)]">Privacy</Link>
+                <Link href="/terms" className="underline hover:text-[var(--color-text)]">Terms</Link>
+                <Link href="/disclaimer" className="underline hover:text-[var(--color-text)]">Disclaimer</Link>
+                <Link href="/disclosure" className="underline hover:text-[var(--color-text)]">Affiliate Disclosure</Link>
               </nav>
               <p className="text-xs text-[var(--color-text-muted)]">
-                &copy; {new Date().getFullYear()} PlantingCalc. All rights reserved.
+                &copy; {new Date().getFullYear()} PlantingCalc. Independent publisher. Not affiliated with USDA, NOAA, or any government or university agency.
               </p>
             </div>
           </div>

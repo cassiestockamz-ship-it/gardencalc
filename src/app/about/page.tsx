@@ -1,8 +1,28 @@
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "About PlantingCalc",
+  description: "PlantingCalc is an independent publisher of free, data-driven gardening calculators built from USDA hardiness zone data, NOAA frost normals, and university agricultural extension research.",
+  alternates: { canonical: "https://plantingcalc.com/about" },
+};
+
+const orgJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "PlantingCalc",
+  url: "https://plantingcalc.com",
+  logo: "https://plantingcalc.com/icon.svg",
+  description:
+    "Independent publisher of free, data-driven gardening calculators for U.S. home gardeners. Built from USDA hardiness zone data, NOAA frost normals, and university agricultural extension research.",
+  sameAs: ["https://plantingcalc.com"],
+};
 
 export default function AboutPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }} />
+
       <h1 className="text-3xl font-extrabold tracking-tight text-[var(--color-text)] sm:text-4xl">
         About PlantingCalc
       </h1>

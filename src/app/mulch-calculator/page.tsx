@@ -14,8 +14,6 @@ import RelatedCalculators from "@/components/RelatedCalculators";
 import EmailCapture from "@/components/EmailCapture";
 import { mulchFAQ } from "@/data/faq-data";
 
-const AMAZON_TAG = "kawaiiguy0f-pc-20";
-
 type MaterialType = "woodchips" | "bark" | "straw" | "compost" | "leafmulch";
 
 const MATERIALS: Record<
@@ -243,120 +241,6 @@ export default function MulchCalculatorPage() {
           title={`Mulch Needed: ${fmt(results.totalCuYd)} cubic yards`}
           text={`My ${lengthFt}x${widthFt}-foot bed at ${depthIn}" deep needs ${fmt(results.totalCuYd)} cubic yards of ${mat.label.toLowerCase()} (${results.bags} bags). Bulk cost: ${fmtCost.format(results.bulkCost)}, bagged: ${fmtCost.format(results.baggedCost)}.`}
         />
-      </div>
-
-      {/* Affiliate Cards */}
-      <div className="mt-10">
-        <h2 className="mb-5 text-lg font-bold text-[var(--color-text)]">
-          Recommended Products
-        </h2>
-        <div className="grid gap-4 sm:grid-cols-3">
-          <a
-            href={`https://www.amazon.com/s?k=garden+mulch+wood+chips&tag=${AMAZON_TAG}&ascsubtag=mulch-calculator`}
-            target="_blank"
-            rel="noopener noreferrer nofollow sponsored"
-            className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
-          >
-            <div className="flex h-32 items-center justify-center bg-gradient-to-br from-amber-50 to-yellow-100">
-              <span className="text-5xl">🪵</span>
-            </div>
-            <div className="p-5">
-              <div className="mb-2 flex items-center justify-between">
-                <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--color-text-muted)]">
-                  Recommended
-                </span>
-                <span className="rounded-full bg-[var(--color-surface-alt)] px-2 py-0.5 text-[10px] font-medium text-[var(--color-text-muted)]">
-                  Ad
-                </span>
-              </div>
-              <h3 className="text-base font-semibold text-[var(--color-text)] group-hover:text-[var(--color-primary)]">
-                Wood Chip & Bark Mulch
-              </h3>
-              <p className="mt-1 text-sm text-[var(--color-text-muted)]">
-                Natural wood chip and shredded bark mulch bags. Suppresses weeds
-                and retains moisture.
-              </p>
-              <div className="mt-3 flex items-center justify-between">
-                <span className="text-sm font-bold text-[var(--color-text)]">
-                  $5 - $12 per bag
-                </span>
-                <span className="text-sm font-medium text-[var(--color-primary)] group-hover:underline">
-                  View on Amazon &rarr;
-                </span>
-              </div>
-            </div>
-          </a>
-          <a
-            href={`https://www.amazon.com/s?k=garden+compost+organic&tag=${AMAZON_TAG}&ascsubtag=mulch-calculator`}
-            target="_blank"
-            rel="noopener noreferrer nofollow sponsored"
-            className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
-          >
-            <div className="flex h-32 items-center justify-center bg-gradient-to-br from-green-50 to-emerald-100">
-              <span className="text-5xl">🌿</span>
-            </div>
-            <div className="p-5">
-              <div className="mb-2 flex items-center justify-between">
-                <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--color-text-muted)]">
-                  Recommended
-                </span>
-                <span className="rounded-full bg-[var(--color-surface-alt)] px-2 py-0.5 text-[10px] font-medium text-[var(--color-text-muted)]">
-                  Ad
-                </span>
-              </div>
-              <h3 className="text-base font-semibold text-[var(--color-text)] group-hover:text-[var(--color-primary)]">
-                Organic Compost & Soil Amendments
-              </h3>
-              <p className="mt-1 text-sm text-[var(--color-text-muted)]">
-                Premium organic compost and garden amendments. Enriches soil
-                and feeds beneficial microbes.
-              </p>
-              <div className="mt-3 flex items-center justify-between">
-                <span className="text-sm font-bold text-[var(--color-text)]">
-                  $8 - $20 per bag
-                </span>
-                <span className="text-sm font-medium text-[var(--color-primary)] group-hover:underline">
-                  View on Amazon &rarr;
-                </span>
-              </div>
-            </div>
-          </a>
-          <a
-            href={`https://www.amazon.com/s?k=garden+wheelbarrow&tag=${AMAZON_TAG}&ascsubtag=mulch-calculator`}
-            target="_blank"
-            rel="noopener noreferrer nofollow sponsored"
-            className="group block overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
-          >
-            <div className="flex h-32 items-center justify-center bg-gradient-to-br from-stone-50 to-stone-200">
-              <span className="text-5xl">🛒</span>
-            </div>
-            <div className="p-5">
-              <div className="mb-2 flex items-center justify-between">
-                <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--color-text-muted)]">
-                  Recommended
-                </span>
-                <span className="rounded-full bg-[var(--color-surface-alt)] px-2 py-0.5 text-[10px] font-medium text-[var(--color-text-muted)]">
-                  Ad
-                </span>
-              </div>
-              <h3 className="text-base font-semibold text-[var(--color-text)] group-hover:text-[var(--color-primary)]">
-                Garden Wheelbarrows & Carts
-              </h3>
-              <p className="mt-1 text-sm text-[var(--color-text-muted)]">
-                Heavy-duty wheelbarrows and garden carts for moving mulch
-                and compost. Saves your back.
-              </p>
-              <div className="mt-3 flex items-center justify-between">
-                <span className="text-sm font-bold text-[var(--color-text)]">
-                  $60 - $150
-                </span>
-                <span className="text-sm font-medium text-[var(--color-primary)] group-hover:underline">
-                  View on Amazon &rarr;
-                </span>
-              </div>
-            </div>
-          </a>
-        </div>
       </div>
 
       <FAQSection questions={mulchFAQ} />
