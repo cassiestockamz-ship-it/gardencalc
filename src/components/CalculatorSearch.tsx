@@ -11,6 +11,11 @@ interface Calc {
 }
 
 const ALL_CALCULATORS: Calc[] = [
+  { title: "Frost Alert", description: "Cover-or-lose list for tonight", href: "/frost-alert", icon: "🚨" },
+  { title: "Plant Today?", description: "Live forecast decision for your ZIP", href: "/plant-today", icon: "✅" },
+  { title: "Frost Probability", description: "NOAA-style exceedance for any date", href: "/frost-probability", icon: "📊" },
+  { title: "Seed Start Calendar", description: "Indoor start dates with ICS export", href: "/seed-start-calendar", icon: "📅" },
+  { title: "Chill Hours Tracker", description: "Live fruit tree chill accumulation", href: "/chill-hours", icon: "🌡️" },
   { title: "Planting Dates", description: "When to plant by ZIP code", href: "/planting-dates", icon: "📅" },
   { title: "Frost Dates", description: "First and last frost by ZIP", href: "/frost-dates", icon: "❄️" },
   { title: "Growing Season", description: "Season length by zone", href: "/growing-season", icon: "🌤️" },
@@ -21,17 +26,12 @@ const ALL_CALCULATORS: Calc[] = [
   { title: "Bed Layout", description: "Plan your raised bed layout", href: "/bed-layout", icon: "📐" },
   { title: "Square Foot Garden", description: "SFG spacing planner", href: "/square-foot", icon: "🌿" },
   { title: "Seed Spacing", description: "How many plants fit", href: "/seed-spacing", icon: "📏" },
-  { title: "Container Garden", description: "Pot size and plant count", href: "/container-garden", icon: "🪻" },
-  { title: "Mulch Calculator", description: "Mulch and compost volume", href: "/mulch-calculator", icon: "🪵" },
   { title: "Companion Planting", description: "What grows well together", href: "/companion-planting", icon: "🤝" },
   { title: "Fertilizer", description: "NPK ratios for your plants", href: "/fertilizer", icon: "🧪" },
   { title: "Watering Schedule", description: "How much and how often", href: "/watering", icon: "💧" },
   { title: "Sunlight Guide", description: "Match plants to your light", href: "/sunlight", icon: "☀️" },
   { title: "Soil pH", description: "pH matching and amendments", href: "/soil-ph", icon: "🔬" },
   { title: "Pest Guide", description: "Identify and treat pests", href: "/pest-guide", icon: "🐛" },
-  { title: "Yield Estimator", description: "Expected harvest weight", href: "/yield-estimator", icon: "⚖️" },
-  { title: "Canning Calculator", description: "Jars needed for preserving", href: "/canning", icon: "🫙" },
-  { title: "Cost Savings", description: "Garden vs grocery savings", href: "/cost-savings", icon: "💰" },
 ];
 
 export default function CalculatorSearch() {

@@ -10,6 +10,11 @@ interface Calc {
 
 const ALL_CALCULATORS: Calc[] = [
   // Planning & Timing
+  { title: "Frost Alert", description: "Cover-or-lose list for tonight", href: "/frost-alert", icon: "🚨", category: "planning" },
+  { title: "Plant Today?", description: "Live forecast decision for your ZIP", href: "/plant-today", icon: "✅", category: "planning" },
+  { title: "Frost Probability", description: "NOAA exceedance for any date", href: "/frost-probability", icon: "📊", category: "planning" },
+  { title: "Seed Start Calendar", description: "Indoor start dates with ICS export", href: "/seed-start-calendar", icon: "📅", category: "planning" },
+  { title: "Chill Hours Tracker", description: "Live fruit tree chill accumulation", href: "/chill-hours", icon: "🌡️", category: "planning" },
   { title: "Planting Dates", description: "When to plant by ZIP code", href: "/planting-dates", icon: "📅", category: "planning" },
   { title: "Frost Dates", description: "First and last frost by ZIP", href: "/frost-dates", icon: "❄️", category: "planning" },
   { title: "Growing Season", description: "Season length by zone", href: "/growing-season", icon: "🌤️", category: "planning" },
@@ -21,8 +26,6 @@ const ALL_CALCULATORS: Calc[] = [
   { title: "Bed Layout", description: "Plan your raised bed layout", href: "/bed-layout", icon: "📐", category: "design" },
   { title: "Square Foot Garden", description: "SFG spacing planner", href: "/square-foot", icon: "🌿", category: "design" },
   { title: "Seed Spacing", description: "How many plants fit", href: "/seed-spacing", icon: "📏", category: "design" },
-  { title: "Container Garden", description: "Pot size and plant count", href: "/container-garden", icon: "🪻", category: "design" },
-  { title: "Mulch Calculator", description: "Mulch and compost volume", href: "/mulch-calculator", icon: "🪵", category: "design" },
   // Plant Care
   { title: "Companion Planting", description: "What grows well together", href: "/companion-planting", icon: "🤝", category: "care" },
   { title: "Fertilizer", description: "NPK ratios for your plants", href: "/fertilizer", icon: "🧪", category: "care" },
@@ -30,10 +33,6 @@ const ALL_CALCULATORS: Calc[] = [
   { title: "Sunlight Guide", description: "Match plants to your light", href: "/sunlight", icon: "☀️", category: "care" },
   { title: "Soil pH", description: "pH matching and amendments", href: "/soil-ph", icon: "🔬", category: "care" },
   { title: "Pest Guide", description: "Identify and treat pests", href: "/pest-guide", icon: "🐛", category: "care" },
-  // Harvest & Yield
-  { title: "Yield Estimator", description: "Expected harvest weight", href: "/yield-estimator", icon: "⚖️", category: "harvest" },
-  { title: "Canning Calculator", description: "Jars needed for preserving", href: "/canning", icon: "🫙", category: "harvest" },
-  { title: "Cost Savings", description: "Garden vs grocery savings", href: "/cost-savings", icon: "💰", category: "harvest" },
 ];
 
 export default function RelatedCalculators({ currentPath }: { currentPath: string }) {

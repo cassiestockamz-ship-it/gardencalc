@@ -98,7 +98,6 @@ export default function RootLayout({
                 <Link href="/privacy" className="underline hover:text-[var(--color-text)]">Privacy</Link>
                 <Link href="/terms" className="underline hover:text-[var(--color-text)]">Terms</Link>
                 <Link href="/disclaimer" className="underline hover:text-[var(--color-text)]">Disclaimer</Link>
-                <Link href="/disclosure" className="underline hover:text-[var(--color-text)]">Affiliate Disclosure</Link>
               </nav>
               <p className="text-xs text-[var(--color-text-muted)]">
                 &copy; {new Date().getFullYear()} PlantingCalc. Independent publisher. Not affiliated with USDA, NOAA, or any government or university agency.

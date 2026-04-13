@@ -106,13 +106,6 @@ export default function PrivacyPage() {
               </a>.
             </li>
             <li>
-              <strong className="text-[var(--color-text)]">Amazon Associates</strong> affiliate links, where present,
-              may set attribution cookies under{" "}
-              <a href="https://www.amazon.com/gp/help/customer/display.html?nodeId=GX7NJQ4ZB8MHFRNJ" target="_blank" rel="noopener noreferrer" className="text-[var(--color-primary)] underline">
-                Amazon&apos;s interest-based ads notice
-              </a>.
-            </li>
-            <li>
               <strong className="text-[var(--color-text)]">Vercel</strong> hosts the site and may log standard HTTP
               request metadata (IP, user agent, path) as part of normal server operation. See Vercel&apos;s privacy
               policy for details.

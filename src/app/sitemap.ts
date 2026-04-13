@@ -3,10 +3,15 @@ import { getZoneSlugs } from "@/data/zone-guides";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://plantingcalc.com";
-  const now = "2026-03-29";
+  const now = new Date().toISOString().split("T")[0];
   const zoneSlugs = getZoneSlugs();
 
   const calculatorPaths = [
+    "/frost-alert",
+    "/plant-today",
+    "/frost-probability",
+    "/seed-start-calendar",
+    "/chill-hours",
     "/soil-calculator",
     "/planting-dates",
     "/seed-spacing",
@@ -20,14 +25,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/seed-starting",
     "/bed-layout",
     "/square-foot",
-    "/container-garden",
-    "/mulch-calculator",
     "/sunlight",
     "/soil-ph",
     "/pest-guide",
-    "/yield-estimator",
-    "/canning",
-    "/cost-savings",
   ];
 
   return [
@@ -52,6 +52,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/privacy`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
     { url: `${baseUrl}/terms`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
     { url: `${baseUrl}/disclaimer`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
-    { url: `${baseUrl}/disclosure`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
   ];
 }

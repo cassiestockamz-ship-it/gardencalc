@@ -92,19 +92,13 @@ export default function DisclaimerPage() {
         </section>
 
         <section>
-          <h2 className="text-xl font-bold text-[var(--color-text)]">Advertising and affiliate relationships</h2>
+          <h2 className="text-xl font-bold text-[var(--color-text)]">Advertising</h2>
           <p className="mt-3">
-            PlantingCalc may display contextual advertising from third-party networks to help cover operating costs. Any
-            ads shown are clearly labeled as such and are not an endorsement of the advertised product or service by
-            PlantingCalc. Ad placement does not influence calculator outputs, growing-zone recommendations, or editorial
-            analysis.
-          </p>
-          <p className="mt-3">
-            Where PlantingCalc includes affiliate links to physical products (for example, gardening tools or soil
-            amendments), those links are clearly disclosed in line with FTC guidelines and on our{" "}
-            <Link href="/disclosure" className="text-[var(--color-primary)] underline">affiliate disclosure page</Link>.
-            Affiliate relationships never influence which products we mention, how we describe them, or what our
-            calculators recommend.
+            PlantingCalc does not currently carry paid advertising, affiliate links, or sponsored product
+            recommendations. Any ad network hooks that appear in the page source are installed so we can enable
+            contextual advertising in the future without touching calculator output. If and when ads run on the site,
+            they will be clearly labeled, will not influence calculator outputs, growing-zone recommendations, or
+            editorial analysis, and this section will be updated accordingly.
           </p>
         </section>
 

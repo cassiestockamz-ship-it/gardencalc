@@ -5,11 +5,24 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "All Gardening Calculators",
   description:
-    "21 free gardening calculators: planting dates, soil volume, seed spacing, companion planting, fertilizer, watering, harvest estimates, and more. Powered by USDA zone data.",
+    "21 free live-data gardening calculators: frost alert, plant today check, NOAA frost probability, seed start calendar with ICS export, chill hours tracker, planting dates, soil volume, companion planting, and more.",
   alternates: { canonical: "/calculators" },
 };
 
 const categories = [
+  {
+    id: "live",
+    label: "Live Data Tools",
+    icon: "⚡",
+    description: "Real-time tools that pull your ZIP's live weather, 30-year frost history, and variety databases.",
+    calculators: [
+      { title: "Frost Alert", description: "Cover-or-lose list for tonight", href: "/frost-alert" },
+      { title: "Plant Today?", description: "Red/yellow/green based on 14-day forecast", href: "/plant-today" },
+      { title: "Frost Probability", description: "NOAA-style exceedance for any date", href: "/frost-probability" },
+      { title: "Seed Start Calendar", description: "Indoor start dates with ICS download", href: "/seed-start-calendar" },
+      { title: "Chill Hours Tracker", description: "Live fruit tree chill accumulation", href: "/chill-hours" },
+    ],
+  },
   {
     id: "planning",
     label: "Planning & Timing",
@@ -34,8 +47,6 @@ const categories = [
       { title: "Bed Layout", description: "Plan your raised bed layout", href: "/bed-layout" },
       { title: "Square Foot Garden", description: "SFG spacing planner", href: "/square-foot" },
       { title: "Seed Spacing", description: "How many plants fit", href: "/seed-spacing" },
-      { title: "Container Garden", description: "Pot size and plant count", href: "/container-garden" },
-      { title: "Mulch Calculator", description: "Mulch and compost volume", href: "/mulch-calculator" },
     ],
   },
   {
@@ -50,17 +61,6 @@ const categories = [
       { title: "Sunlight Guide", description: "Match plants to your light", href: "/sunlight" },
       { title: "Soil pH", description: "pH matching and amendments", href: "/soil-ph" },
       { title: "Pest Guide", description: "Identify and treat pests", href: "/pest-guide" },
-    ],
-  },
-  {
-    id: "harvest",
-    label: "Harvest & Yield",
-    icon: "🥕",
-    description: "Estimate yields, preserve your harvest, and calculate savings.",
-    calculators: [
-      { title: "Yield Estimator", description: "Expected harvest weight", href: "/yield-estimator" },
-      { title: "Canning Calculator", description: "Jars needed for preserving", href: "/canning" },
-      { title: "Cost Savings", description: "Garden vs grocery savings", href: "/cost-savings" },
     ],
   },
 ];

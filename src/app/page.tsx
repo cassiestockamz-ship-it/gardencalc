@@ -2,13 +2,24 @@ import Link from "next/link";
 import CalculatorSearch from "@/components/CalculatorSearch";
 
 const featured = [
-  { title: "Planting Date Calculator", description: "Enter your ZIP code to get personalized planting dates for 45+ vegetables based on your USDA zone.", href: "/planting-dates", icon: "📅" },
-  { title: "Raised Bed Soil Calculator", description: "Calculate exactly how much soil, compost, and amendments you need for any raised bed size.", href: "/soil-calculator", icon: "🪴" },
-  { title: "Companion Planting Checker", description: "Find out which plants grow well together and which ones to keep apart.", href: "/companion-planting", icon: "🤝" },
-  { title: "Seed Starting Calendar", description: "Know exactly when to start seeds indoors for your zone. Highlights what to start this week.", href: "/seed-starting", icon: "🌱" },
+  { title: "Frost Alert — Cover Or Lose", description: "Live 72-hour frost check for your ZIP. Tells you exactly what to cover tonight or lose by morning.", href: "/frost-alert", icon: "🚨" },
+  { title: "Frost Probability Tool", description: "Real frost probability for any date, computed from 30 years of daily temperature records.", href: "/frost-probability", icon: "📊" },
+  { title: "Can I Plant Today?", description: "Live red/yellow/green decision based on the 14-day forecast and estimated soil temperature.", href: "/plant-today", icon: "✅" },
+  { title: "Seed Start Calendar with ICS", description: "Full personalized seed-starting calendar by ZIP. Download straight to Google or Apple Calendar.", href: "/seed-start-calendar", icon: "📅" },
 ];
 
 const categories = [
+  {
+    label: "Live Data Tools",
+    icon: "⚡",
+    items: [
+      { title: "Frost Alert", href: "/frost-alert" },
+      { title: "Plant Today?", href: "/plant-today" },
+      { title: "Frost Probability", href: "/frost-probability" },
+      { title: "Chill Hours Tracker", href: "/chill-hours" },
+      { title: "Seed Start Calendar", href: "/seed-start-calendar" },
+    ],
+  },
   {
     label: "Planning & Timing",
     icon: "📅",
@@ -29,8 +40,6 @@ const categories = [
       { title: "Bed Layout", href: "/bed-layout" },
       { title: "Square Foot Garden", href: "/square-foot" },
       { title: "Seed Spacing", href: "/seed-spacing" },
-      { title: "Container Garden", href: "/container-garden" },
-      { title: "Mulch Calculator", href: "/mulch-calculator" },
     ],
   },
   {
@@ -43,15 +52,6 @@ const categories = [
       { title: "Sunlight Guide", href: "/sunlight" },
       { title: "Soil pH", href: "/soil-ph" },
       { title: "Pest Guide", href: "/pest-guide" },
-    ],
-  },
-  {
-    label: "Harvest & Yield",
-    icon: "🥕",
-    items: [
-      { title: "Yield Estimator", href: "/yield-estimator" },
-      { title: "Canning Calculator", href: "/canning" },
-      { title: "Cost Savings", href: "/cost-savings" },
     ],
   },
 ];
@@ -77,20 +77,20 @@ export default function HomePage() {
       {/* Hero */}
       <section className="px-4 pb-16 pt-20 text-center sm:px-6">
         <h1 className="text-4xl font-extrabold tracking-tight text-[var(--color-text)] sm:text-5xl lg:text-6xl">
-          21 Free{" "}
-          <span className="text-[var(--color-primary)]">Gardening</span>{" "}
-          Calculators
+          <span className="text-[var(--color-primary)]">Live-data</span>{" "}
+          gardening calculators
         </h1>
         <p className="mx-auto mt-5 max-w-2xl text-lg text-[var(--color-text-muted)] sm:text-xl">
-          Planting dates, soil volume, seed spacing, companion planting, and more.
-          Powered by USDA zone data and agricultural research.
+          Real 14-day forecasts, 30 years of frost history, live chill hour accumulation.
+          Every tool uses your exact ZIP and real data from NOAA, Open-Meteo, and USDA.
+          Free, no signup, no ads.
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <Link href="/planting-dates" className="rounded-xl bg-[var(--color-primary)] px-6 py-3 text-sm font-semibold text-white shadow-md transition-colors hover:bg-[var(--color-primary-dark)]">
-            Find Planting Dates
+          <Link href="/frost-alert" className="rounded-xl bg-[var(--color-primary)] px-6 py-3 text-sm font-semibold text-white shadow-md transition-colors hover:bg-[var(--color-primary-dark)]">
+            Frost alert for tonight →
           </Link>
-          <Link href="/calculators" className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-6 py-3 text-sm font-semibold text-[var(--color-text)] shadow-sm transition-colors hover:bg-[var(--color-surface-alt)]">
-            Browse All Calculators
+          <Link href="/plant-today" className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-6 py-3 text-sm font-semibold text-[var(--color-text)] shadow-sm transition-colors hover:bg-[var(--color-surface-alt)]">
+            Can I plant today?
           </Link>
         </div>
       </section>
