@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import CalculatorLayout from "@/components/CalculatorLayout";
 import ResultCard from "@/components/ResultCard";
 import CalculatorSchema from "@/components/CalculatorSchema";
@@ -8,6 +8,7 @@ import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import FAQSection from "@/components/FAQSection";
 import ShareResults from "@/components/ShareResults";
 import RelatedCalculators from "@/components/RelatedCalculators";
+import ZipRingDecoder, { type DecodedZip } from "@/components/ZipRingDecoder";
 import Link from "next/link";
 import { lookupZip, fetchHistoricalDaily } from "@/lib/weather";
 import { VARIETIES } from "@/data/chill-varieties";
@@ -49,6 +50,8 @@ interface ChillResult {
   cumulative: number[];
 }
 
+const STORAGE_KEY = "pc_zip_context_v1";
+
 export default function ChillHoursPage() {
   const [zip, setZip] = useState("");
   const [fruit, setFruit] = useState<string>("Apple");
@@ -57,6 +60,18 @@ export default function ChillHoursPage() {
   const [placeName, setPlaceName] = useState<string | null>(null);
   const [current, setCurrent] = useState<ChillResult | null>(null);
   const [average, setAverage] = useState<number | null>(null);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const saved = JSON.parse(raw) as { zip?: string };
+        if (saved.zip && /^\d{5}$/.test(saved.zip)) setZip(saved.zip);
+      }
+    } catch {
+      /* ignore */
+    }
+  }, []);
 
   const fruitOptions = useMemo(
     () => Array.from(new Set(VARIETIES.map((v) => v.fruit))).sort(),
@@ -68,23 +83,35 @@ export default function ChillHoursPage() {
     [fruit]
   );
 
-  const runLookup = useCallback(async () => {
-    if (!/^\d{5}$/.test(zip)) {
-      setError("Enter a 5-digit US ZIP code");
-      return;
-    }
+  const runLookup = useCallback(async (decoded: DecodedZip) => {
     setError(null);
     setLoading(true);
     setCurrent(null);
     setAverage(null);
     try {
-      const loc = await lookupZip(zip);
+      const loc = await lookupZip(decoded.zip);
       if (!loc) {
         setError("Could not look up that ZIP");
         setLoading(false);
         return;
       }
       setPlaceName(loc.place);
+      try {
+        localStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify({
+            zip: decoded.zip,
+            state: decoded.state || loc.stateAbbr,
+            zone: decoded.zone,
+            lat: loc.lat,
+            lng: loc.lng,
+            place: loc.place,
+          })
+        );
+        window.dispatchEvent(new CustomEvent("pc:zip-updated"));
+      } catch {
+        /* ignore */
+      }
 
       // Current season: Nov 1 of last year to today (or Feb 28 if past)
       const now = new Date();
@@ -156,7 +183,7 @@ export default function ChillHoursPage() {
     } finally {
       setLoading(false);
     }
-  }, [zip]);
+  }, []);
 
   const accumulated = current ? current.cumulative[current.cumulative.length - 1] : 0;
 
@@ -214,53 +241,36 @@ export default function ChillHoursPage() {
         ]}
       />
 
-      <div className="grid gap-6 sm:grid-cols-2">
+      {/* ZIP Ring Decoder */}
+      <div className="mb-6">
+        <ZipRingDecoder
+          value={zip}
+          onChange={setZip}
+          onResolved={runLookup}
+          placeholder="Enter your ZIP to pull winter chill data"
+        />
+        {error && (
+          <p className="mt-2 text-xs text-[var(--color-frost-ink)]" role="alert">
+            {error}
+          </p>
+        )}
+        {loading && (
+          <p className="mt-2 text-xs text-[var(--color-text-faint)]">Loading historical winter temperatures…</p>
+        )}
+        {placeName && !loading && (
+          <p className="mt-2 text-xs text-[var(--color-text-muted)]">{placeName}</p>
+        )}
+      </div>
+
+      <div className="mb-6">
         <div>
-          <label className="mb-1 block text-sm font-medium text-[var(--color-text)]">
-            ZIP code
-          </label>
-          <div className="flex gap-2">
-            <input
-              type="text"
-              inputMode="numeric"
-              pattern="\d{5}"
-              maxLength={5}
-              value={zip}
-              onChange={(e) => setZip(e.target.value.replace(/\D/g, ""))}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") runLookup();
-              }}
-              placeholder="e.g. 55401"
-              className="w-32 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-sm"
-            />
-            <button
-              type="button"
-              onClick={runLookup}
-              disabled={loading || !zip}
-              className="rounded-lg bg-[var(--color-primary)] px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:opacity-90 disabled:opacity-50"
-            >
-              {loading ? "Loading…" : "Run tracker"}
-            </button>
-          </div>
-          {error && (
-            <p className="mt-2 text-xs text-rose-600" role="alert">
-              {error}
-            </p>
-          )}
-          {placeName && (
-            <p className="mt-2 text-xs text-[var(--color-text-muted)]">
-              {placeName}
-            </p>
-          )}
-        </div>
-        <div>
-          <label className="mb-1 block text-sm font-medium text-[var(--color-text)]">
-            Fruit
+          <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-[var(--color-text-faint)]">
+            Fruit to check
           </label>
           <select
             value={fruit}
             onChange={(e) => setFruit(e.target.value)}
-            className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-sm"
+            className="w-full rounded-xl border border-[var(--color-border-strong)] bg-[var(--color-surface)] px-4 py-3 font-display text-base font-semibold text-[var(--color-text)] focus:border-[var(--color-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30"
           >
             {fruitOptions.map((f) => (
               <option key={f} value={f}>

@@ -94,22 +94,23 @@ export default function DisclaimerPage() {
         <section>
           <h2 className="text-xl font-bold text-[var(--color-text)]">Advertising</h2>
           <p className="mt-3">
-            PlantingCalc does not currently carry paid advertising, affiliate links, or sponsored product
-            recommendations. Any ad network hooks that appear in the page source are installed so we can enable
-            contextual advertising in the future without touching calculator output. If and when ads run on the site,
-            they will be clearly labeled, will not influence calculator outputs, growing-zone recommendations, or
-            editorial analysis, and this section will be updated accordingly.
+            PlantingCalc carries no affiliate links, no sponsored product recommendations, and no product-review
+            content. The site may display contextual advertising via Google AdSense on some pages. Any such ads
+            will be clearly bounded and will never influence calculator outputs, growing-zone recommendations, or
+            editorial analysis. We do not accept payment from plant breeders, seed companies, nurseries, or any
+            other source in exchange for a placement, a mention, or a ranking in any calculator output.
           </p>
         </section>
 
         <section>
           <h2 className="text-xl font-bold text-[var(--color-text)]">Errors and corrections</h2>
           <p className="mt-3">
-            If you believe a page on PlantingCalc contains an error. An incorrect zone, a miscalculated spacing
-            recommendation, an outdated frost-date value, or a factual error in an editorial section. Please{" "}
-            <Link href="/contact" className="text-[var(--color-primary)] underline">contact us</Link> with the page URL
-            and a description of the problem. We review every correction request and update against the underlying
-            source data.
+            If you believe a page on PlantingCalc contains an error, for example an incorrect zone assignment, a
+            miscalculated spacing recommendation, an outdated frost-date value, or a factual problem in an editorial
+            section, please{" "}
+            <Link href="/contact" className="text-[var(--color-primary)] underline">contact us</Link> with the page
+            URL and a description of the problem. We review every correction request and update against the
+            underlying source data.
           </p>
         </section>
       </div>

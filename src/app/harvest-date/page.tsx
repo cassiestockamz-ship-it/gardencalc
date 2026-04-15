@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import CalculatorLayout from "@/components/CalculatorLayout";
 import SelectInput from "@/components/SelectInput";
 import NumberInput from "@/components/NumberInput";
@@ -8,11 +8,16 @@ import ResultCard from "@/components/ResultCard";
 import ShareResults from "@/components/ShareResults";
 import CalculatorSchema from "@/components/CalculatorSchema";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
+import ZipRingDecoder, { type DecodedZip } from "@/components/ZipRingDecoder";
 import FAQSection from "@/components/FAQSection";
 import RelatedCalculators from "@/components/RelatedCalculators";
 import EmailCapture from "@/components/EmailCapture";
 import { VEGETABLES } from "@/data/vegetables";
 import { harvestDateFAQ } from "@/data/faq-data";
+import { STATE_FROST, nextOccurrence } from "@/lib/frostDates";
+import { lookupZip } from "@/lib/weather";
+
+const STORAGE_KEY = "pc_zip_context_v1";
 
 type GrowingCondition = "ideal" | "average" | "challenging";
 
@@ -123,10 +128,61 @@ function getGrowingTips(vegName: string): string[] {
 }
 
 export default function HarvestDatePage() {
+  const [zip, setZip] = useState("");
+  const [placeName, setPlaceName] = useState<string | null>(null);
   const [selectedVeg, setSelectedVeg] = useState(VEGETABLES[0].name);
   const [plantingDate, setPlantingDate] = useState(getTodayString());
   const [zone, setZone] = useState("7");
   const [condition, setCondition] = useState<GrowingCondition>("average");
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const saved = JSON.parse(raw) as { zip?: string; zone?: string; place?: string };
+        if (saved.zip && /^\d{5}$/.test(saved.zip)) setZip(saved.zip);
+        if (saved.zone) setZone(parseInt(saved.zone, 10).toString());
+        if (saved.place) setPlaceName(saved.place);
+      }
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
+  const onResolved = useCallback(async (decoded: DecodedZip) => {
+    const z = parseInt(decoded.zone, 10);
+    if (!isNaN(z)) setZone(String(z));
+    const loc = await lookupZip(decoded.zip);
+    if (loc) setPlaceName(loc.place);
+    const state = decoded.state || loc?.stateAbbr || "";
+    const normals = STATE_FROST[state.toUpperCase()];
+    if (normals) {
+      const frostDate = nextOccurrence(normals.lastFrost.month, normals.lastFrost.day);
+      const now = new Date();
+      if (frostDate > now) {
+        const y = frostDate.getFullYear();
+        const m = String(frostDate.getMonth() + 1).padStart(2, "0");
+        const d = String(frostDate.getDate()).padStart(2, "0");
+        setPlantingDate(`${y}-${m}-${d}`);
+      }
+    }
+    try {
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({
+          zip: decoded.zip,
+          state: decoded.state || loc?.stateAbbr || "",
+          zone: decoded.zone,
+          lat: loc?.lat ?? 0,
+          lng: loc?.lng ?? 0,
+          place: loc?.place,
+        })
+      );
+      window.dispatchEvent(new CustomEvent("pc:zip-updated"));
+    } catch {
+      /* ignore */
+    }
+  }, []);
 
   const vegetable = useMemo(
     () => VEGETABLES.find((v) => v.name === selectedVeg) || VEGETABLES[0],
@@ -208,6 +264,21 @@ export default function HarvestDatePage() {
           { name: "Harvest Date Calculator", url: "https://plantingcalc.com/harvest-date" },
         ]}
       />
+
+      {/* ZIP Ring Decoder - auto-fills zone and planting date */}
+      <div className="mb-6">
+        <ZipRingDecoder
+          value={zip}
+          onChange={setZip}
+          onResolved={onResolved}
+          placeholder="Enter your ZIP to auto-fill zone and planting date"
+        />
+        {placeName && (
+          <p className="mt-2 text-xs text-[var(--color-text-muted)]">
+            {placeName} &middot; planting date auto-set from your last frost
+          </p>
+        )}
+      </div>
 
       {/* Inputs */}
       <div className="grid gap-5 sm:grid-cols-2">

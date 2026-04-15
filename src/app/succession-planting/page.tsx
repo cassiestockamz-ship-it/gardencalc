@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import CalculatorLayout from "@/components/CalculatorLayout";
 import SelectInput from "@/components/SelectInput";
 import NumberInput from "@/components/NumberInput";
@@ -9,11 +9,16 @@ import ResultCard from "@/components/ResultCard";
 import ShareResults from "@/components/ShareResults";
 import CalculatorSchema from "@/components/CalculatorSchema";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
+import ZipRingDecoder, { type DecodedZip } from "@/components/ZipRingDecoder";
 import { VEGETABLES } from "@/data/vegetables";
 import FAQSection from "@/components/FAQSection";
 import RelatedCalculators from "@/components/RelatedCalculators";
 import EmailCapture from "@/components/EmailCapture";
 import { successionPlantingFAQ } from "@/data/faq-data";
+import { STATE_FROST, nextOccurrence } from "@/lib/frostDates";
+import { lookupZip } from "@/lib/weather";
+
+const STORAGE_KEY = "pc_zip_context_v1";
 
 function fmtDate(d: Date): string {
   return d.toLocaleDateString("en-US", {
@@ -54,11 +59,64 @@ interface SuccessionRow {
 }
 
 export default function SuccessionPlantingPage() {
+  const [zip, setZip] = useState("");
+  const [placeName, setPlaceName] = useState<string | null>(null);
   const [selectedVeg, setSelectedVeg] = useState(VEGETABLES[0].name);
   const [zone, setZone] = useState("6");
   const [frequency, setFrequency] = useState("2");
   const [numPlantings, setNumPlantings] = useState(4);
   const [firstPlantingDate, setFirstPlantingDate] = useState(getDefaultDate);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const saved = JSON.parse(raw) as { zip?: string; zone?: string; place?: string };
+        if (saved.zip && /^\d{5}$/.test(saved.zip)) setZip(saved.zip);
+        if (saved.zone) setZone(parseInt(saved.zone, 10).toString());
+        if (saved.place) setPlaceName(saved.place);
+      }
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
+  const onResolved = useCallback(async (decoded: DecodedZip) => {
+    const z = parseInt(decoded.zone, 10);
+    if (!isNaN(z)) setZone(String(z));
+    const loc = await lookupZip(decoded.zip);
+    if (loc) setPlaceName(loc.place);
+    // Auto-set first planting date from state frost normals if today is pre-spring
+    const state = decoded.state || loc?.stateAbbr || "";
+    const normals = STATE_FROST[state.toUpperCase()];
+    if (normals) {
+      const frostDate = nextOccurrence(normals.lastFrost.month, normals.lastFrost.day);
+      const now = new Date();
+      if (frostDate > now) {
+        // Spring: first planting date is right after last frost
+        const y = frostDate.getFullYear();
+        const m = String(frostDate.getMonth() + 1).padStart(2, "0");
+        const d = String(frostDate.getDate()).padStart(2, "0");
+        setFirstPlantingDate(`${y}-${m}-${d}`);
+      }
+    }
+    try {
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({
+          zip: decoded.zip,
+          state: decoded.state || loc?.stateAbbr || "",
+          zone: decoded.zone,
+          lat: loc?.lat ?? 0,
+          lng: loc?.lng ?? 0,
+          place: loc?.place,
+        })
+      );
+      window.dispatchEvent(new CustomEvent("pc:zip-updated"));
+    } catch {
+      /* ignore */
+    }
+  }, []);
 
   const vegOptions = VEGETABLES.map((v) => ({
     value: v.name,
@@ -160,6 +218,21 @@ export default function SuccessionPlantingPage() {
           },
         ]}
       />
+
+      {/* ZIP Ring Decoder - auto-fills zone and first planting date */}
+      <div className="mb-6">
+        <ZipRingDecoder
+          value={zip}
+          onChange={setZip}
+          onResolved={onResolved}
+          placeholder="Enter your ZIP to auto-fill zone and planting date"
+        />
+        {placeName && (
+          <p className="mt-2 text-xs text-[var(--color-text-muted)]">
+            {placeName} &middot; first planting date auto-set from your last frost
+          </p>
+        )}
+      </div>
 
       {/* Inputs */}
       <div className="grid gap-5 sm:grid-cols-2">
