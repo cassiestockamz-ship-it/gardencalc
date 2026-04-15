@@ -161,6 +161,26 @@ async def main():
             headless=True,
             viewport={"width": 390, "height": 844},
         )
+
+        # CRITICAL: Pre-seed localStorage with a cached ZIP context to
+        # simulate a returning user. This catches crashes in useEffect/
+        # useMemo code paths that only fire when a ZIP is already set on
+        # page mount. (Bug found 2026-04-15: i.lat.toFixed not a function)
+        seed_page = await context.new_page()
+        await seed_page.goto("https://plantingcalc.com/", wait_until="domcontentloaded", timeout=30000)
+        await seed_page.evaluate("""() => {
+          localStorage.setItem('pc_zip_context_v1', JSON.stringify({
+            zip: '55401',
+            state: 'MN',
+            zone: '4b',
+            lat: 44.9,
+            lng: -93.3,
+            place: 'Minneapolis, MN'
+          }));
+        }""")
+        await seed_page.close()
+        print("\n=== Pre-seeded localStorage with ZIP 55401 (Minneapolis) ===")
+
         for viewport_name, w, h in VIEWPORTS:
             print(f"\n=== {viewport_name.upper()} {w}x{h} ===")
             for route_name, url in ROUTES:

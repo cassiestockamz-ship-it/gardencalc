@@ -81,10 +81,17 @@ export default function ZipRingDecoder({
         }
         const data = await res.json();
         if (data.zone && data.lastFrost) {
+          // Coerce lat/lng to numbers. phzmapi.org returns them as
+          // strings in some responses, which broke `.toFixed()` calls
+          // downstream and crashed the whole page render.
+          const safeLat = Number(data.lat);
+          const safeLng = Number(data.lon);
+          const finalLat = Number.isFinite(safeLat) ? safeLat : (partial?.approxLat ?? 0);
+          const finalLng = Number.isFinite(safeLng) ? safeLng : 0;
           setResolved({
             zone: data.zone.toLowerCase(),
-            lat: data.lat ?? partial?.approxLat ?? 0,
-            lng: data.lon ?? 0,
+            lat: finalLat,
+            lng: finalLng,
             lastFrost: data.lastFrost,
           });
           if (onResolved) {
@@ -96,8 +103,8 @@ export default function ZipRingDecoder({
               zip: value,
               state: partial?.state ?? "",
               zone: data.zone.toLowerCase(),
-              lat: data.lat ?? partial?.approxLat ?? 0,
-              lng: data.lon ?? 0,
+              lat: finalLat,
+              lng: finalLng,
               lastFrostDate,
               daysUntilLastFrost: daysBetween(new Date(), lastFrostDate),
             });
@@ -123,12 +130,17 @@ export default function ZipRingDecoder({
       { label: "Days Left", value: "·", state: "empty" },
     ];
 
+    const formatLat = (v: unknown): string => {
+      const n = typeof v === "number" ? v : Number(v);
+      return Number.isFinite(n) ? `${n.toFixed(1)}°` : "·";
+    };
+
     if (digits >= 3 && partial) {
       base[0] = { label: "State", value: partial.state, state: "exact" };
       base[1] = { label: "Zone", value: partial.approxZone, state: "partial" };
       base[2] = {
         label: "Latitude",
-        value: `${partial.approxLat.toFixed(1)}°`,
+        value: formatLat(partial.approxLat),
         state: "partial",
       };
       const normals = STATE_FROST[partial.state];
@@ -155,7 +167,7 @@ export default function ZipRingDecoder({
       base[1] = { label: "Zone", value: resolved.zone, state: "exact" };
       base[2] = {
         label: "Latitude",
-        value: `${resolved.lat.toFixed(1)}°`,
+        value: formatLat(resolved.lat),
         state: "exact",
       };
       const lastFrostDate = new Date(`${resolved.lastFrost}T00:00:00`);

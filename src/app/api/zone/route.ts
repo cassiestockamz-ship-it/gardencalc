@@ -51,8 +51,12 @@ export async function GET(request: NextRequest) {
     const zoneData = await zoneRes.json();
     const zone = zoneData.zone?.toLowerCase();
     const tempRange = zoneData.temperature_range;
-    const lat = zoneData.coordinates?.lat;
-    const lon = zoneData.coordinates?.lon;
+    // phzmapi.org returns coordinates as strings in some responses.
+    // Coerce to numbers so the client never has to.
+    const rawLat = zoneData.coordinates?.lat;
+    const rawLon = zoneData.coordinates?.lon;
+    const lat = typeof rawLat === "number" ? rawLat : Number(rawLat);
+    const lon = typeof rawLon === "number" ? rawLon : Number(rawLon);
 
     if (!zone) {
       return NextResponse.json({ error: "Could not determine hardiness zone for this ZIP." }, { status: 404 });
