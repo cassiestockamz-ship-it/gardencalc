@@ -57,7 +57,6 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${fraunces.variable}`}>
       <body className="flex min-h-screen flex-col">
-        <script dangerouslySetInnerHTML={{ __html: `(function(){try{if(new URLSearchParams(location.search).has('notrack')){localStorage.setItem('_no_track','1')}if(localStorage.getItem('_no_track')==='1')return;var s=sessionStorage.getItem('_sid');if(!s){s=Math.random().toString(36).slice(2)+Date.now().toString(36);sessionStorage.setItem('_sid',s)}var d=screen.width<768?'mobile':screen.width<1024?'tablet':'desktop';fetch('https://project-dash-psi.vercel.app/api/track',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({site_id:'17156a6b-a5cd-4caf-ac2c-c9c3977b436f',path:location.pathname,referrer:document.referrer||null,device_type:d,session_id:s}),keepalive:true}).catch(function(){})}catch(e){}})();` }} />
         <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2 focus:bg-white focus:text-[var(--color-primary-ink)] focus:rounded focus:shadow-lg">
           Skip to content
         </a>
