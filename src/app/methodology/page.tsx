@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "How We Research — Methodology",
+  title: "How We Research: Methodology",
   description: "How PlantingCalc sources, validates, and presents gardening data. Data sources, refresh cadence, calculator logic, editorial process, and corrections policy.",
   alternates: { canonical: "https://plantingcalc.com/methodology" },
 };
@@ -15,13 +15,13 @@ export default function MethodologyPage() {
       <h1 className="text-3xl font-extrabold tracking-tight text-[var(--color-text)] sm:text-4xl">
         How We Research
       </h1>
-      <p className="mt-2 text-sm text-[var(--color-text-muted)]">Methodology — last updated: {lastUpdated}</p>
+      <p className="mt-2 text-sm text-[var(--color-text-muted)]">Methodology. Last updated: {lastUpdated}</p>
 
       <div className="mt-8 space-y-8 text-[var(--color-text-muted)]">
         <section>
           <p>
             PlantingCalc exists because home gardeners deserve the same data-driven planning tools that commercial
-            growers and university extension offices rely on — without the $200/year software subscriptions, the
+            growers and university extension offices rely on. Without the $200/year software subscriptions, the
             paywalled journals, or the half-day of digging through academic PDFs to answer a one-line question. This
             page explains exactly where our data comes from, how we turn it into each calculator, what we add on top,
             and what we deliberately don&apos;t do.
@@ -35,7 +35,7 @@ export default function MethodologyPage() {
           </p>
           <ul className="mt-3 list-disc space-y-3 pl-5">
             <li>
-              <strong className="text-[var(--color-text)]">USDA Plant Hardiness Zone Map</strong> — the canonical U.S.
+              <strong className="text-[var(--color-text)]">USDA Plant Hardiness Zone Map</strong>. The canonical U.S.
               growing-zone dataset, accessed via the public{" "}
               <a href="https://phzmapi.org" target="_blank" rel="noopener noreferrer" className="text-[var(--color-primary)] underline">phzmapi.org</a>
               {" "}API. When you submit a ZIP code to our planting-dates calculator, your ZIP is resolved to a hardiness
@@ -43,20 +43,20 @@ export default function MethodologyPage() {
               store the ZIP.
             </li>
             <li>
-              <strong className="text-[var(--color-text)]">NOAA 30-year climate normals</strong> — the 30-year moving
+              <strong className="text-[var(--color-text)]">NOAA 30-year climate normals</strong>. The 30-year moving
               average of first-frost and last-frost dates maintained by the National Oceanic and Atmospheric
               Administration. These are the same averages published by USDA in their extension guides and are the
               industry-standard reference for &quot;average last frost date in your area.&quot; We use them unaltered.
             </li>
             <li>
-              <strong className="text-[var(--color-text)]">University agricultural extension publications</strong> —
+              <strong className="text-[var(--color-text)]">University agricultural extension publications</strong> ,
               peer-reviewed planting guides, spacing tables, fertilizer recommendations, and companion-planting
               research from land-grant university extension offices (Cornell, UMass, UF/IFAS, Oregon State, and others).
               These are publicly available and are treated across the industry as the authoritative, research-backed
               source for &quot;what to plant, when, how far apart, and how much.&quot;
             </li>
             <li>
-              <strong className="text-[var(--color-text)]">Open-source plant databases</strong> — vetted
+              <strong className="text-[var(--color-text)]">Open-source plant databases</strong>. Vetted
               community-maintained plant datasets for vegetable metadata (days to harvest, category, basic care notes)
               that we cross-reference against extension publications before relying on.
             </li>
@@ -136,7 +136,7 @@ export default function MethodologyPage() {
           <h2 className="text-xl font-bold text-[var(--color-text)]">4. What we add on top</h2>
           <p className="mt-3">
             Raw data alone is not a garden plan. Where useful, we add a plain-language editorial layer on top of the
-            calculator output — for example, an explanation of what a specific output <em>means</em> for your bed, or a
+            calculator output. For example, an explanation of what a specific output <em>means</em> for your bed, or a
             practical note about common failure modes for a given vegetable in a given zone. These editorial sections
             are clearly separated from the calculator outputs and from the raw underlying data. They are our own
             interpretation at the time of writing.
@@ -157,9 +157,9 @@ export default function MethodologyPage() {
         <section>
           <h2 className="text-xl font-bold text-[var(--color-text)]">6. Corrections policy</h2>
           <p className="mt-3">
-            If you believe a page on PlantingCalc is wrong — an incorrect zone assignment, a spacing value that
+            If you believe a page on PlantingCalc is wrong. An incorrect zone assignment, a spacing value that
             doesn&apos;t match a published extension guide, an outdated frost date, or a factual error in an editorial
-            section — please <Link href="/contact" className="text-[var(--color-primary)] underline">contact us</Link>
+            section. Please <Link href="/contact" className="text-[var(--color-primary)] underline">contact us</Link>
             {" "}with the page URL and what you believe is wrong. For calculator-level data we verify against the live
             source before making changes; for editorial content we fix it directly.
           </p>
@@ -169,7 +169,7 @@ export default function MethodologyPage() {
           <h2 className="text-xl font-bold text-[var(--color-text)]">7. Who runs this site</h2>
           <p className="mt-3">
             PlantingCalc is built and maintained by a small, independent team of home gardeners who wanted the planning
-            tools commercial growers have — without the subscription. We are not university extension agents or
+            tools commercial growers have. Without the subscription. We are not university extension agents or
             licensed horticulturists. We are not funded by any seed company, fertilizer brand, or nursery network. The
             site covers its operating costs through contextual advertising that is clearly labeled and does not
             influence calculator outputs or zone recommendations.

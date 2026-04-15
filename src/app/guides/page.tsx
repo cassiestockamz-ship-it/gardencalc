@@ -4,9 +4,9 @@ import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import { getAllZoneGuides } from "@/data/zone-guides";
 
 export const metadata: Metadata = {
-  title: "USDA Zone Growing Guides — What to Plant in Your Zone",
+  title: "USDA Zone Growing Guides: What to Plant in Your Zone",
   description:
-    "Find what to plant in your USDA hardiness zone. Growing guides for Zones 1-13 with vegetable lists, planting tips, and season length — powered by real USDA data.",
+    "Find what to plant in your USDA hardiness zone. Growing guides for Zones 1-13 with vegetable lists, planting tips, and season length. Powered by real USDA data.",
   alternates: { canonical: "/guides" },
   openGraph: {
     title: "USDA Zone Growing Guides",
@@ -84,7 +84,7 @@ export default function GuidesHubPage() {
           The USDA zone system is based on the average annual minimum winter
           temperature. Zone 1 experiences lows of -60°F, while Zone 13 never drops
           below 60°F. Your zone doesn&apos;t just determine which perennials survive
-          winter — it defines your growing season length, planting dates, and which
+          winter. It defines your growing season length, planting dates, and which
           annual vegetables you can realistically grow to maturity.
         </p>
         <p>
@@ -95,7 +95,7 @@ export default function GuidesHubPage() {
           and how many succession plantings you can fit in.
         </p>
         <p>
-          Microclimates matter too — a south-facing wall, urban heat island, or
+          Microclimates matter too. A south-facing wall, urban heat island, or
           elevation change can shift your effective zone by one or two numbers.
           The USDA map is a starting point; your local experience is the best guide.
         </p>

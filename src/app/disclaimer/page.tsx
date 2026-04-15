@@ -35,7 +35,7 @@ export default function DisclaimerPage() {
           <p className="mt-3">
             Our calculators and growing guides are built on publicly available data from the USDA Plant Hardiness Zone
             Map, NOAA 30-year climate normals for frost dates, and peer-reviewed agricultural extension publications
-            from land-grant universities. We do not alter the underlying government datasets themselves — we reformat
+            from land-grant universities. We do not alter the underlying government datasets themselves. We reformat
             and compute on them so they&apos;re easier to apply to a real backyard garden.
           </p>
           <p className="mt-3">
@@ -52,8 +52,8 @@ export default function DisclaimerPage() {
           <h2 className="text-xl font-bold text-[var(--color-text)]">Calculators are estimates, not prescriptions</h2>
           <p className="mt-3">
             A calculator that returns &quot;plant tomatoes the week of May 15&quot; is returning an <em>estimate</em>
-            {" "}built on averaged regional data. Your specific microclimate — a south-facing wall, a cold pocket, a
-            container on a hot roof, a raised bed with atypical soil — can shift the correct date by one to three weeks
+            {" "}built on averaged regional data. Your specific microclimate. A south-facing wall, a cold pocket, a
+            container on a hot roof, a raised bed with atypical soil. Can shift the correct date by one to three weeks
             in either direction. Treat every output as a starting point, not a prescription, and adjust based on what
             you observe in your own garden over multiple seasons.
           </p>
@@ -65,8 +65,8 @@ export default function DisclaimerPage() {
             PlantingCalc publishes general information about home gardening. Nothing on the site is horticultural,
             agricultural, medical, nutritional, or pesticide/chemical-application advice. We are not agronomists or
             extension agents, and reading this site does not create a professional relationship of any kind. For
-            individualized advice — especially about chemical applications, soil remediation, or any plant that will
-            be consumed — speak to a qualified licensed professional.
+            individualized advice. Especially about chemical applications, soil remediation, or any plant that will
+            be consumed. Speak to a qualified licensed professional.
           </p>
         </section>
 
@@ -83,7 +83,7 @@ export default function DisclaimerPage() {
         <section>
           <h2 className="text-xl font-bold text-[var(--color-text)]">Editorial analysis</h2>
           <p className="mt-3">
-            Some pages on PlantingCalc include original editorial analysis — for example, plain-language explainers for
+            Some pages on PlantingCalc include original editorial analysis. For example, plain-language explainers for
             each growing zone, commentary on how a specific calculator should be used in practice, and discussion of
             common failure modes. Those sections represent our own interpretation of the underlying data at the time of
             writing and are clearly separated from the raw calculator outputs. They are not pronouncements from USDA,
@@ -105,8 +105,8 @@ export default function DisclaimerPage() {
         <section>
           <h2 className="text-xl font-bold text-[var(--color-text)]">Errors and corrections</h2>
           <p className="mt-3">
-            If you believe a page on PlantingCalc contains an error — an incorrect zone, a miscalculated spacing
-            recommendation, an outdated frost-date value, or a factual error in an editorial section — please{" "}
+            If you believe a page on PlantingCalc contains an error. An incorrect zone, a miscalculated spacing
+            recommendation, an outdated frost-date value, or a factual error in an editorial section. Please{" "}
             <Link href="/contact" className="text-[var(--color-primary)] underline">contact us</Link> with the page URL
             and a description of the problem. We review every correction request and update against the underlying
             source data.

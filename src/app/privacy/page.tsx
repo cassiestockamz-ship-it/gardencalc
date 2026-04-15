@@ -111,7 +111,7 @@ export default function PrivacyPage() {
               policy for details.
             </li>
             <li>
-              <strong className="text-[var(--color-text)]">Public APIs we call</strong> — USDA phzmapi.org for zone
+              <strong className="text-[var(--color-text)]">Public APIs we call</strong>. USDA phzmapi.org for zone
               lookup and NOAA climate normals for frost dates. When you use the planting-dates calculator, your ZIP code
               is sent to these public services for a one-shot lookup and is not retained by us.
             </li>
@@ -133,7 +133,7 @@ export default function PrivacyPage() {
             If you are in a jurisdiction that grants you rights over personal data (for example, the EU under GDPR or
             California under CCPA), you can ask us what we hold about you, ask us to correct or delete it, and opt out
             of any processing that relies on consent. Because we collect so little personally identifiable information,
-            these requests are usually trivial for us to fulfill — the main piece of data tied to an identifier is your
+            these requests are usually trivial for us to fulfill. The main piece of data tied to an identifier is your
             email list subscription, which you can remove yourself at any time via the unsubscribe link in our emails.
             For anything else, <Link href="/contact" className="text-[var(--color-primary)] underline">contact us</Link>.
           </p>

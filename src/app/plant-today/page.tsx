@@ -1,20 +1,17 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import CalculatorLayout from "@/components/CalculatorLayout";
 import CalculatorSchema from "@/components/CalculatorSchema";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import FAQSection from "@/components/FAQSection";
 import ShareResults from "@/components/ShareResults";
 import RelatedCalculators from "@/components/RelatedCalculators";
-import Link from "next/link";
+import ZipRingDecoder, { type DecodedZip } from "@/components/ZipRingDecoder";
 import { FROST_CROPS, type FrostCrop } from "@/data/frost-tolerance";
 import { lookupZip, fetchForecast14, type DailyForecast } from "@/lib/weather";
 
-/**
- * Minimum soil temperature for germination, by crop tier (°F).
- * Data: Iowa State Extension soil temperature planting guide.
- */
 const MIN_SOIL_F: Record<FrostCrop["tier"], number> = {
   "very-hardy": 35,
   hardy: 40,
@@ -25,14 +22,14 @@ const MIN_SOIL_F: Record<FrostCrop["tier"], number> = {
 
 type Verdict = "go" | "wait" | "stop";
 
+const STORAGE_KEY = "pc_zip_context_v1";
+
 function estimateSoilTemp(forecast: DailyForecast[]): number {
-  // Approximate 2-inch soil temperature as a 7-day rolling mean of
-  // daily average air temperature. Standard simplification used in
-  // cooperative extension calculators.
   const days = forecast.slice(0, 7);
-  const avg =
-    days.reduce((s, d) => s + (d.tempMinF + d.tempMaxF) / 2, 0) / days.length;
-  return avg;
+  if (!days.length) return 50;
+  return (
+    days.reduce((s, d) => s + (d.tempMinF + d.tempMaxF) / 2, 0) / days.length
+  );
 }
 
 export default function PlantTodayPage() {
@@ -48,35 +45,57 @@ export default function PlantTodayPage() {
     [cropName]
   );
 
-  const runCheck = useCallback(async () => {
-    if (!/^\d{5}$/.test(zip)) {
-      setError("Enter a 5-digit US ZIP code");
-      return;
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const saved = JSON.parse(raw) as { zip?: string };
+        if (saved.zip && /^\d{5}$/.test(saved.zip)) setZip(saved.zip);
+      }
+    } catch {
+      /* ignore */
     }
+  }, []);
+
+  const runCheck = useCallback(async (decoded: DecodedZip) => {
     setError(null);
     setLoading(true);
     setForecast([]);
     try {
-      const loc = await lookupZip(zip);
+      const loc = await lookupZip(decoded.zip);
       if (!loc) {
-        setError("Could not look up that ZIP code");
-        setLoading(false);
+        setError("Could not look up that ZIP code.");
         return;
       }
       setPlaceName(loc.place);
       const f = await fetchForecast14(loc.lat, loc.lng);
       if (!f) {
-        setError("Could not load forecast");
-        setLoading(false);
+        setError("Could not load forecast.");
         return;
       }
       setForecast(f);
+      try {
+        localStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify({
+            zip: decoded.zip,
+            state: decoded.state || loc.stateAbbr,
+            zone: decoded.zone,
+            lat: loc.lat,
+            lng: loc.lng,
+            place: loc.place,
+          })
+        );
+        window.dispatchEvent(new CustomEvent("pc:zip-updated"));
+      } catch {
+        /* ignore */
+      }
     } catch {
       setError("Unexpected error. Try again.");
     } finally {
       setLoading(false);
     }
-  }, [zip]);
+  }, []);
 
   const analysis = useMemo(() => {
     if (!forecast.length) return null;
@@ -91,20 +110,25 @@ export default function PlantTodayPage() {
     const reasons: string[] = [];
     const positives: string[] = [];
 
-    if (coldEvents.length > 0 && (crop.tier === "tender" || crop.tier === "very-tender")) {
+    if (
+      coldEvents.length > 0 &&
+      (crop.tier === "tender" || crop.tier === "very-tender")
+    ) {
       verdict = "stop";
       reasons.push(
-        `A 32°F or colder night is forecast ${coldEvents.length === 1 ? "once" : `${coldEvents.length} times`} in the next 7 days. ${crop.name} will be killed or severely damaged.`
+        `A 32°F or colder night is forecast ${
+          coldEvents.length === 1 ? "once" : `${coldEvents.length} times`
+        } in the next 7 days. ${crop.name} will be killed or severely damaged.`
       );
     } else if (soilF < minSoil - 3) {
       verdict = "stop";
       reasons.push(
-        `Soil temperature is too cold (estimated ${soilF.toFixed(0)}°F, need ${minSoil}°F for ${crop.name} to germinate and grow).`
+        `Soil temperature is too cold. Estimated ${soilF.toFixed(0)}°F, need ${minSoil}°F for ${crop.name} to germinate and grow.`
       );
     } else if (soilF < minSoil) {
       verdict = "wait";
       reasons.push(
-        `Soil temperature is close but a little low (estimated ${soilF.toFixed(0)}°F, ideal is ${minSoil}°F). Wait 3-5 days for it to warm up, or plant with dark mulch to push germination along.`
+        `Soil temperature is close but a little low. Estimated ${soilF.toFixed(0)}°F, ideal is ${minSoil}°F. Wait 3-5 days for it to warm up, or plant with dark mulch to push germination along.`
       );
     } else if (nearFreezingEvents.length > 0 && crop.tier !== "very-hardy") {
       verdict = "wait";
@@ -113,51 +137,51 @@ export default function PlantTodayPage() {
       );
     } else {
       verdict = "go";
-      positives.push(`Soil temperature is estimated at ${soilF.toFixed(0)}°F, above the ${minSoil}°F minimum.`);
+      positives.push(
+        `Soil temperature is estimated at ${soilF.toFixed(0)}°F, above the ${minSoil}°F minimum.`
+      );
       if (coldEvents.length === 0) {
         positives.push("No 32°F nights in the next 7 days.");
       }
-      positives.push(`${crop.name} survives down to ${crop.minTempF}°F, which is below any forecast low this week.`);
+      positives.push(
+        `${crop.name} survives down to ${crop.minTempF}°F, which is below any forecast low this week.`
+      );
     }
 
     return { soilF, minSoil, coldEvents, nearFreezingEvents, verdict, reasons, positives };
   }, [forecast, crop]);
 
-  const verdictColor =
+  const verdictRibbon =
     analysis?.verdict === "go"
-      ? "text-emerald-700"
+      ? "ribbon-sow"
       : analysis?.verdict === "wait"
-        ? "text-amber-700"
-        : "text-rose-700";
-  const verdictBg =
+      ? "ribbon-watch"
+      : "ribbon-frost";
+  const verdictTone =
     analysis?.verdict === "go"
-      ? "bg-emerald-50 border-emerald-300"
+      ? "text-[var(--color-sow-ink)]"
       : analysis?.verdict === "wait"
-        ? "bg-amber-50 border-amber-300"
-        : "bg-rose-50 border-rose-300";
+      ? "text-[var(--color-watch-ink)]"
+      : "text-[var(--color-frost-ink)]";
   const verdictLabel =
     analysis?.verdict === "go"
       ? "PLANT TODAY"
       : analysis?.verdict === "wait"
-        ? "WAIT A BIT"
-        : "NOT YET";
+      ? "WAIT A BIT"
+      : "NOT YET";
+  const verdictEmoji =
+    analysis?.verdict === "go" ? "🟢" : analysis?.verdict === "wait" ? "🟡" : "🔴";
 
   return (
     <CalculatorLayout
       title="Can I Plant Today?"
-      description="Live decision tool. Pick a crop, enter your ZIP, and get a red/yellow/green answer based on the actual 14-day forecast and estimated soil temperature at your location."
+      description="Live red/yellow/green decision for any crop at any ZIP. Uses the real 14-day forecast and estimated soil temperature."
+      lastUpdated="Live"
       answerBlock={
         <p>
-          <strong>Quick answer:</strong> Two things matter for planting today: is a frost
-          coming in the next week, and is your soil warm enough for germination.
-          Tender crops like tomatoes need 55°F soil and zero freezing nights; cold-hardy
-          crops like peas can tolerate 40°F soil and a 28°F night. This tool pulls your
-          live 14-day forecast from Open-Meteo, estimates soil temperature from the 7-day
-          rolling mean of air temperature, and gives you a red/yellow/green answer for
-          any of 40+ crops.
+          Two things matter for planting today: is a frost coming in the next week, and is your soil warm enough for germination. Tender crops like tomatoes need 55°F soil and zero freezing nights. Cold-hardy crops like peas can tolerate 40°F soil and a 28°F night. This tool pulls your live 14-day forecast from Open-Meteo, estimates soil temperature from the 7-day rolling mean of air temperature, and gives you a red/yellow/green answer for any of 40+ crops.
         </p>
       }
-      lastUpdated="April 2026"
     >
       <CalculatorSchema
         name="Can I Plant Today?"
@@ -171,157 +195,181 @@ export default function PlantTodayPage() {
         ]}
       />
 
-      <div className="grid gap-6 sm:grid-cols-2">
-        <div>
-          <label className="mb-1 block text-sm font-medium text-[var(--color-text)]">
-            Crop
-          </label>
-          <select
-            value={cropName}
-            onChange={(e) => setCropName(e.target.value)}
-            className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-sm"
-          >
-            {FROST_CROPS.map((c) => (
-              <option key={c.name} value={c.name}>
-                {c.icon} {c.name}
-              </option>
-            ))}
-          </select>
-          <p className="mt-1 text-xs text-[var(--color-text-muted)]">
-            Needs soil ≥ {MIN_SOIL_F[crop.tier]}°F, survives to {crop.minTempF}°F
-          </p>
-        </div>
-        <div>
-          <label className="mb-1 block text-sm font-medium text-[var(--color-text)]">
-            ZIP code
-          </label>
-          <div className="flex gap-2">
-            <input
-              type="text"
-              inputMode="numeric"
-              pattern="\d{5}"
-              maxLength={5}
-              value={zip}
-              onChange={(e) => setZip(e.target.value.replace(/\D/g, ""))}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") runCheck();
-              }}
-              placeholder="e.g. 55401"
-              className="w-32 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-sm"
-            />
-            <button
-              type="button"
-              onClick={runCheck}
-              disabled={loading || !zip}
-              className="rounded-lg bg-[var(--color-primary)] px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:opacity-90 disabled:opacity-50"
-            >
-              {loading ? "Checking…" : "Check"}
-            </button>
-          </div>
-          {error && (
-            <p className="mt-2 text-xs text-rose-600" role="alert">
-              {error}
-            </p>
-          )}
-          {placeName && (
-            <p className="mt-2 text-xs text-[var(--color-text-muted)]">
-              {placeName}
-            </p>
-          )}
-        </div>
+      {/* ZIP Ring Decoder */}
+      <div className="mb-5">
+        <ZipRingDecoder
+          value={zip}
+          onChange={setZip}
+          onResolved={runCheck}
+          placeholder="Enter your ZIP"
+        />
       </div>
 
+      {/* Crop picker */}
+      <div className="mb-6">
+        <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-[var(--color-text-faint)]">
+          Crop to check
+        </label>
+        <select
+          value={cropName}
+          onChange={(e) => setCropName(e.target.value)}
+          className="w-full rounded-xl border border-[var(--color-border-strong)] bg-[var(--color-surface)] px-4 py-3 font-display text-base font-semibold text-[var(--color-text)] focus:border-[var(--color-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30"
+        >
+          {FROST_CROPS.map((c) => (
+            <option key={c.name} value={c.name}>
+              {c.icon} {c.name}
+            </option>
+          ))}
+        </select>
+        <p className="mt-1.5 text-xs text-[var(--color-text-muted)]">
+          Needs soil at {MIN_SOIL_F[crop.tier]}°F or warmer. Survives to {crop.minTempF}°F.
+        </p>
+      </div>
+
+      {error && (
+        <p className="mb-4 text-xs text-[var(--color-frost-ink)]" role="alert">
+          {error}
+        </p>
+      )}
+      {loading && (
+        <p className="mb-4 text-xs text-[var(--color-text-faint)]">Reading forecast…</p>
+      )}
+
+      {/* Verdict card */}
       {analysis && forecast.length > 0 && (
-        <>
-          <div
-            className={`mt-10 rounded-3xl border-2 ${verdictBg} p-8 text-center shadow-sm`}
-          >
-            <div className="text-6xl">
-              {analysis.verdict === "go" ? "🟢" : analysis.verdict === "wait" ? "🟡" : "🔴"}
+        <section
+          className={`pc-fade-up overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] shadow-sm ${verdictRibbon}`}
+        >
+          <div className="p-6 text-center sm:p-8">
+            <div className="text-5xl" aria-hidden="true">
+              {verdictEmoji}
             </div>
-            <div className={`mt-3 text-4xl font-black ${verdictColor}`}>
+            <div
+              className={`mt-3 font-display text-3xl font-bold tracking-tight sm:text-4xl ${verdictTone}`}
+            >
               {verdictLabel}
             </div>
-            <div className="mt-2 text-lg font-semibold text-[var(--color-text)]">
-              {crop.icon} {crop.name} · {placeName}
+            <div className="mt-2 font-display text-lg font-semibold text-[var(--color-text)]">
+              {crop.icon} {crop.name}
+              {placeName && (
+                <span className="text-[var(--color-text-muted)]"> · {placeName}</span>
+              )}
             </div>
-            <div className="mt-4 space-y-2 text-left">
+
+            <div className="mt-5 grid grid-cols-3 gap-3 border-t border-[var(--color-border)] pt-4 text-center">
+              <div>
+                <div className="text-[10px] font-semibold uppercase tracking-wider text-[var(--color-text-faint)]">
+                  Soil est
+                </div>
+                <div className="mt-0.5 font-display text-xl font-bold tabular-nums text-[var(--color-text)]">
+                  {analysis.soilF.toFixed(0)}°F
+                </div>
+              </div>
+              <div>
+                <div className="text-[10px] font-semibold uppercase tracking-wider text-[var(--color-text-faint)]">
+                  Needs
+                </div>
+                <div className="mt-0.5 font-display text-xl font-bold tabular-nums text-[var(--color-text)]">
+                  {analysis.minSoil}°F
+                </div>
+              </div>
+              <div>
+                <div className="text-[10px] font-semibold uppercase tracking-wider text-[var(--color-text-faint)]">
+                  Freeze nights
+                </div>
+                <div className="mt-0.5 font-display text-xl font-bold tabular-nums text-[var(--color-text)]">
+                  {analysis.coldEvents.length}
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-5 space-y-2 text-left">
               {analysis.reasons.map((r, i) => (
                 <p key={i} className="text-sm text-[var(--color-text)]">
-                  → {r}
+                  &rarr; {r}
                 </p>
               ))}
               {analysis.positives.map((p, i) => (
                 <p key={i} className="text-sm text-[var(--color-text-muted)]">
-                  ✓ {p}
+                  &#10003; {p}
                 </p>
               ))}
             </div>
           </div>
 
-          {/* Forecast strip */}
-          <div className="mt-6 overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
-            <h3 className="mb-3 text-sm font-semibold text-[var(--color-text)]">
+          {/* 14-day forecast strip */}
+          <div className="border-t border-[var(--color-border)] bg-[var(--color-surface-alt)]/40 p-4 sm:p-5">
+            <p className="mb-3 text-[10px] font-semibold uppercase tracking-wider text-[var(--color-text-faint)]">
               Next 14 days
-            </h3>
+            </p>
             <div className="grid grid-cols-7 gap-2 text-center text-xs">
               {forecast.map((d) => {
                 const danger = d.tempMinF <= Math.max(32, crop.minTempF);
                 return (
                   <div
                     key={d.date}
-                    className={`rounded-md p-2 ${danger ? "bg-rose-50" : "bg-emerald-50"}`}
+                    className={`rounded-md p-2 ${
+                      danger
+                        ? "bg-[var(--color-frost-soft)]"
+                        : "bg-[var(--color-sow-soft)]"
+                    }`}
                   >
-                    <div className="text-[var(--color-text-muted)]">
+                    <div className="text-[10px] text-[var(--color-text-faint)]">
                       {new Date(d.date).toLocaleDateString("en-US", {
                         weekday: "short",
                       })}
                     </div>
                     <div
-                      className={`mt-1 font-bold ${danger ? "text-rose-700" : "text-emerald-700"}`}
+                      className={`mt-0.5 font-display font-bold tabular-nums ${
+                        danger
+                          ? "text-[var(--color-frost-ink)]"
+                          : "text-[var(--color-sow-ink)]"
+                      }`}
                     >
-                      {d.tempMinF.toFixed(0)}°
+                      {Math.round(d.tempMinF)}°
                     </div>
-                    <div className="text-[10px] text-[var(--color-text-muted)]">
-                      hi {d.tempMaxF.toFixed(0)}°
+                    <div className="text-[9px] text-[var(--color-text-faint)]">
+                      hi {Math.round(d.tempMaxF)}°
                     </div>
                   </div>
                 );
               })}
             </div>
           </div>
+        </section>
+      )}
 
-          <ShareResults
-            title={`${verdictLabel}: ${crop.name} in ${placeName}`}
-            text={`For ${crop.name} in ${placeName}, PlantingCalc says ${verdictLabel} based on the next 14 days.`}
-            card={{
-              headline: verdictLabel,
-              label: `${crop.name} · ${placeName ?? ""}`,
-              sub: `Soil est ${analysis.soilF.toFixed(0)}°F · min needed ${analysis.minSoil}°F · ${analysis.coldEvents.length} freezing nights next 7d`,
-              calc: "plant-today",
-            }}
-          />
-        </>
+      {analysis && forecast.length > 0 && (
+        <ShareResults
+          title={`${verdictLabel}: ${crop.name} in ${placeName}`}
+          text={`For ${crop.name} in ${placeName}, PlantingCalc says ${verdictLabel} based on the next 14 days.`}
+          card={{
+            headline: verdictLabel,
+            label: `${crop.name} · ${placeName ?? ""}`,
+            sub: `Soil est ${analysis.soilF.toFixed(0)}°F · min needed ${analysis.minSoil}°F · ${analysis.coldEvents.length} freezing nights next 7d`,
+            calc: "plant-today",
+          }}
+        />
       )}
 
       <div className="mt-6 flex flex-wrap gap-3 text-sm">
         <Link
           href="/frost-alert"
-          className="rounded-lg border border-[var(--color-border)] px-3 py-2 text-[var(--color-primary)] transition-colors hover:bg-[var(--color-primary)]/5"
+          className="rounded-lg border border-[var(--color-border)] px-3 py-2 font-medium text-[var(--color-primary)] transition-colors hover:bg-[var(--color-primary-soft)]"
         >
-          Frost alert for tonight →
+          Frost alert for tonight &rarr;
         </Link>
         <Link
           href="/seed-start-calendar"
-          className="rounded-lg border border-[var(--color-border)] px-3 py-2 text-[var(--color-primary)] transition-colors hover:bg-[var(--color-primary)]/5"
+          className="rounded-lg border border-[var(--color-border)] px-3 py-2 font-medium text-[var(--color-primary)] transition-colors hover:bg-[var(--color-primary-soft)]"
         >
-          Full seed start calendar →
+          Full seed start calendar &rarr;
         </Link>
         <Link
           href="/planting-dates"
-          className="rounded-lg border border-[var(--color-border)] px-3 py-2 text-[var(--color-primary)] transition-colors hover:bg-[var(--color-primary)]/5"
+          className="rounded-lg border border-[var(--color-border)] px-3 py-2 font-medium text-[var(--color-primary)] transition-colors hover:bg-[var(--color-primary-soft)]"
         >
-          Crop-by-crop planting dates →
+          Crop-by-crop planting dates &rarr;
         </Link>
       </div>
 
@@ -335,22 +383,17 @@ const plantTodayFAQ = [
   {
     question: "How is soil temperature estimated?",
     answer:
-      "Soil temperature at the 2-inch depth lags air temperature by about 3-5 days and smooths out daily swings. The standard extension-service approximation is a 7-day rolling mean of daily average air temperature. That's what this tool uses. In practice, sunny beds with dark mulch run 3-5°F warmer than the estimate, and shaded or heavily-mulched beds run a few degrees cooler. For more accuracy, stick a soil thermometer in the bed for three mornings and average the readings.",
+      "Soil temperature at the 2-inch depth lags air temperature by about 3-5 days and smooths out daily swings. The standard extension-service approximation is a 7-day rolling mean of daily average air temperature. That's what this tool uses. In practice, sunny beds with dark mulch run 3-5°F warmer than the estimate, and shaded or heavily mulched beds run a few degrees cooler. For more accuracy, stick a soil thermometer in the bed for three mornings and average the readings.",
   },
   {
     question: "Why does the tool wait on tender crops even when it's above freezing?",
     answer:
-      "Tender crops like tomatoes and basil don't actually die at 33°F — they stop growing below 50°F and suffer cold damage that takes weeks to recover from. A string of 35-40°F nights early in the season will produce stunted plants that ultimately underperform plants transplanted two weeks later into warm soil. The soil-temperature check is what forces a yellow/red even when there's no frost in the forecast.",
+      "Tender crops like tomatoes and basil don't actually die at 33°F. They stop growing below 50°F and suffer cold damage that takes weeks to recover from. A string of 35-40°F nights early in the season will produce stunted plants that underperform plants transplanted two weeks later into warm soil. The soil-temperature check is what forces a yellow or red even when there's no frost in the forecast.",
   },
   {
     question: "Is the 14-day forecast reliable out to day 14?",
     answer:
       "Days 1-7 are usually within 2-4°F of reality. Days 8-14 get progressively less accurate and should be treated as guidance, not commitment. The tool weights the first 7 days for the freeze check and soil estimate, so day-14 noise has minimal impact. If you want to be ultra-safe on a planting day, re-check 48 hours before you were planning to sow.",
-  },
-  {
-    question: "What about heat, not just cold?",
-    answer:
-      "Right now the tool only checks the cold-tolerance side because spring planting mistakes skew cold. A heat-limit check for fall planting (e.g., don't direct-sow lettuce when the 7-day forecast averages above 75°F) is on the roadmap.",
   },
   {
     question: "Should I trust this more than the Farmers' Almanac last frost date?",

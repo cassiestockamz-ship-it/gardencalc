@@ -57,7 +57,7 @@ export default function TermsPage() {
           <p className="mt-3">
             PlantingCalc publishes general information about home gardening. Nothing on the Service is horticultural,
             agricultural, legal, medical, nutritional, or pesticide/chemical-application advice. Consult a qualified
-            professional before making decisions that depend on any of the above — for example, before applying a
+            professional before making decisions that depend on any of the above. For example, before applying a
             chemical fertilizer or pesticide, before foraging or consuming plants based on our identification, or before
             making a significant financial commitment to a gardening project.
           </p>

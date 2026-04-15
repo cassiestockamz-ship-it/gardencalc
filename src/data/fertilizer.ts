@@ -31,7 +31,7 @@ export const FERTILIZER_PROFILES: FertilizerProfile[] = [
   { name: "Onion", icon: "🧅", category: "allium", feederType: "medium", npkRatio: [10, 20, 10], lbsNPer1000sqft: 2.5, feedFrequency: "Every 3 weeks until bulbing", notes: "High phosphorus for bulb development. Stop N when bulbing." },
   { name: "Garlic", icon: "🧄", category: "allium", feederType: "medium", npkRatio: [10, 10, 10], lbsNPer1000sqft: 2, feedFrequency: "Early spring + 1 month later", notes: "Feed in spring when growth resumes. Stop by late spring." },
   { name: "Potato", icon: "🥔", category: "root", feederType: "medium", npkRatio: [5, 10, 10], lbsNPer1000sqft: 2.5, feedFrequency: "At planting + when hilling", notes: "Too much N = lots of foliage, small tubers." },
-  { name: "Sweet Potato", icon: "🍠", category: "root", feederType: "medium", npkRatio: [5, 10, 10], lbsNPer1000sqft: 2, feedFrequency: "At planting only", notes: "Don't overfertilize — produces vines instead of tubers." },
+  { name: "Sweet Potato", icon: "🍠", category: "root", feederType: "medium", npkRatio: [5, 10, 10], lbsNPer1000sqft: 2, feedFrequency: "At planting only", notes: "Don't overfertilize: produces vines instead of tubers." },
 
   // Light feeders
   { name: "Carrot", icon: "🥕", category: "root", feederType: "light", npkRatio: [5, 10, 10], lbsNPer1000sqft: 1, feedFrequency: "Once at planting", notes: "Too much N causes forked, hairy roots. Low-N is key." },
@@ -44,8 +44,8 @@ export const FERTILIZER_PROFILES: FertilizerProfile[] = [
   { name: "Dill", icon: "🌿", category: "herb", feederType: "light", npkRatio: [5, 5, 5], lbsNPer1000sqft: 0.5, feedFrequency: "None needed", notes: "Prefers lean soil. Self-seeds freely." },
 
   // Nitrogen fixers
-  { name: "Green Bean", icon: "🫘", category: "legume", feederType: "nitrogen-fixer", npkRatio: [0, 10, 10], lbsNPer1000sqft: 0, feedFrequency: "None — fixes own nitrogen", notes: "Inoculate seeds with rhizobia. Adds N to soil for next crop." },
-  { name: "Pea", icon: "🟢", category: "legume", feederType: "nitrogen-fixer", npkRatio: [0, 10, 10], lbsNPer1000sqft: 0, feedFrequency: "None — fixes own nitrogen", notes: "Fixes 50-130 lbs N/acre. Great preceding crop for heavy feeders." },
+  { name: "Green Bean", icon: "🫘", category: "legume", feederType: "nitrogen-fixer", npkRatio: [0, 10, 10], lbsNPer1000sqft: 0, feedFrequency: "None: fixes own nitrogen", notes: "Inoculate seeds with rhizobia. Adds N to soil for next crop." },
+  { name: "Pea", icon: "🟢", category: "legume", feederType: "nitrogen-fixer", npkRatio: [0, 10, 10], lbsNPer1000sqft: 0, feedFrequency: "None: fixes own nitrogen", notes: "Fixes 50-130 lbs N/acre. Great preceding crop for heavy feeders." },
 ];
 
 export const FEEDER_COLORS: Record<string, { bg: string; text: string; label: string }> = {

@@ -31,7 +31,7 @@ export default function ContactPage() {
           </p>
           <p className="mt-2 text-xs text-[var(--color-text-muted)]/80">
             We typically respond within 2–3 business days. For urgent plant-identification questions, especially
-            involving consumed or medicinal plants, please contact your local university extension office — we&apos;re
+            involving consumed or medicinal plants, please contact your local university extension office. We&apos;re
             a reference site, not an on-call horticultural service.
           </p>
         </section>
@@ -39,8 +39,8 @@ export default function ContactPage() {
         <section>
           <h2 className="text-lg font-bold text-[var(--color-text)]">Data corrections</h2>
           <p className="mt-3">
-            If a calculator returns a value you believe is wrong — a spacing recommendation that disagrees with a
-            current extension publication, a zone assignment that doesn&apos;t match your ZIP, an outdated frost date —
+            If a calculator returns a value you believe is wrong. A spacing recommendation that disagrees with a
+            current extension publication, a zone assignment that doesn&apos;t match your ZIP, an outdated frost date ,
             please include the page URL and the specific discrepancy. We verify against the underlying source data
             before updating. See our <Link href="/methodology" className="text-[var(--color-primary)] underline">
             methodology page</Link> for how our calculators are built.

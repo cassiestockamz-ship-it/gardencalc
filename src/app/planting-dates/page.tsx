@@ -1,15 +1,19 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import CalculatorLayout from "@/components/CalculatorLayout";
 import ShareResults from "@/components/ShareResults";
 import CalculatorSchema from "@/components/CalculatorSchema";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
+import ZipRingDecoder, { type DecodedZip } from "@/components/ZipRingDecoder";
 import { VEGETABLES, CATEGORIES } from "@/data/vegetables";
 import FAQSection from "@/components/FAQSection";
 import RelatedCalculators from "@/components/RelatedCalculators";
 import EmailCapture from "@/components/EmailCapture";
 import { plantingDatesFAQ } from "@/data/faq-data";
+import { lookupZip } from "@/lib/weather";
+
+const STORAGE_KEY = "pc_zip_context_v1";
 
 interface ZoneData {
   zip: string;
@@ -64,27 +68,52 @@ export default function PlantingDatesPage() {
   const [filter, setFilter] = useState<FilterCategory>("all");
   const [showIndoor, setShowIndoor] = useState(true);
 
-  const fetchZone = useCallback(async () => {
-    if (!/^\d{5}$/.test(zip)) {
-      setError("Please enter a valid 5-digit ZIP code.");
-      return;
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const saved = JSON.parse(raw) as { zip?: string };
+        if (saved.zip && /^\d{5}$/.test(saved.zip)) setZip(saved.zip);
+      }
+    } catch {
+      /* ignore */
     }
+  }, []);
+
+  const fetchZone = useCallback(async (decoded: DecodedZip) => {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch(`/api/zone?zip=${zip}`);
+      const res = await fetch(`/api/zone?zip=${decoded.zip}`);
       const data = await res.json();
       if (!res.ok) {
         setError(data.error || "Failed to look up zone.");
         return;
       }
       setZoneData(data);
+      try {
+        const loc = await lookupZip(decoded.zip);
+        localStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify({
+            zip: decoded.zip,
+            state: decoded.state || loc?.stateAbbr || "",
+            zone: data.zone?.toLowerCase() ?? decoded.zone,
+            lat: data.lat ?? loc?.lat ?? 0,
+            lng: data.lon ?? loc?.lng ?? 0,
+            place: loc?.place,
+          })
+        );
+        window.dispatchEvent(new CustomEvent("pc:zip-updated"));
+      } catch {
+        /* ignore */
+      }
     } catch {
       setError("Network error. Please try again.");
     } finally {
       setLoading(false);
     }
-  }, [zip]);
+  }, []);
 
   const plantingSchedule = useMemo(() => {
     if (!zoneData) return [];
@@ -139,34 +168,59 @@ export default function PlantingDatesPage() {
         url="https://plantingcalc.com/planting-dates"
       />
       <BreadcrumbSchema items={[{ name: "Home", url: "https://plantingcalc.com" }, { name: "Planting Dates", url: "https://plantingcalc.com/planting-dates" }]} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Dataset",
+            name: "Per-ZIP planting date calendar for 35 common vegetables",
+            description:
+              "Indoor-start, transplant, direct-sow, and harvest dates for 35 vegetables, computed from USDA hardiness zone data and NOAA 30-year frost normals by ZIP code.",
+            url: "https://plantingcalc.com/planting-dates",
+            license: "https://creativecommons.org/publicdomain/zero/1.0/",
+            creator: {
+              "@type": "Organization",
+              name: "PlantingCalc",
+              url: "https://plantingcalc.com",
+            },
+            sourceOrganization: [
+              { "@type": "Organization", name: "USDA Plant Hardiness Zone Map" },
+              { "@type": "Organization", name: "NOAA NCEI Climate Normals 1991-2020" },
+            ],
+            variableMeasured: [
+              "last spring frost date",
+              "first fall frost date",
+              "growing season length in days",
+              "indoor seed start date",
+              "transplant date",
+              "direct sow date",
+              "harvest window",
+            ],
+            spatialCoverage: {
+              "@type": "Place",
+              name: "United States, by ZIP code",
+            },
+          }),
+        }}
+      />
 
-      {/* ZIP Input */}
-      <div className="flex flex-col items-center gap-4 sm:flex-row">
-        <div className="flex-1 w-full">
-          <label className="mb-1.5 block text-sm font-medium text-[var(--color-text)]">
-            Your ZIP Code
-          </label>
-          <div className="flex gap-2">
-            <input
-              type="text"
-              value={zip}
-              onChange={(e) => setZip(e.target.value.replace(/\D/g, "").slice(0, 5))}
-              onKeyDown={(e) => e.key === "Enter" && fetchZone()}
-              placeholder="e.g. 90210"
-              className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3 text-lg font-semibold text-[var(--color-text)] placeholder:text-[var(--color-text-muted)]/40 focus:border-[var(--color-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20"
-              maxLength={5}
-              inputMode="numeric"
-            />
-            <button
-              onClick={fetchZone}
-              disabled={loading || zip.length !== 5}
-              className="whitespace-nowrap rounded-lg bg-[var(--color-primary)] px-6 py-3 text-sm font-semibold text-white shadow-md transition-colors hover:bg-[var(--color-primary-dark)] disabled:opacity-50"
-            >
-              {loading ? "Looking up..." : "Find Dates"}
-            </button>
-          </div>
-          {error && <p className="mt-2 text-sm font-medium text-red-600">{error}</p>}
-        </div>
+      {/* ZIP Ring Decoder */}
+      <div className="mb-6">
+        <ZipRingDecoder
+          value={zip}
+          onChange={setZip}
+          onResolved={fetchZone}
+          placeholder="Enter your ZIP for planting dates"
+        />
+        {error && (
+          <p className="mt-2 text-xs text-[var(--color-frost-ink)]" role="alert">
+            {error}
+          </p>
+        )}
+        {loading && (
+          <p className="mt-2 text-xs text-[var(--color-text-faint)]">Looking up your zone…</p>
+        )}
       </div>
 
       {/* Zone Info Card */}
@@ -288,7 +342,7 @@ export default function PlantingDatesPage() {
                             {fmtDate(veg.indoorDate)}
                           </span>
                         ) : (
-                          <span className="text-xs text-[var(--color-text-muted)]">—</span>
+                          <span className="text-xs text-[var(--color-text-muted)]">, </span>
                         )}
                       </td>
                     )}
@@ -342,7 +396,7 @@ export default function PlantingDatesPage() {
       <div className="mt-10 space-y-6">
         <h2 className="text-lg font-bold text-[var(--color-text)]">How This Calculator Works</h2>
         <p className="text-sm leading-relaxed text-[var(--color-text-muted)]">
-          Planting dates are calculated relative to your local last frost date, which we determine using your USDA hardiness zone. We look up your zone via the USDA Plant Hardiness Zone Map API (phzmapi.org), then cross-reference it with 30-year average frost date normals from NOAA. Each vegetable has a planting window defined as weeks before or after the last frost — for example, tomatoes are typically transplanted 1-2 weeks after the last frost, while peas can be direct-sown 4-6 weeks before it.
+          Planting dates are calculated relative to your local last frost date, which we determine using your USDA hardiness zone. We look up your zone via the USDA Plant Hardiness Zone Map API (phzmapi.org), then cross-reference it with 30-year average frost date normals from NOAA. Each vegetable has a planting window defined as weeks before or after the last frost. For example, tomatoes are typically transplanted 1-2 weeks after the last frost, while peas can be direct-sown 4-6 weeks before it.
         </p>
         <h3 className="text-base font-semibold text-[var(--color-text)]">Making the Most of Your Growing Season</h3>
         <ul className="list-disc space-y-1.5 pl-5 text-sm text-[var(--color-text-muted)]">

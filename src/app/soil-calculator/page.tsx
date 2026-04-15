@@ -200,7 +200,7 @@ export default function SoilCalculatorPage() {
       title="Raised Bed Soil Calculator"
       description="Calculate exactly how much soil, compost, and amendments you need for your raised garden bed."
       lastUpdated="March 2026"
-      intro="A standard 4×8 foot raised bed that's 12 inches deep needs about 32 cubic feet of soil — roughly 1.2 cubic yards or 16 bags of 2-cubic-foot bagged soil. The ideal mix is 60% topsoil and 40% compost, costing approximately $40-80 depending on your source."
+      intro="A standard 4×8 foot raised bed that's 12 inches deep needs about 32 cubic feet of soil. Roughly 1.2 cubic yards or 16 bags of 2-cubic-foot bagged soil. The ideal mix is 60% topsoil and 40% compost, costing approximately $40-80 depending on your source."
     >
       <CalculatorSchema
         name="Raised Bed Soil Calculator"

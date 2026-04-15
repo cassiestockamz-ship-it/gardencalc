@@ -218,7 +218,7 @@ export default function FertilizerCalculatorPage() {
 
         <ShareResults
           title={`Fertilizer for ${plant.name}: ${n}-${p}-${k}`}
-          text={`My ${widthFt}x${lengthFt}ft ${plant.name} garden needs ${results.lbsN.toFixed(2)} lbs nitrogen per season. Recommended NPK: ${n}-${p}-${k}. ${feeder.label} — ${plant.feedFrequency}.`}
+          text={`My ${widthFt}x${lengthFt}ft ${plant.name} garden needs ${results.lbsN.toFixed(2)} lbs nitrogen per season. Recommended NPK: ${n}-${p}-${k}. ${feeder.label}. ${plant.feedFrequency}.`}
         />
         <p className="text-sm text-[var(--color-muted)] mt-4">
           <a href="/watering" className="text-[var(--color-primary)] hover:underline">See how much to water your plants &rarr;</a>
@@ -235,10 +235,10 @@ export default function FertilizerCalculatorPage() {
         </p>
         <h3 className="text-base font-semibold text-[var(--color-text)]">Fertilizing Tips</h3>
         <ul className="list-disc space-y-1.5 pl-5 text-sm text-[var(--color-text-muted)]">
-          <li>Always test your soil before adding fertilizer. A $15 soil test kit tells you exactly what&apos;s needed — over-fertilizing causes more problems than under-fertilizing, including nitrogen burn, excess foliage at the expense of fruit, and groundwater contamination.</li>
+          <li>Always test your soil before adding fertilizer. A $15 soil test kit tells you exactly what&apos;s needed. Over-fertilizing causes more problems than under-fertilizing, including nitrogen burn, excess foliage at the expense of fruit, and groundwater contamination.</li>
           <li>Organic fertilizers (fish emulsion, bone meal, compost) release nutrients slowly and improve soil structure over time. Synthetic fertilizers deliver nutrients faster but don&apos;t build long-term soil health.</li>
           <li>Heavy feeders like tomatoes and corn benefit from side-dressing (applying fertilizer alongside plants) every 3-4 weeks during the growing season, rather than a single large application.</li>
-          <li>Legumes (beans, peas) fix their own nitrogen from the air — avoid high-nitrogen fertilizer on these crops, as it actually reduces their nitrogen-fixing ability and produces excess leaf growth at the expense of pods.</li>
+          <li>Legumes (beans, peas) fix their own nitrogen from the air. Avoid high-nitrogen fertilizer on these crops, as it actually reduces their nitrogen-fixing ability and produces excess leaf growth at the expense of pods.</li>
         </ul>
       </div>
 

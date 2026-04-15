@@ -108,7 +108,7 @@ export default function AboutPage() {
           Who We Are
         </h2>
         <p className="mt-4 text-[var(--color-text-muted)]">
-          PlantingCalc is built by home gardeners who got tired of guessing. We maintain raised beds and in-ground gardens across multiple USDA zones, and we built these tools because we wanted the same data-driven planning resources that commercial growers have — without the $200/year software subscriptions.
+          PlantingCalc is built by home gardeners who got tired of guessing. We maintain raised beds and in-ground gardens across multiple USDA zones, and we built these tools because we wanted the same data-driven planning resources that commercial growers have. Without the $200/year software subscriptions.
         </p>
         <p className="mt-3 text-[var(--color-text-muted)]">
           Every calculator on this site is backed by published agricultural data, not guesswork. When we say &ldquo;plant tomatoes 2 weeks after your last frost,&rdquo; that comes from the same extension office guidelines that professional farmers follow.

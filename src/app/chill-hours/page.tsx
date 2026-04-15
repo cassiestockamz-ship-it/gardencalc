@@ -286,7 +286,7 @@ export default function ChillHoursPage() {
             />
             <ResultCard
               label="10-year average"
-              value={average != null ? `${average.toFixed(0)}` : "—"}
+              value={average != null ? `${average.toFixed(0)}` : ", "}
               unit="chill hours"
               icon="📊"
             />
@@ -402,7 +402,7 @@ export default function ChillHoursPage() {
                         )}
                       </td>
                       <td className="px-5 py-2 text-xs text-[var(--color-text-muted)]">
-                        {v.notes || "—"}
+                        {v.notes || ", "}
                       </td>
                     </tr>
                   );
@@ -413,11 +413,11 @@ export default function ChillHoursPage() {
 
           <ShareResults
             title={`${accumulated.toFixed(0)} chill hours accumulated in ${placeName}`}
-            text={`${placeName} has accumulated ${accumulated.toFixed(0)} chill hours this winter. 10-year average: ${average?.toFixed(0) ?? "—"}.`}
+            text={`${placeName} has accumulated ${accumulated.toFixed(0)} chill hours this winter. 10-year average: ${average?.toFixed(0) ?? ", "}.`}
             card={{
               headline: `${accumulated.toFixed(0)}`,
-              label: `Chill hours this winter — ${placeName ?? ""}`,
-              sub: `10-year avg ${average?.toFixed(0) ?? "—"} · ${varietiesForFruit.filter((v) => v.minHours <= accumulated).length} of ${varietiesForFruit.length} ${fruit.toLowerCase()} varieties satisfied`,
+              label: `Chill hours this winter: ${placeName ?? ""}`,
+              sub: `10-year avg ${average?.toFixed(0) ?? ", "} · ${varietiesForFruit.filter((v) => v.minHours <= accumulated).length} of ${varietiesForFruit.length} ${fruit.toLowerCase()} varieties satisfied`,
               calc: "chill-hours",
             }}
           />
@@ -454,7 +454,7 @@ const chillFAQ = [
   {
     question: "Where do the variety chill requirements come from?",
     answer:
-      "The UC Davis Fruit & Nut Research Center, Dave Wilson Nursery, Stark Bros, University of Florida IFAS, and Rutgers NJAES all publish chill hour requirements for the varieties they sell or research. This tool's variety database is synthesized from those sources. Numbers have ~50 hour uncertainty — a 400-hour variety may set fruit on 350 chill hours in a warm spring or need 450 in a cool one.",
+      "The UC Davis Fruit & Nut Research Center, Dave Wilson Nursery, Stark Bros, University of Florida IFAS, and Rutgers NJAES all publish chill hour requirements for the varieties they sell or research. This tool's variety database is synthesized from those sources. Numbers have ~50 hour uncertainty. A 400-hour variety may set fruit on 350 chill hours in a warm spring or need 450 in a cool one.",
   },
   {
     question: "How does the calculator compute hours from daily temperatures?",

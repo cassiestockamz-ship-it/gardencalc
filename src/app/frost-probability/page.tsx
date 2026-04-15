@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import CalculatorLayout from "@/components/CalculatorLayout";
 import ResultCard from "@/components/ResultCard";
 import CalculatorSchema from "@/components/CalculatorSchema";
@@ -8,8 +8,11 @@ import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import FAQSection from "@/components/FAQSection";
 import ShareResults from "@/components/ShareResults";
 import RelatedCalculators from "@/components/RelatedCalculators";
+import ZipRingDecoder, { type DecodedZip } from "@/components/ZipRingDecoder";
 import Link from "next/link";
 import { lookupZip, fetchHistoricalDaily } from "@/lib/weather";
+
+const STORAGE_KEY = "pc_zip_context_v1";
 
 interface YearResult {
   year: number;
@@ -47,22 +50,46 @@ export default function FrostProbabilityPage() {
   const [placeName, setPlaceName] = useState<string | null>(null);
   const [yearResults, setYearResults] = useState<YearResult[]>([]);
 
-  const runCalc = useCallback(async () => {
-    if (!/^\d{5}$/.test(zip)) {
-      setError("Enter a 5-digit US ZIP code");
-      return;
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const saved = JSON.parse(raw) as { zip?: string };
+        if (saved.zip && /^\d{5}$/.test(saved.zip)) setZip(saved.zip);
+      }
+    } catch {
+      /* ignore */
     }
+  }, []);
+
+  const runCalc = useCallback(async (decoded: DecodedZip) => {
     setError(null);
     setLoading(true);
     setYearResults([]);
     try {
-      const loc = await lookupZip(zip);
+      const loc = await lookupZip(decoded.zip);
       if (!loc) {
         setError("Could not look up that ZIP code");
         setLoading(false);
         return;
       }
       setPlaceName(loc.place);
+      try {
+        localStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify({
+            zip: decoded.zip,
+            state: decoded.state || loc.stateAbbr,
+            zone: decoded.zone,
+            lat: loc.lat,
+            lng: loc.lng,
+            place: loc.place,
+          })
+        );
+        window.dispatchEvent(new CustomEvent("pc:zip-updated"));
+      } catch {
+        /* ignore */
+      }
 
       // Pull Feb 1 through Jun 30 for 30 historical years
       const currentYear = new Date().getFullYear();
@@ -104,7 +131,7 @@ export default function FrostProbabilityPage() {
     } finally {
       setLoading(false);
     }
-  }, [zip]);
+  }, []);
 
   // Compute frost probability on or after check date
   const checkDateMD: [number, number] = [checkMonth, checkDay];
@@ -132,7 +159,7 @@ export default function FrostProbabilityPage() {
   return (
     <CalculatorLayout
       title="Frost Probability Calculator"
-      description="Real frost probability for any date at your ZIP, computed from 30 years of daily temperature records. Beats 'average last frost date' — shows you the distribution."
+      description="Real frost probability for any date at your ZIP, computed from 30 years of daily temperature records. Beats 'average last frost date': shows you the distribution."
       answerBlock={
         <p>
           <strong>Quick answer:</strong> The &ldquo;average last frost date&rdquo; you see
@@ -161,47 +188,32 @@ export default function FrostProbabilityPage() {
         ]}
       />
 
-      <div className="grid gap-6 sm:grid-cols-2">
+      {/* ZIP Ring Decoder */}
+      <div className="mb-6">
+        <ZipRingDecoder
+          value={zip}
+          onChange={setZip}
+          onResolved={runCalc}
+          placeholder="Enter your ZIP to pull 30 years of history"
+        />
+        {error && (
+          <p className="mt-2 text-xs text-[var(--color-frost-ink)]" role="alert">
+            {error}
+          </p>
+        )}
+        {loading && (
+          <p className="mt-2 text-xs text-[var(--color-text-faint)]">Loading 30 years of daily records…</p>
+        )}
+        {placeName && !loading && (
+          <p className="mt-2 text-xs text-[var(--color-text-muted)]">
+            {placeName} · {yearResults.length} years analyzed
+          </p>
+        )}
+      </div>
+
+      <div className="grid gap-6 sm:grid-cols-1">
         <div>
-          <label className="mb-1 block text-sm font-medium text-[var(--color-text)]">
-            Your ZIP code
-          </label>
-          <div className="flex gap-2">
-            <input
-              type="text"
-              inputMode="numeric"
-              pattern="\d{5}"
-              maxLength={5}
-              value={zip}
-              onChange={(e) => setZip(e.target.value.replace(/\D/g, ""))}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") runCalc();
-              }}
-              placeholder="e.g. 55401"
-              className="w-32 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-sm"
-            />
-            <button
-              type="button"
-              onClick={runCalc}
-              disabled={loading || !zip}
-              className="rounded-lg bg-[var(--color-primary)] px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:opacity-90 disabled:opacity-50"
-            >
-              {loading ? "Loading 30 years…" : "Run history"}
-            </button>
-          </div>
-          {error && (
-            <p className="mt-2 text-xs text-rose-600" role="alert">
-              {error}
-            </p>
-          )}
-          {placeName && (
-            <p className="mt-2 text-xs text-[var(--color-text-muted)]">
-              {placeName} · {yearResults.length} years analyzed
-            </p>
-          )}
-        </div>
-        <div>
-          <label className="mb-1 block text-sm font-medium text-[var(--color-text)]">
+          <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-[var(--color-text-faint)]">
             Check date
           </label>
           <div className="flex gap-2">
@@ -246,13 +258,13 @@ export default function FrostProbabilityPage() {
             />
             <ResultCard
               label="50% (mean last frost)"
-              value={percentile(50) ?? "—"}
+              value={percentile(50) ?? ", "}
               unit="typical date"
               icon="📊"
             />
             <ResultCard
               label="90% safe date"
-              value={percentile(90) ?? "—"}
+              value={percentile(90) ?? ", "}
               unit="tomatoes OK"
               icon="🛡️"
             />
@@ -262,7 +274,7 @@ export default function FrostProbabilityPage() {
           <div className="mt-6 overflow-hidden rounded-xl border border-[var(--color-border)] bg-white">
             <div className="border-b border-[var(--color-border)] bg-[var(--color-surface-alt)] px-5 py-3">
               <h2 className="text-sm font-bold uppercase tracking-wide text-[var(--color-text)]">
-                Exceedance table — last spring frost probability
+                Exceedance table. Last spring frost probability
               </h2>
             </div>
             <table className="w-full text-sm">
@@ -388,7 +400,7 @@ const frostProbFAQ = [
   {
     question: "Where does the 30 years of data come from?",
     answer:
-      "Open-Meteo's historical archive pulls from the ECMWF ERA5 reanalysis — the same global dataset NOAA climatology tables are built from. It covers every location on Earth at ~9 km resolution since 1940. The 32°F threshold is the standard light-freeze definition used by NOAA NCEI and cooperative extension services.",
+      "Open-Meteo's historical archive pulls from the ECMWF ERA5 reanalysis. The same global dataset NOAA climatology tables are built from. It covers every location on Earth at ~9 km resolution since 1940. The 32°F threshold is the standard light-freeze definition used by NOAA NCEI and cooperative extension services.",
   },
   {
     question: "Why only February through June?",
@@ -398,10 +410,10 @@ const frostProbFAQ = [
   {
     question: "Does this account for microclimate?",
     answer:
-      "Only indirectly — ERA5 is a 9km gridded product, so it captures regional climate but not your specific south-facing brick wall or frost pocket. A south-facing slope with full sun and good drainage typically beats the ZIP average by 1-2 weeks on the last frost side. Urban heat islands can add 1-3 weeks of extension. Use the tool's number as a floor, then adjust for your site conditions.",
+      "Only indirectly. ERA5 is a 9km gridded product, so it captures regional climate but not your specific south-facing brick wall or frost pocket. A south-facing slope with full sun and good drainage typically beats the ZIP average by 1-2 weeks on the last frost side. Urban heat islands can add 1-3 weeks of extension. Use the tool's number as a floor, then adjust for your site conditions.",
   },
   {
-    question: "My zone didn't change after 2023 — is the historical data still relevant?",
+    question: "My zone didn't change after 2023. Is the historical data still relevant?",
     answer:
       "The 2023 USDA zone map update pushed about half the country a half-zone warmer because the climate normals shifted. This tool always uses the most recent 30 years, so the data automatically reflects the warming trend without you having to adjust. That's actually an advantage over published NCEI 1991-2020 tables, which are already three years stale.",
   },

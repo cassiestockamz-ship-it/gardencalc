@@ -1,14 +1,17 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import CalculatorLayout from "@/components/CalculatorLayout";
 import CalculatorSchema from "@/components/CalculatorSchema";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import FAQSection from "@/components/FAQSection";
 import RelatedCalculators from "@/components/RelatedCalculators";
+import ZipRingDecoder, { type DecodedZip } from "@/components/ZipRingDecoder";
 import Link from "next/link";
 import { lookupZip, fetchHistoricalDaily } from "@/lib/weather";
 import { VEGETABLES } from "@/data/vegetables";
+
+const STORAGE_KEY = "pc_zip_context_v1";
 
 interface Task {
   crop: string;
@@ -66,7 +69,7 @@ function buildIcs(tasks: Task[], place: string): string {
     "VERSION:2.0",
     "PRODID:-//PlantingCalc//Seed Start Calendar//EN",
     "CALSCALE:GREGORIAN",
-    `X-WR-CALNAME:Seed Start Calendar — ${place}`,
+    `X-WR-CALNAME:Seed Start Calendar. ${place}`,
   ];
   for (const t of tasks) {
     const uid = `${toIcsDateOnly(t.date)}-${t.crop}-${t.kind}@plantingcalc.com`;
@@ -96,21 +99,45 @@ export default function SeedStartCalendarPage() {
   const [placeName, setPlaceName] = useState<string | null>(null);
   const [lastFrostDate, setLastFrostDate] = useState<Date | null>(null);
 
-  const runLookup = useCallback(async () => {
-    if (!/^\d{5}$/.test(zip)) {
-      setError("Enter a 5-digit US ZIP code");
-      return;
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const saved = JSON.parse(raw) as { zip?: string };
+        if (saved.zip && /^\d{5}$/.test(saved.zip)) setZip(saved.zip);
+      }
+    } catch {
+      /* ignore */
     }
+  }, []);
+
+  const runLookup = useCallback(async (decoded: DecodedZip) => {
     setError(null);
     setLoading(true);
     try {
-      const loc = await lookupZip(zip);
+      const loc = await lookupZip(decoded.zip);
       if (!loc) {
         setError("Could not look up that ZIP");
         setLoading(false);
         return;
       }
       setPlaceName(loc.place);
+      try {
+        localStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify({
+            zip: decoded.zip,
+            state: decoded.state || loc.stateAbbr,
+            zone: decoded.zone,
+            lat: loc.lat,
+            lng: loc.lng,
+            place: loc.place,
+          })
+        );
+        window.dispatchEvent(new CustomEvent("pc:zip-updated"));
+      } catch {
+        /* ignore */
+      }
 
       // Compute mean last frost date from last 15 years
       const currentYear = new Date().getFullYear();
@@ -150,7 +177,7 @@ export default function SeedStartCalendarPage() {
     } finally {
       setLoading(false);
     }
-  }, [zip]);
+  }, []);
 
   const tasks = useMemo<Task[]>(() => {
     if (!lastFrostDate) return [];
@@ -258,38 +285,23 @@ export default function SeedStartCalendarPage() {
       />
 
       <div className="mb-8">
-        <label className="mb-1 block text-sm font-medium text-[var(--color-text)]">
-          Your ZIP code
-        </label>
-        <div className="flex gap-2">
-          <input
-            type="text"
-            inputMode="numeric"
-            pattern="\d{5}"
-            maxLength={5}
-            value={zip}
-            onChange={(e) => setZip(e.target.value.replace(/\D/g, ""))}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") runLookup();
-            }}
-            placeholder="e.g. 55401"
-            className="w-32 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-sm"
-          />
-          <button
-            type="button"
-            onClick={runLookup}
-            disabled={loading || !zip}
-            className="rounded-lg bg-[var(--color-primary)] px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:opacity-90 disabled:opacity-50"
-          >
-            {loading ? "Building calendar…" : "Build my calendar"}
-          </button>
-        </div>
+        <ZipRingDecoder
+          value={zip}
+          onChange={setZip}
+          onResolved={runLookup}
+          placeholder="Enter your ZIP to build your seed calendar"
+        />
         {error && (
-          <p className="mt-2 text-xs text-rose-600" role="alert">
+          <p className="mt-2 text-xs text-[var(--color-frost-ink)]" role="alert">
             {error}
           </p>
         )}
-        {placeName && lastFrostDate && (
+        {loading && (
+          <p className="mt-2 text-xs text-[var(--color-text-faint)]">
+            Computing your 15-year mean last frost…
+          </p>
+        )}
+        {placeName && lastFrostDate && !loading && (
           <p className="mt-2 text-xs text-[var(--color-text-muted)]">
             {placeName} · mean last frost: {fmtDate(lastFrostDate)}
           </p>

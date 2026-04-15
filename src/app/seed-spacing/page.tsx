@@ -296,14 +296,14 @@ export default function SeedSpacingPage() {
       <div className="mt-10 space-y-6">
         <h2 className="text-lg font-bold text-[var(--color-text)]">How This Calculator Works</h2>
         <p className="text-sm leading-relaxed text-[var(--color-text-muted)]">
-          Plant spacing is calculated using recommended distances from university agricultural extension guides. The calculator divides your bed dimensions by each vegetable&apos;s in-row spacing and row spacing to determine how many plants fit. Yield estimates are conservative averages — actual harvest depends on soil quality, watering consistency, sunlight, and variety selection. For example, a single tomato plant can produce 10-25 lbs in ideal conditions, but we estimate 10 lbs to account for typical home garden results.
+          Plant spacing is calculated using recommended distances from university agricultural extension guides. The calculator divides your bed dimensions by each vegetable&apos;s in-row spacing and row spacing to determine how many plants fit. Yield estimates are conservative averages. Actual harvest depends on soil quality, watering consistency, sunlight, and variety selection. For example, a single tomato plant can produce 10-25 lbs in ideal conditions, but we estimate 10 lbs to account for typical home garden results.
         </p>
         <h3 className="text-base font-semibold text-[var(--color-text)]">Spacing Tips for Higher Yields</h3>
         <ul className="list-disc space-y-1.5 pl-5 text-sm text-[var(--color-text-muted)]">
           <li>Square-foot gardening uses tighter spacing than traditional row planting. If you&apos;re using intensive methods, you can often reduce row spacing by 20-30% with adequate soil fertility.</li>
           <li>Vertical trellising for tomatoes, cucumbers, and pole beans lets you use the standard in-row spacing while reducing row spacing, fitting more plants per bed.</li>
           <li>Interplant quick-maturing crops (radishes, lettuce) between slow-growing ones (tomatoes, peppers) to maximize space during the early season.</li>
-          <li>Use the <a href="/fertilizer" className="text-[var(--color-primary)] hover:underline">fertilizer calculator</a> to make sure your soil can support the plant density you&apos;re targeting — tight spacing demands richer soil.</li>
+          <li>Use the <a href="/fertilizer" className="text-[var(--color-primary)] hover:underline">fertilizer calculator</a> to make sure your soil can support the plant density you&apos;re targeting. Tight spacing demands richer soil.</li>
         </ul>
       </div>
 
