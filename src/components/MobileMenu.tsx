@@ -5,16 +5,18 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const NAV_LINKS = [
+  { href: "/frost-alert", label: "Frost Alert", icon: "🚨" },
+  { href: "/plant-today", label: "Plant Today?", icon: "✅" },
+  { href: "/frost-probability", label: "Frost Probability", icon: "📊" },
+  { href: "/seed-start-calendar", label: "Seed Start Calendar", icon: "📅" },
+  { href: "/planting-dates", label: "Planting Dates", icon: "🌱" },
+  { href: "/chill-hours", label: "Chill Hours Tracker", icon: "🌡️" },
   { href: "/soil-calculator", label: "Soil Calculator", icon: "🪴" },
-  { href: "/planting-dates", label: "Planting Dates", icon: "📅" },
-  { href: "/seed-spacing", label: "Seed Spacing", icon: "🌱" },
+  { href: "/seed-spacing", label: "Seed Spacing", icon: "📏" },
   { href: "/companion-planting", label: "Companion Planting", icon: "🤝" },
   { href: "/fertilizer", label: "Fertilizer", icon: "🧪" },
   { href: "/watering", label: "Watering Schedule", icon: "💧" },
-  { href: "/bed-layout", label: "Bed Layout", icon: "📐" },
-  { href: "/mulch-calculator", label: "Mulch Calculator", icon: "🪵" },
-  { href: "/canning", label: "Canning & Preserving", icon: "🫙" },
-  { href: "/pest-guide", label: "Pest Guide", icon: "🐛" },
+  { href: "/guides", label: "Zone Guides", icon: "🗺️" },
 ];
 
 export default function MobileMenu() {

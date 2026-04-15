@@ -209,5 +209,67 @@ async def main():
     failed = sum(1 for r in results.values() if r["issues"] or r["console"] or r["network"])
     print(f"\n{failed}/{total} routes with issues")
 
+    # Crawl rendered pages for every internal href and test each one.
+    # Catches broken nav links that aren't in the hardcoded ROUTES list.
+    print("\n=== LINK CRAWLER ===")
+    async with async_playwright() as p:
+        browser = await p.chromium.launch(headless=True)
+        ctx = await browser.new_context()
+        page = await ctx.new_page()
+        discovered = set()
+        SEED_PAGES = [
+            "https://plantingcalc.com/",
+            "https://plantingcalc.com/guides",
+            "https://plantingcalc.com/calculators",
+            "https://plantingcalc.com/about",
+        ]
+        for seed in SEED_PAGES:
+            try:
+                await page.goto(seed, wait_until="domcontentloaded", timeout=20000)
+                # Open the nav dropdown by hovering so the hidden items render
+                try:
+                    await page.evaluate("""() => {
+                      document.querySelectorAll('[class*=hidden]').forEach(el => {
+                        el.classList.remove('hidden', 'md:hidden');
+                      });
+                    }""")
+                except Exception:
+                    pass
+                hrefs = await page.evaluate("""() => {
+                  return Array.from(document.querySelectorAll('a[href]'))
+                    .map(a => a.getAttribute('href'))
+                    .filter(h => h && h.startsWith('/') && !h.startsWith('//'))
+                    .filter(h => !h.startsWith('/api/') && !h.startsWith('/og/') && !h.startsWith('/#'));
+                }""")
+                for h in hrefs:
+                    discovered.add(h.split("#")[0].split("?")[0])
+            except Exception as e:
+                print(f"  seed {seed} failed: {e}")
+
+        print(f"  discovered {len(discovered)} unique internal links")
+        broken_links = []
+        for link in sorted(discovered):
+            url = f"https://plantingcalc.com{link}"
+            try:
+                resp = await page.goto(url, wait_until="domcontentloaded", timeout=20000)
+                status = resp.status if resp else 0
+                body = await page.inner_text("body")
+                is_not_found = "page not found" in body.lower() or "this page couldn" in body.lower()
+                if status >= 400 or is_not_found:
+                    broken_links.append((link, status, "404 page" if is_not_found else f"HTTP {status}"))
+                    print(f"  BROKEN: {link} -> {status}")
+                else:
+                    print(f"  OK:     {link} -> {status}")
+            except Exception as e:
+                broken_links.append((link, 0, str(e)[:80]))
+                print(f"  ERROR:  {link} -> {e}")
+        await browser.close()
+
+    print(f"\n{len(broken_links)} broken links out of {len(discovered)} discovered")
+    if broken_links:
+        print("\nBroken links:")
+        for link, status, msg in broken_links:
+            print(f"  {link} [{status}] {msg}")
+
 if __name__ == "__main__":
     asyncio.run(main())

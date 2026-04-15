@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { STATE_FROST, nextOccurrence, daysBetween, formatMonthDay } from "@/lib/frostDates";
+import { STATE_FROST, daysBetween, formatMonthDay } from "@/lib/frostDates";
 
 const STORAGE_KEY = "pc_zip_context_v1";
 
@@ -62,12 +62,23 @@ export default function StickyZipBar() {
   const normals = STATE_FROST[saved.state];
   let daysLabel = "";
   if (normals) {
-    const d = nextOccurrence(normals.lastFrost.month, normals.lastFrost.day);
-    const days = daysBetween(new Date(), d);
-    daysLabel =
-      days > 0
-        ? `${days} days to last frost (${formatMonthDay(normals.lastFrost.month, normals.lastFrost.day)})`
-        : "Last frost has passed";
+    const now = new Date();
+    const year = now.getFullYear();
+    const lastThis = new Date(year, normals.lastFrost.month - 1, normals.lastFrost.day);
+    const lastNext = new Date(year + 1, normals.lastFrost.month - 1, normals.lastFrost.day);
+    const firstThis = new Date(year, normals.firstFrost.month - 1, normals.firstFrost.day);
+    const firstNext = new Date(year + 1, normals.firstFrost.month - 1, normals.firstFrost.day);
+    const upcomingLast = lastThis > now ? lastThis : lastNext;
+    const upcomingFirst = firstThis > now ? firstThis : firstNext;
+    const daysToLast = daysBetween(now, upcomingLast);
+    const daysToFirst = daysBetween(now, upcomingFirst);
+    // If we're in the growing season (last frost > 60 days out, meaning
+    // last frost is likely next spring), show days to first frost instead.
+    if (daysToFirst < daysToLast) {
+      daysLabel = `${daysToFirst} days to first frost (${formatMonthDay(normals.firstFrost.month, normals.firstFrost.day)})`;
+    } else {
+      daysLabel = `${daysToLast} days to last frost (${formatMonthDay(normals.lastFrost.month, normals.lastFrost.day)})`;
+    }
   }
 
   return (

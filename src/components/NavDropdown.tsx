@@ -5,6 +5,16 @@ import Link from "next/link";
 
 const categories = [
   {
+    label: "Live Data",
+    items: [
+      { title: "Frost Alert", href: "/frost-alert" },
+      { title: "Plant Today?", href: "/plant-today" },
+      { title: "Frost Probability", href: "/frost-probability" },
+      { title: "Chill Hours Tracker", href: "/chill-hours" },
+      { title: "Seed Start Calendar", href: "/seed-start-calendar" },
+    ],
+  },
+  {
     label: "Planning & Timing",
     items: [
       { title: "Planting Dates", href: "/planting-dates" },
@@ -22,8 +32,6 @@ const categories = [
       { title: "Bed Layout", href: "/bed-layout" },
       { title: "Square Foot Garden", href: "/square-foot" },
       { title: "Seed Spacing", href: "/seed-spacing" },
-      { title: "Container Garden", href: "/container-garden" },
-      { title: "Mulch Calculator", href: "/mulch-calculator" },
     ],
   },
   {
@@ -35,14 +43,6 @@ const categories = [
       { title: "Sunlight Guide", href: "/sunlight" },
       { title: "Soil pH", href: "/soil-ph" },
       { title: "Pest Guide", href: "/pest-guide" },
-    ],
-  },
-  {
-    label: "Harvest & Yield",
-    items: [
-      { title: "Yield Estimator", href: "/yield-estimator" },
-      { title: "Canning Calculator", href: "/canning" },
-      { title: "Cost Savings", href: "/cost-savings" },
     ],
   },
 ];
@@ -78,9 +78,9 @@ export default function NavDropdown() {
         <div
           onMouseLeave={() => setOpen(false)}
           className="absolute left-1/2 top-full z-50 mt-1 -translate-x-1/2 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5 shadow-xl"
-          style={{ width: "min(620px, 90vw)" }}
+          style={{ width: "min(720px, 92vw)" }}
         >
-          <div className="grid grid-cols-4 gap-5">
+          <div className="grid grid-cols-2 gap-5 md:grid-cols-4">
             {categories.map((cat) => (
               <div key={cat.label}>
                 <div className="mb-2.5 flex h-7 items-end border-b-2 border-[var(--color-primary)]/20 pb-1.5">
@@ -110,7 +110,7 @@ export default function NavDropdown() {
               onClick={() => setOpen(false)}
               className="text-xs font-medium text-[var(--color-primary)] hover:underline"
             >
-              View all 21 calculators &rarr;
+              View all calculators &rarr;
             </Link>
           </div>
         </div>
