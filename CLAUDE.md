@@ -1,112 +1,103 @@
-# PlantingCalc -- Gardening Calculator Hub
+# PlantingCalc — CLAUDE.md
 
-## What This Is
-Free gardening calculator hub at **plantingcalc.com**. Interactive calculators for home gardeners, powered by USDA hardiness zone data and agricultural extension research. Monetized with Amazon affiliate links and Google AdSense (ca-pub-7557739369186741, added 2026-03-29, pending review).
+## Thesis
+**The planting calendar that reads your forecast.** Not a static zone chart. Not a 3-step wizard. A live, ZIP-aware gardening decision engine that tells you what to plant this week, what to cover tonight, and exactly how many days remain until your last frost. One ZIP, one screen, the exact decisions.
 
-## Live URLs
-- **Production:** https://plantingcalc.com
-- **Vercel:** https://gardencalc.vercel.app
-- **GitHub:** https://github.com/cassiestockamz-ship-it/gardencalc
+The competitive gap: Almanac.com dominates by brand, not UX. Johnny's, Burpee, Bonnie, SeedsNow all hide their calendars behind product catalogs. Nobody pairs live 14-day forecasts with specific crop-by-crop cover/harvest/plant actions. We already have the infrastructure (Open-Meteo 14-day + ERA5 historical, a 34-crop database, a frost-tolerance table). We now point the site at its own strength.
+
+## Live URL
+https://plantingcalc.com (canonical, www redirects to non-www)
 
 ## Stack
-- **Framework:** Next.js 16 (App Router, Turbopack)
-- **Styling:** Tailwind CSS 4 (CSS-based config via PostCSS)
-- **Language:** TypeScript (strict)
-- **Hosting:** Vercel (hobby plan, scope: taylors-projects-6d8e0bd8)
-- **Analytics:** Project Dash tracker (site_id: `17156a6b-a5cd-4caf-ac2c-c9c3977b436f`)
-- **Domain:** plantingcalc.com (non-www canonical, www->non-www redirect in vercel.json)
+- Next.js 16.2.1 (App Router, Turbopack)
+- React 19.2.4
+- Tailwind CSS 4 (CSS-based config via `@theme inline` in globals.css)
+- Lucide React (icon system, tree-shaken imports)
+- Geist... no, Fraunces + Inter via `next/font/google`
+- TypeScript (strict)
+- `experimental.viewTransition: true` in next.config.ts for native View Transitions across navigations
+- Vercel (hobby plan, scope `taylors-projects-6d8e0bd8`)
 
-## Project Structure
-```
-src/
-├── app/
-│   ├── page.tsx                # Homepage (calculator cards grid)
-│   ├── layout.tsx              # Root layout (nav, footer, Project Dash tracking)
-│   ├── globals.css             # CSS variables + Tailwind
-│   ├── icon.svg                # Favicon
-│   ├── robots.ts               # robots.txt generator (allows AI bots)
-│   ├── sitemap.ts              # sitemap.xml generator (calcs + zone guides)
-│   ├── not-found.tsx           # 404 page
-│   ├── soil-calculator/        # Calculator 1: Raised bed soil volume
-│   ├── planting-dates/         # Calculator 2: Planting dates by ZIP
-│   ├── seed-spacing/           # Calculator 3: Seed spacing & yield
-│   ├── companion-planting/     # Calculator 4: Companion planting checker
-│   ├── fertilizer/             # Calculator 5: NPK fertilizer calculator
-│   ├── watering/               # Calculator 6: Watering schedule
-│   ├── guides/                 # Zone guide hub + dynamic [zone] routes
-│   │   ├── page.tsx            # Hub listing all zones
-│   │   └── [zone]/page.tsx     # Individual zone guide (zones 1-13)
-│   ├── og/[slug]/route.tsx     # Dynamic OG image generation
-│   ├── api/subscribe/route.ts  # Email capture endpoint
-│   ├── api/zone/route.ts       # Zone lookup API
-│   ├── about/                  # About page
-│   └── disclosure/             # Affiliate disclosure
-├── components/
-│   ├── CalculatorLayout.tsx    # Shared page wrapper
-│   ├── CalculatorSchema.tsx    # JSON-LD WebApplication schema
-│   ├── BreadcrumbSchema.tsx    # Breadcrumb JSON-LD
-│   ├── RelatedCalculators.tsx  # Cross-links footer
-│   ├── ResultCard.tsx          # Metric display card
-│   ├── EmailCapture.tsx        # Email signup component
-│   ├── FAQSection.tsx          # Collapsible FAQ with FAQPage schema
-│   ├── ShareResults.tsx        # Share/copy results
-│   ├── AffiliateDisclosure.tsx # Inline disclosure notice
-│   ├── SelectInput.tsx         # Dropdown input
-│   ├── NumberInput.tsx         # Number input with unit
-│   ├── SliderInput.tsx         # Range slider
-│   └── MobileMenu.tsx          # Mobile hamburger nav
-├── data/
-│   ├── vegetables.ts           # Vegetable database (planting info, zones)
-│   ├── companions.ts           # Companion planting compatibility data
-│   ├── fertilizer.ts           # NPK ratios and fertilizer data
-│   ├── faq-data.ts             # FAQ questions per calculator
-│   └── zone-guides.ts          # USDA zone data (zones 1-13, tips, veggies)
-└── lib/                        # (empty -- utilities as needed)
-```
+## Key Features
 
-## Calculators
-| # | Calculator | Path | Status |
-|---|-----------|------|--------|
-| 1 | Raised Bed Soil Calculator | `/soil-calculator` | LIVE |
-| 2 | Planting Date Calculator | `/planting-dates` | LIVE |
-| 3 | Seed Spacing & Yield Calculator | `/seed-spacing` | LIVE |
-| 4 | Companion Planting Checker | `/companion-planting` | LIVE |
-| 5 | Fertilizer Calculator | `/fertilizer` | LIVE |
-| 6 | Watering Schedule Calculator | `/watering` | LIVE |
+### The signature interaction
+- **ZIP Ring Decoder** — 5 slots above the ZIP input (State, Zone, Latitude, Last Frost, Days Left) that light up progressively on keystroke. Pure client JS reads a bundled 3-digit ZIP prefix table (`src/lib/zipTable.ts`, ~900 prefixes) and paints slots before the network responds. When all 5 digits land, `/api/zone` is called and the Zone + Latitude slots upgrade to authoritative values. `vt-zip-decoder` view transition name. See [`src/components/ZipRingDecoder.tsx`](src/components/ZipRingDecoder.tsx).
 
-## Zone Guides
-- Hub at `/guides` listing all USDA hardiness zones
-- Dynamic routes at `/guides/zone-{N}` for zones 1-13
-- Each guide includes: temperature range, growing season length, best vegetables, challenge vegetables, tips
-- Data sourced from USDA zone info + agricultural extension research
+### The atomic unit
+- **CropCard** — a single crop rendered with action level (sow / watch / frost / pending), 3px top ribbon in action color, big action verb (SOW NOW, WAIT 8 DAYS, etc.), 3-tile data row (harvest days, spacing, zone range). Appears on the homepage WeekAhead, every live-data tool's output, and every zone guide's "best this week" strip. `vt-atomic-unit` view transition name. See [`src/components/CropCard.tsx`](src/components/CropCard.tsx).
 
-## Monetization
-- **Amazon Associates** tag: `kawaiiguy0f-pc-20`
-- Affiliate links embedded contextually in calculator results
-- Products: gardening tools, soil, raised bed kits, watering supplies, fertilizers
-- Per-page tracking via `ascsubtag={slug}`
-- **Email capture:** subscribe endpoint at `/api/subscribe`
+### The one-screen cards
+- **WeekAhead** — homepage hero output. Frost countdown bar (color state: sow → watch → frost as date approaches), avg 7-day low/high, next frost risk, top 3 CropCards. [`src/components/WeekAhead.tsx`](src/components/WeekAhead.tsx).
+- **LiveWeekAhead** — the client wrapper combining ZipRingDecoder + WeekAhead + default CropCards + localStorage persistence. [`src/components/LiveWeekAhead.tsx`](src/components/LiveWeekAhead.tsx).
+- **ZoneToolHeader** — the sticky tool-first header at the top of every zone guide. Frost countdown + 3-card "best this week" strip, filtered per-zone. Solves the prose-wall problem — every zone guide now opens with a working tool. [`src/components/ZoneToolHeader.tsx`](src/components/ZoneToolHeader.tsx).
+- **StickyZipBar** — a thin persistent bar below the header that shows the saved ZIP context across every route once the user has entered a ZIP anywhere. Hidden on the homepage. `vt-sticky-zip`. [`src/components/StickyZipBar.tsx`](src/components/StickyZipBar.tsx).
 
-## Data Sources
-- **USDA:** Hardiness zone data, frost dates
-- **Agricultural extension services:** Planting schedules, spacing recommendations, companion planting research
-- Data stored as TypeScript constants in `src/data/` -- update annually
+### The decision engine
+- [`src/lib/decisions.ts`](src/lib/decisions.ts) — pure functions, the brain.
+  - `buildLocationContext(args)` — ZIP + zone + state + frost normals → LocationContext
+  - `cropDecision(crop, ctx, forecast)` — one vegetable → `{ level, headline, detail, daysUntilAction }`
+  - `weekAhead(ctx, forecast, crops, limit=3)` — homepage summary
+  - `frostVerdict(forecast3day, crops)` — `all-clear | watch | action-needed` rollup
+- [`src/lib/zipTable.ts`](src/lib/zipTable.ts) — bundled 3-digit ZIP prefix table. `lookupZipPrefix(partial)` returns `{ state, approxZone, approxLat }`.
+- [`src/lib/frostDates.ts`](src/lib/frostDates.ts) — state-average last/first frost normals, `nextOccurrence`, `daysBetween`, `formatMonthDay`.
+- [`src/lib/weather.ts`](src/lib/weather.ts) — Open-Meteo 14-day forecast + ERA5 historical (existing).
+- [`src/app/api/zone/route.ts`](src/app/api/zone/route.ts) — USDA phzmapi.org lookup (existing).
 
-## Key Patterns
-- All calculator pages are `"use client"` components (React state for interactivity)
-- `CalculatorSchema` component adds JSON-LD WebApplication structured data
-- Root layout includes WebSite JSON-LD schema
-- `RelatedCalculators` component cross-links calculators at page bottom
-- `FAQSection` with collapsible FAQPage schema on each calculator
-- CSS variables in `globals.css` for consistent green/garden theming
-- robots.txt explicitly allows AI bots (GPTBot, ClaudeBot, PerplexityBot, Amazonbot)
-- Project Dash analytics tracker inline in layout
+### Tools rebuilt (tool-first layouts)
+| Tool | Path | Status |
+|---|---|---|
+| Frost Alert | `/frost-alert` | ZipRingDecoder + verdict card + action-grouped crop lists, tool-first |
+| Plant Today? | `/plant-today` | ZipRingDecoder + giant PLANT NOW/WAIT/NOT YET verdict, tool-first |
+| Planting Dates | `/planting-dates` | ZipRingDecoder + Dataset schema, tool-first |
+| Frost Probability | `/frost-probability` | ZipRingDecoder in place, tool-first |
+| Seed Start Calendar | `/seed-start-calendar` | ZipRingDecoder in place, ICS export intact |
+| Chill Hours | `/chill-hours` | Legacy input (followups) |
+| Soil Calculator | `/soil-calculator` | Non-ZIP; layout order flipped via CalculatorLayout |
+| + 15 more | various | Layout order flipped via CalculatorLayout |
+
+### Zone guides
+- Hub at `/guides`, dynamic routes at `/guides/zone-{N}` for zones 1-13
+- Every zone guide opens with `ZoneToolHeader` (live frost countdown + "best this week in Zone N" CropCards)
+- Tips + full vegetable table + calculator cross-links follow below the tool
+- Each zone has typed `lastFrost` and `firstFrost` month/day values in [`src/data/zone-guides.ts`](src/data/zone-guides.ts)
+
+## Design System — Almanac Morning
+
+- **Palette:** warm sage (`#4a7c59`) primary, terracotta (`#c4714e`) accent, cream (`#faf9f6`) bg, warm taupe borders
+- **Action levels:** `sow` (sage), `watch` (amber `#d9951f`), `frost` (terracotta-red `#c4411f`), each with `-soft`, `-ink`, `-ring` variants
+- **Type:** Fraunces (display) + Inter (body) via `next/font/google`, `--font-inter` and `--font-fraunces` CSS variables, `.font-display` utility
+- **Ribbons:** `.ribbon-sow`, `.ribbon-watch`, `.ribbon-frost`, `.ribbon-neutral` — 3px top stripe via `box-shadow: inset 0 3px 0 0 color`
+- **Motion:** `.pc-fade-up`, `.pc-pulse-once`, `.pc-slot-fill`, `.pc-count-sweep` — all respect `prefers-reduced-motion`
+- **Utilities:** `.cv-auto` (content-visibility), `.tabular-nums`, `.guide-prose` for long-form article body
+- **View Transitions named classes:** `vt-header`, `vt-header-logo`, `vt-zip-decoder`, `vt-week-ahead`, `vt-sticky-zip`
+- See [`src/app/globals.css`](src/app/globals.css)
+
+## Schema.org markup
+
+- **Homepage:** WebSite (with SearchAction), WebApplication, FAQPage (with SpeakableSpecification)
+- **Planting Dates:** Dataset (USDA + NOAA source, spatial + variable coverage), WebApplication, BreadcrumbList, FAQPage
+- **Zone guides (`/guides/[zone]`):** Article, HowTo (5 steps, P2W), WebPage with SpeakableSpecification, BreadcrumbList
+- **Calculator pages:** WebApplication, FAQPage, BreadcrumbList
+- **Root layout metadata:** OpenGraph, canonical, robots with max-image-preview: large
+
+## Prose discipline (IMPORTANT)
+Every user-visible prose file on this site has been swept for AI tells using the banned-patterns list at `~/.claude/fiction-patterns/banned_patterns.md`. **Zero em dashes** and **zero banned words** in user-visible prose. Code comments retain em dashes because they're dev-only. 24 em dashes remain in the repo — all in code comments. Verified via `grep` post-deploy.
+
+## Scripts
+- `scripts/strip-em-dashes.mjs` — one-shot AI-tell sweep that rewrites em dashes in non-comment regions
+- `scripts/fix-mangled-commas.mjs` — post-strip fixer that turns ` , ` into `: ` (titles) or `. ` (prose) based on context
+- `scripts/strip-affiliates.mjs` — legacy (pre-monetization-rework)
+
+## Monetization (out of scope this session)
+- Google AdSense script in `<head>` (pending approval as of 2026-04-13)
+- No affiliate cards, no ad slots, no email capture optimization in scope this session — see [`followups.md`](followups.md) for the punt list
 
 ## Run Locally
 ```bash
 cd ~/gardencalc
-npm run dev
-# Opens at http://localhost:3000
+npm run build && npm run start
+# Use `next start` for visual QA, NOT `next dev` — postcss worker leak
+# See feedback_kill_dev_servers.md in global memory
 ```
 
 ## Deploy
@@ -114,23 +105,21 @@ npm run dev
 cd ~/gardencalc
 source ~/.claude/tokens.env
 TK=$(echo "$VERCEL_TOKEN" | tr -d '\r\n')
-npx vercel --prod --token "$TK" --scope taylors-projects-6d8e0bd8 --yes
+"C:/Users/Amazon IRL/AppData/Roaming/npm/vercel.cmd" --prod --token "$TK" --scope taylors-projects-6d8e0bd8 --yes
 ```
 
-## SEO Status
-- robots.txt: yes
-- sitemap.xml: yes (6 calculators + 13 zone guides + hub + about + disclosure)
-- Structured data (JSON-LD): WebApplication + FAQPage + BreadcrumbList + WebSite
-- Dynamic OG images: yes (via `/og/[slug]` route)
-- Canonical URLs: non-www, www->non-www redirect
-- AI bot friendly: GPTBot, ClaudeBot, PerplexityBot, Amazonbot allowed
-- Zone guides: 13 SEO pages targeting "USDA zone X planting guide" keywords
+## What to Read on Session Start
+- This CLAUDE.md
+- Memory: `google-seo-master-strategy-2026.md`, `adsense-low-value-content-recovery-playbook.md`
+- [`src/lib/decisions.ts`](src/lib/decisions.ts) — the decision engine (the product thesis in code)
+- [`src/lib/zipTable.ts`](src/lib/zipTable.ts) — client-side ZIP prefix lookup
+- [`src/lib/weather.ts`](src/lib/weather.ts) — Open-Meteo client
+- [`src/components/ZipRingDecoder.tsx`](src/components/ZipRingDecoder.tsx) — signature interaction
+- [`src/components/CropCard.tsx`](src/components/CropCard.tsx) — atomic unit
+- [`src/app/globals.css`](src/app/globals.css) — Almanac Morning tokens
+- [`followups.md`](followups.md) — what got punted
 
-## Adding a New Calculator
-1. Create `src/app/<slug>/page.tsx` ("use client", import shared components)
-2. Add FAQ data in `src/data/faq-data.ts`
-3. Add to `RelatedCalculators` component
-4. Add to homepage `calculators` array in `src/app/page.tsx`
-5. Add nav link in `src/app/layout.tsx` + `src/components/MobileMenu.tsx`
-6. Add to `src/app/sitemap.ts`
-7. Build + deploy
+## Project History
+- **2026-04-15:** Full rebuild as the forecast-aware almanac. New thesis, new design system, new decision engine, signature ZipRingDecoder, CropCard atomic unit, zone guides rebuilt with tool-first headers, AI-tell sweep, Dataset/HowTo/Speakable/Article schema stack.
+- **2026-03-29:** AdSense script added (pending)
+- **2026-03-21:** Initial stack: 22 calculators, 13 zone guides
