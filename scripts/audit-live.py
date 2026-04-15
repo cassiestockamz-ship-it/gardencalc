@@ -31,7 +31,7 @@ ROUTES = [
     ("zone-10",          "https://plantingcalc.com/guides/zone-10"),
     ("calculators",      "https://plantingcalc.com/calculators"),
     ("about",            "https://plantingcalc.com/about"),
-    ("disclosure",       "https://plantingcalc.com/disclosure"),
+    ("disclaimer",       "https://plantingcalc.com/disclaimer"),
 ]
 
 # Case-insensitive marker matching — handles text-transform: uppercase
@@ -43,7 +43,7 @@ MARKERS = {
         r"every calculator",
     ],
     "frost-alert": [r"frost alert", r"72.hour", r"common questions"],
-    "plant-today": [r"plant today", r"soil est", r"common questions"],
+    "plant-today": [r"plant today", r"common questions"],
     "planting-dates": [r"planting date"],
     "zone-7": [r"zone 7 planting guide", r"growing tips"],
     "zone-3": [r"zone 3 planting guide"],

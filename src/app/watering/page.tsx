@@ -312,7 +312,7 @@ export default function WateringCalculatorPage() {
             </li>
             <li className="flex items-start gap-2">
               <span className="mt-0.5 text-green-600">&#10003;</span>
-              Check soil moisture by inserting a finger <strong className="text-[var(--color-text)]">2 inches deep</strong> &mdash; water when dry
+              Check soil moisture by inserting a finger <strong className="text-[var(--color-text)]">2 inches deep</strong>. Water when dry.
             </li>
           </ul>
         </div>
