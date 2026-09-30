@@ -11,6 +11,16 @@ const PAGES: Record<string, { title: string; icon: string; subtitle: string }> =
   "companion-planting": { title: "Companion Planting", icon: "🤝", subtitle: "Which plants grow well together?" },
   fertilizer: { title: "Fertilizer Calculator", icon: "🧪", subtitle: "NPK ratios & feeding schedules" },
   watering: { title: "Watering Calculator", icon: "💧", subtitle: "Personalized watering schedules" },
+  "harvest-date": { title: "Harvest Date Calculator", icon: "🧺", subtitle: "How many days until your vegetables are ready?" },
+  "growing-season": { title: "Growing Season Length", icon: "☀️", subtitle: "How long is your growing season?" },
+  "soil-ph": { title: "Soil pH Calculator", icon: "⚗️", subtitle: "Lime and sulfur by crop" },
+  "frost-dates": { title: "Frost Dates by ZIP", icon: "❄️", subtitle: "Your typical last and first frost" },
+  "succession-planting": { title: "Succession Planting", icon: "🔁", subtitle: "Stagger sowings for a steady harvest" },
+  sunlight: { title: "Sunlight Requirements", icon: "🌤️", subtitle: "Which plants fit your sun hours?" },
+  "seed-starting": { title: "Seed Starting Calendar", icon: "🌱", subtitle: "When to start seeds indoors" },
+  "square-foot": { title: "Square Foot Garden", icon: "🔲", subtitle: "Plants per square, planned for you" },
+  "bed-layout": { title: "Garden Bed Layout", icon: "🗺️", subtitle: "How many plants fit in your bed?" },
+  "pest-guide": { title: "Garden Pest Guide", icon: "🐛", subtitle: "Identify pests by plant and symptom" },
 };
 
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ slug: string }> }) {

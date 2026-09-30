@@ -1,8 +1,13 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import CalculatorSearch from "@/components/CalculatorSearch";
 import LiveWeekAhead from "@/components/LiveWeekAhead";
 import FAQSection from "@/components/FAQSection";
 import { plantingDatesFAQ } from "@/data/faq-data";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 const featured = [
   {
