@@ -12,21 +12,32 @@ import RelatedCalculators from "@/components/RelatedCalculators";
 import EmailCapture from "@/components/EmailCapture";
 import { VEGETABLES } from "@/data/vegetables";
 import { seedStartingFAQ } from "@/data/faq-data";
+import { nextOccurrence } from "@/lib/frostDates";
 
 // Last frost dates by zone (approximate averages)
-const ZONE_FROST_DATES: Record<string, string | null> = {
-  "3": "2026-05-10",
-  "4": "2026-05-01",
-  "5": "2026-04-15",
-  "6": "2026-04-10",
-  "7": "2026-04-01",
-  "8": "2026-03-15",
-  "9": "2026-03-01",
-  "10": "2026-02-15",
+const ZONE_FROST_MONTH_DAY: Record<string, [number, number] | null> = {
+  "3": [5, 10],
+  "4": [5, 1],
+  "5": [4, 15],
+  "6": [4, 10],
+  "7": [4, 1],
+  "8": [3, 15],
+  "9": [3, 1],
+  "10": [2, 15],
   "11": null, // year-round
   "12": null,
   "13": null,
 };
+
+// Upcoming last-frost date as YYYY-MM-DD. The season rolls to next year about
+// four months after the frost date, so spring dates are never in the past.
+function upcomingFrostDate(zone: string): string | null | undefined {
+  const md = ZONE_FROST_MONTH_DAY[zone];
+  if (!md) return md;
+  const d = nextOccurrence(md[0], md[1], new Date(Date.now() - 120 * 86400000));
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+}
 
 const ZONE_OPTIONS = [
   { value: "", label: "Select your zone..." },
@@ -78,7 +89,7 @@ interface SeedEntry {
 export default function SeedStartingPage() {
   const [zone, setZone] = useState("");
 
-  const lastFrostStr = zone ? ZONE_FROST_DATES[zone] : undefined;
+  const lastFrostStr = zone ? upcomingFrostDate(zone) : undefined;
   const isYearRound = zone !== "" && lastFrostStr === null;
 
   const seedSchedule: SeedEntry[] = useMemo(() => {
@@ -137,7 +148,7 @@ export default function SeedStartingPage() {
     <CalculatorLayout
       title="Indoor Seed Starting Calendar"
       description="Find out exactly when to start each vegetable seed indoors based on your USDA hardiness zone. Get personalized start dates, transplant dates, and harvest timelines."
-      lastUpdated="March 2026"
+      lastUpdated="October 2026"
       intro="Starting seeds indoors gives warm-season crops like tomatoes, peppers, and eggplant the head start they need to produce a full harvest. The key is timing: start too early and seedlings get leggy, start too late and you lose weeks of growing season. Select your zone below to see a complete seed starting schedule."
     >
       <CalculatorSchema
