@@ -1,5 +1,7 @@
 # PlantingCalc — CLAUDE.md
 
+> **Operated by site-ops since 2026-09-30.** This repo is maintained by an autonomous team (`~/site-ops/`, runs on the VPS). Before working here by hand, read `~/site-ops/CLAUDE.md`, `~/site-ops/STRATEGY.md`, and this site's playbook `~/site-ops/playbooks/plantingcalc.md`, and `git pull` first: the VPS pushes here.
+
 ## Thesis
 **The planting calendar that reads your forecast.** Not a static zone chart. Not a 3-step wizard. A live, ZIP-aware gardening decision engine that tells you what to plant this week, what to cover tonight, and exactly how many days remain until your last frost. One ZIP, one screen, the exact decisions.
 
@@ -16,7 +18,7 @@ https://plantingcalc.com (canonical, www redirects to non-www)
 - Geist... no, Fraunces + Inter via `next/font/google`
 - TypeScript (strict)
 - `experimental.viewTransition: true` in next.config.ts for native View Transitions across navigations
-- Vercel (hobby plan, scope `taylors-projects-6d8e0bd8`)
+- Vercel (hobby plan, scope `taylors-projects-6d8e0bd8`). (updated 2026-10-02): no auto-deploy on git push; site-ops deploys with `bin/deploy.sh plantingcalc` (Vercel CLI, remote build, live check, auto-rollback).
 
 ## Key Features
 
@@ -101,6 +103,7 @@ npm run build && npm run start
 ```
 
 ## Deploy
+(updated 2026-10-02): site-ops deploys with `bin/deploy.sh` (Vercel CLI, remote build, live check, auto-rollback); the project does not auto-deploy on git push. Manual fallback:
 ```bash
 cd ~/gardencalc
 source ~/.claude/tokens.env
@@ -120,6 +123,7 @@ TK=$(echo "$VERCEL_TOKEN" | tr -d '\r\n')
 - [`followups.md`](followups.md) — what got punted
 
 ## Project History
+- **2026-09-30:** Tracking pixel restored (`src/components/TrackingPixel.tsx`). Operated by site-ops from here on. PlantingCalc is one of only two sites (with ChargeMath) with real search traffic. (updated 2026-10-02)
 - **2026-04-15:** Full rebuild as the forecast-aware almanac. New thesis, new design system, new decision engine, signature ZipRingDecoder, CropCard atomic unit, zone guides rebuilt with tool-first headers, AI-tell sweep, Dataset/HowTo/Speakable/Article schema stack.
 - **2026-03-29:** AdSense script added (pending)
 - **2026-03-21:** Initial stack: 22 calculators, 13 zone guides
