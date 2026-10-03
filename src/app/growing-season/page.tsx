@@ -37,6 +37,35 @@ interface CategorizedVegetable {
 
 const ZONE_GUIDES = getAllZoneGuides();
 
+// Day-of-year arithmetic on a non-leap calendar; frost dates are typical (50%) dates, not a specific year.
+const DAYS_BEFORE_MONTH = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+function dayOfYear(d: { month: number; day: number }): number {
+  return DAYS_BEFORE_MONTH[d.month - 1] + d.day;
+}
+function frostFreeDays(z: { lastFrost: { month: number; day: number }; firstFrost: { month: number; day: number } }): number {
+  return dayOfYear(z.firstFrost) - dayOfYear(z.lastFrost);
+}
+function shortDate(d: { month: number; day: number }): string {
+  return `${MONTH_NAMES[d.month - 1]} ${d.day}`;
+}
+
+/** Typical season length for zones 3-10 (where most US gardeners live), from the same frost table as the zone guides. */
+const SEASON_TABLE = ZONE_GUIDES.filter((z) => z.zone >= 3 && z.zone <= 10).map((z) => {
+  const days = frostFreeDays(z);
+  return {
+    zone: z.zone,
+    slug: z.slug,
+    lastFrost: shortDate(z.lastFrost),
+    firstFrost: shortDate(z.firstFrost),
+    days,
+    weeks: Math.round(days / 7),
+  };
+});
+const SHORTEST = SEASON_TABLE[0];
+const LONGEST = SEASON_TABLE[SEASON_TABLE.length - 1];
+const ZONE6 = SEASON_TABLE.find((r) => r.zone === 6)!;
+
 const zoneOptions = [
   { value: "", label: "Select a zone..." },
   ...ZONE_GUIDES.map((z) => ({
@@ -109,9 +138,13 @@ const FIT_LABELS: Record<FitCategory, { label: string; color: string; bg: string
 
 const growingSeasonFAQ = [
   {
+    question: "How long is a growing season?",
+    answer: `A growing season is the number of frost-free days between the typical last spring frost and the typical first fall frost. Across USDA zones ${SHORTEST.zone} to ${LONGEST.zone}, where most US gardens are, it runs from about ${SHORTEST.days} days (${SHORTEST.weeks} weeks) to about ${LONGEST.days} days (${LONGEST.weeks} weeks). A zone ${ZONE6.zone} garden typically gets about ${ZONE6.days} days. Enter your ZIP code above for the typical length where you live.`,
+  },
+  {
     question: "What determines my growing season length?",
     answer:
-      "Your growing season is the number of frost-free days between your last spring frost and your first fall frost. This is primarily determined by your USDA hardiness zone, which is based on average annual minimum winter temperatures. Northern zones (1-4) have shorter seasons of 8-16 weeks, while southern zones (8-13) can have 32-52 weeks of growing time. Elevation, proximity to large bodies of water, and local microclimates can also shift your actual season by a week or two in either direction.",
+      "Your growing season is set by your local frost dates: the last spring frost and the first fall frost. Those come from local climate records, not from your USDA hardiness zone, which only measures the average coldest winter temperature. Zones are a useful shortcut because colder zones usually have later spring frosts and earlier fall frosts, but two places in the same zone can differ by weeks. Elevation, nearby large bodies of water, cities and low-lying frost pockets all shift the dates. Frost dates are also probabilities: a typical last frost date still leaves about a 50% chance of a later frost.",
   },
   {
     question: "Can I extend my growing season beyond the frost dates?",
@@ -175,8 +208,14 @@ export default function GrowingSeasonPage() {
     const guide = ZONE_GUIDES.find((z) => z.zone === zoneNum);
     if (!guide) return null;
 
-    const seasonWeeks = guide.growingSeasonWeeks;
-    const seasonDays = seasonWeeks * 7;
+    // Season length: the ZIP's subzone value when we have one, otherwise the zone's typical frost dates.
+    const zipMatchesZone =
+      !!zipZoneData && parseInt(zipZoneData.zone.replace(/[ab]/i, "")) === zoneNum;
+    const seasonDays =
+      zipMatchesZone && zipZoneData!.growingSeason > 0
+        ? zipZoneData!.growingSeason
+        : frostFreeDays(guide);
+    const seasonWeeks = Math.round(seasonDays / 7);
 
     // Use ZIP API data if available, otherwise estimate from zone
     let lastFrostFormatted = "";
@@ -253,10 +292,10 @@ export default function GrowingSeasonPage() {
 
   return (
     <CalculatorLayout
-      title="Growing Season Length Calculator"
-      description="Find out how long your growing season is and which vegetables fit within it, based on your USDA hardiness zone or ZIP code."
-      lastUpdated="March 2026"
-      intro="Your growing season is the number of frost-free weeks between your last spring frost and first fall frost. Zone 5 gardeners get about 20 weeks, while Zone 8 gardeners enjoy 32 weeks or more. Knowing your season length helps you pick vegetables that will actually have time to mature before frost arrives."
+      title="How Long Is Your Growing Season?"
+      description="Find out how long your growing season is and which vegetables fit within it, based on your ZIP code or USDA hardiness zone."
+      lastUpdated="October 2026"
+      intro={`A growing season is the frost-free stretch between the typical last spring frost and first fall frost. In zones ${SHORTEST.zone} to ${LONGEST.zone} that is about ${SHORTEST.days} to ${LONGEST.days} days; a zone ${ZONE6.zone} garden gets about ${ZONE6.days} days (${ZONE6.weeks} weeks). Enter your ZIP for the typical length where you live and which vegetables have time to mature.`}
     >
       <CalculatorSchema
         name="Growing Season Length Calculator"
@@ -468,6 +507,44 @@ export default function GrowingSeasonPage() {
         </div>
       )}
 
+      {/* Crawlable reference table: rendered into the initial HTML */}
+      <section className="mt-10">
+        <h2 className="mb-2 text-lg font-bold text-[var(--color-text)]">
+          Typical Growing Season Length by Zone
+        </h2>
+        <p className="mb-4 text-sm text-[var(--color-text-muted)]">
+          Days between the typical last spring frost and first fall frost (about a 50% chance of frost on each date). Local dates can differ by weeks within a zone, so use the ZIP lookup above for your area.
+        </p>
+        <div className="overflow-x-auto rounded-xl border border-[var(--color-border)]">
+          <table className="w-full text-left text-sm">
+            <thead className="bg-[var(--color-surface-alt)] text-[var(--color-text)]">
+              <tr>
+                <th scope="col" className="px-3 py-2 font-semibold">USDA zone</th>
+                <th scope="col" className="px-3 py-2 font-semibold">Typical last frost</th>
+                <th scope="col" className="px-3 py-2 font-semibold">Typical first frost</th>
+                <th scope="col" className="px-3 py-2 font-semibold">Growing season</th>
+              </tr>
+            </thead>
+            <tbody className="text-[var(--color-text-muted)]">
+              {SEASON_TABLE.map((r) => (
+                <tr key={r.zone} className="border-t border-[var(--color-border)]">
+                  <td className="px-3 py-2">
+                    <a href={`/guides/${r.slug}`} className="text-[var(--color-primary)] hover:underline">
+                      Zone {r.zone}
+                    </a>
+                  </td>
+                  <td className="px-3 py-2">{r.lastFrost}</td>
+                  <td className="px-3 py-2">{r.firstFrost}</td>
+                  <td className="px-3 py-2">
+                    about {r.days} days ({r.weeks} weeks)
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
       <FAQSection questions={growingSeasonFAQ} />
 
       {/* Educational Content */}
@@ -476,7 +553,7 @@ export default function GrowingSeasonPage() {
           How This Calculator Works
         </h2>
         <p className="text-sm leading-relaxed text-[var(--color-text-muted)]">
-          This calculator uses USDA hardiness zone data to determine your growing season length in weeks and days. When you enter a ZIP code, it fetches your exact zone from the USDA Plant Hardiness Zone Map API and calculates frost dates specific to your subzone. Vegetables are categorized by comparing their days-to-harvest range against your total frost-free days. &quot;Easy fit&quot; crops finish harvest within 75% of your season, &quot;tight fit&quot; crops need most or all of it, and &quot;won&apos;t fit&quot; crops require more days than your season provides.
+          This calculator estimates your growing season from typical frost dates. When you enter a ZIP code, it looks up your zone from the USDA Plant Hardiness Zone Map and uses typical frost dates and season length for that subzone (for example 6a or 6b). If you pick a zone instead, it uses the zone&apos;s typical frost dates shown in the table above. Vegetables are categorized by comparing their days-to-harvest range against your total frost-free days. &quot;Easy fit&quot; crops finish harvest within 75% of your season, &quot;tight fit&quot; crops need most or all of it, and &quot;won&apos;t fit&quot; crops require more days than your season provides.
         </p>
         <h3 className="text-base font-semibold text-[var(--color-text)]">
           Tips for Maximizing Your Growing Season
