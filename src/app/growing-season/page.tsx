@@ -39,15 +39,17 @@ const ZONE_GUIDES = getAllZoneGuides();
 
 // Day-of-year arithmetic on a non-leap calendar; frost dates are typical (50%) dates, not a specific year.
 const DAYS_BEFORE_MONTH = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
-const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 function dayOfYear(d: { month: number; day: number }): number {
   return DAYS_BEFORE_MONTH[d.month - 1] + d.day;
 }
 function frostFreeDays(z: { lastFrost: { month: number; day: number }; firstFrost: { month: number; day: number } }): number {
   return dayOfYear(z.firstFrost) - dayOfYear(z.lastFrost);
 }
-function shortDate(d: { month: number; day: number }): string {
-  return `${MONTH_NAMES[d.month - 1]} ${d.day}`;
+/** Zone frost dates are averages, so show them only to the third of a month ("Mid-May"), never to the day. */
+function partOfMonth(d: { month: number; day: number }): string {
+  const part = d.day <= 10 ? "Early" : d.day <= 20 ? "Mid" : "Late";
+  return `${part}-${MONTH_NAMES[d.month - 1]}`;
 }
 
 /** Typical season length for zones 3-10 (where most US gardeners live), from the same frost table as the zone guides. */
@@ -56,8 +58,8 @@ const SEASON_TABLE = ZONE_GUIDES.filter((z) => z.zone >= 3 && z.zone <= 10).map(
   return {
     zone: z.zone,
     slug: z.slug,
-    lastFrost: shortDate(z.lastFrost),
-    firstFrost: shortDate(z.firstFrost),
+    lastFrost: partOfMonth(z.lastFrost),
+    firstFrost: partOfMonth(z.firstFrost),
     days,
     weeks: Math.round(days / 7),
   };
