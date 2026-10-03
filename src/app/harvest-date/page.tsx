@@ -32,6 +32,14 @@ const ZONE_OPTIONS = Array.from({ length: 13 }, (_, i) => ({
   label: `Zone ${i + 1}`,
 }));
 
+/** Crawlable days-to-harvest reference, fastest first. Rendered into the initial HTML. */
+const HARVEST_TABLE = [...VEGETABLES].sort(
+  (a, b) => a.daysToHarvest[0] - b.daysToHarvest[0] || a.daysToHarvest[1] - b.daysToHarvest[1]
+);
+const FASTEST = HARVEST_TABLE[0];
+const SLOWEST = [...VEGETABLES].sort((a, b) => b.daysToHarvest[1] - a.daysToHarvest[1])[0];
+const TOMATO = VEGETABLES.find((v) => v.name === "Tomato");
+
 const VEGETABLE_OPTIONS = VEGETABLES.map((v) => ({
   value: v.name,
   label: `${v.icon} ${v.name}`,
@@ -248,10 +256,10 @@ export default function HarvestDatePage() {
 
   return (
     <CalculatorLayout
-      title="Harvest Date Calculator"
+      title="Harvest Date Calculator: Days to Harvest"
       description="Estimate when your vegetables will be ready to harvest based on the crop, planting date, USDA zone, and growing conditions."
-      lastUpdated="March 2026"
-      intro="Knowing when to expect your harvest helps you plan meals, succession plantings, and fall garden prep. Select your vegetable, enter the date you planted (or plan to plant), and adjust for your growing conditions to get a personalized harvest timeline."
+      lastUpdated="October 2026"
+      intro={`How many days until harvest? It depends on the crop: ${FASTEST.name.toLowerCase()} can be ready in about ${FASTEST.daysToHarvest[0]} days, ${TOMATO ? `tomatoes take about ${TOMATO.daysToHarvest[0]} to ${TOMATO.daysToHarvest[1]} days from transplant, ` : ""}and ${SLOWEST.name.toLowerCase()} can need up to ${SLOWEST.daysToHarvest[1]} days. Pick your vegetable and planting date below for your harvest window, or see the days-to-harvest table for all ${VEGETABLES.length} vegetables.`}
     >
       <CalculatorSchema
         name="Harvest Date Calculator"
@@ -494,6 +502,43 @@ export default function HarvestDatePage() {
       )}
 
       <EmailCapture variant="banner" context="harvest-date" />
+
+      <section id="days-to-harvest-table" className="mt-10">
+        <h2 className="mb-2 text-lg font-bold text-[var(--color-text)]">
+          Days to Harvest for {VEGETABLES.length} Vegetables
+        </h2>
+        <p className="mb-4 text-sm text-[var(--color-text-muted)]">
+          Typical days from planting to first harvest across common varieties, fastest first. Your seed packet&apos;s days to maturity for the exact variety is the best guide. To check whether a crop fits before fall frost, see the{" "}
+          <a href="/growing-season" className="text-[var(--color-primary)] hover:underline">growing season length calculator</a>, the{" "}
+          <a href="/frost-probability" className="text-[var(--color-primary)] hover:underline">frost probability calculator</a> and your{" "}
+          <a href="/planting-dates" className="text-[var(--color-primary)] hover:underline">planting dates by ZIP</a>.
+        </p>
+        <div className="overflow-x-auto rounded-xl border border-[var(--color-border)]">
+          <table className="w-full text-left text-sm">
+            <thead className="bg-[var(--color-surface-alt)] text-[var(--color-text)]">
+              <tr>
+                <th scope="col" className="px-3 py-2 font-semibold">Vegetable</th>
+                <th scope="col" className="px-3 py-2 font-semibold">Days to harvest</th>
+                <th scope="col" className="px-3 py-2 font-semibold">Weeks</th>
+              </tr>
+            </thead>
+            <tbody className="text-[var(--color-text-muted)]">
+              {HARVEST_TABLE.map((v) => (
+                <tr key={v.name} className="border-t border-[var(--color-border)]">
+                  <td className="px-3 py-2 text-[var(--color-text)]">{v.name}</td>
+                  <td className="px-3 py-2">
+                    {v.daysToHarvest[0]} to {v.daysToHarvest[1]} days
+                  </td>
+                  <td className="px-3 py-2">
+                    {Math.round(v.daysToHarvest[0] / 7)} to {Math.round(v.daysToHarvest[1] / 7)}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
       <FAQSection questions={harvestDateFAQ} />
 
       {/* Educational Content */}
