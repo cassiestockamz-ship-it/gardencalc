@@ -61,14 +61,26 @@ const COMMON_SIZES = [
   { label: '2\' × 8\' × 18"', w: 2, l: 8, h: 18 },
 ];
 
-// Average cost per cubic foot
-const COST_PER_CUFT = {
-  topsoil: 0.75,
-  compost: 1.5,
-  peat: 2.0,
-  vermiculite: 3.5,
-  wood: 0,
-};
+// Bagged soil sizes. 40 lb bags of topsoil hold about 0.75 cu ft (read the bag label).
+const BAG_SIZES = [
+  { label: "1 cu ft bags", cuFt: 1 },
+  { label: "1.5 cu ft bags", cuFt: 1.5 },
+  { label: "2 cu ft bags", cuFt: 2 },
+  { label: "40 lb bags (about 0.75 cu ft)", cuFt: 0.75 },
+];
+
+const bagsFor = (cuFt: number, bagCuFt: number) => Math.ceil(cuFt / bagCuFt - 1e-9);
+
+// Server-rendered reference table (rectangular beds).
+const TABLE_BEDS = [
+  { w: 4, l: 8 },
+  { w: 4, l: 4 },
+  { w: 3, l: 6 },
+];
+const TABLE_DEPTHS = [6, 10, 12];
+
+// Quick answer: a 4 x 8 ft bed, 12 inches deep.
+const QA_CUFT = 4 * 8 * 1;
 
 export default function SoilCalculatorPage() {
   const [preset, setPreset] = useState("0");
@@ -77,6 +89,8 @@ export default function SoilCalculatorPage() {
   const [lengthFt, setLengthFt] = useState(8);
   const [heightIn, setHeightIn] = useState(12);
   const [diameterFt, setDiameterFt] = useState(4);
+  const [leg2WidthFt, setLeg2WidthFt] = useState(4);
+  const [leg2LengthFt, setLeg2LengthFt] = useState(4);
   const [soilMix, setSoilMix] = useState<SoilMix>("standard");
   const [customTopsoil, setCustomTopsoil] = useState(50);
   const [customCompost, setCustomCompost] = useState(30);
@@ -109,9 +123,9 @@ export default function SoilCalculatorPage() {
         perimeterFt = widthFt * 4;
         break;
       case "lshaped":
-        // L-shape approximation: 75% of rectangle
-        areaSqFt = widthFt * lengthFt * 0.75;
-        perimeterFt = (widthFt + lengthFt) * 2 * 1.2;
+        // L-shape = two rectangles that do not overlap (leg 1 + leg 2)
+        areaSqFt = widthFt * lengthFt + leg2WidthFt * leg2LengthFt;
+        perimeterFt = (lengthFt + widthFt + leg2LengthFt) * 2;
         break;
       default: // rectangle
         areaSqFt = widthFt * lengthFt;
@@ -137,21 +151,7 @@ export default function SoilCalculatorPage() {
     const compostCuFt = totalCuFt * compostPct;
     const otherCuFt = totalCuFt * otherPct;
 
-    // Bags estimate (typical bags: 1 cu ft, 1.5 cu ft, 2 cu ft)
-    const bags1cuft = Math.ceil(totalCuFt);
-    const bags2cuft = Math.ceil(totalCuFt / 2);
-
-    // Weight estimate (loose soil ~40 lbs/cu ft)
-    const weightLbs = totalCuFt * 40;
-
-    // Cost estimate
-    const costTopsoil = topsoilCuFt * COST_PER_CUFT.topsoil;
-    const costCompost = compostCuFt * COST_PER_CUFT.compost;
-    let costOther = 0;
-    if (soilMix === "mellsbed") {
-      costOther = otherCuFt * ((COST_PER_CUFT.peat + COST_PER_CUFT.vermiculite) / 2);
-    }
-    const totalCost = costTopsoil + costCompost + costOther;
+    const bags = BAG_SIZES.map((b) => ({ ...b, count: bagsFor(totalCuFt, b.cuFt) }));
 
     return {
       areaSqFt,
@@ -161,15 +161,12 @@ export default function SoilCalculatorPage() {
       topsoilCuFt,
       compostCuFt,
       otherCuFt,
-      bags1cuft,
-      bags2cuft,
-      weightLbs,
-      totalCost,
+      bags,
       topsoilPct,
       compostPct,
       otherPct,
     };
-  }, [shape, widthFt, lengthFt, heightIn, diameterFt, soilMix, customTopsoil, customCompost, numBeds]);
+  }, [shape, widthFt, lengthFt, heightIn, diameterFt, leg2WidthFt, leg2LengthFt, soilMix, customTopsoil, customCompost, numBeds]);
 
   const mix = SOIL_MIXES[soilMix];
 
@@ -193,14 +190,13 @@ export default function SoilCalculatorPage() {
   ];
 
   const fmt = (n: number) => n.toFixed(1);
-  const fmtCost = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
 
   return (
     <CalculatorLayout
-      title="Raised Bed Soil Calculator"
-      description="Calculate exactly how much soil, compost, and amendments you need for your raised garden bed."
-      lastUpdated="March 2026"
-      intro="A standard 4×8 foot raised bed that's 12 inches deep needs about 32 cubic feet of soil. Roughly 1.2 cubic yards or 16 bags of 2-cubic-foot bagged soil. The ideal mix is 60% topsoil and 40% compost, costing approximately $40-80 depending on your source."
+      title="Raised Bed Soil Calculator (Cubic Feet, Yards and Bags)"
+      description="Enter your bed size to see how many cubic feet, cubic yards and bags of soil you need, for one bed or several, rectangular, round or L-shaped."
+      lastUpdated="October 2026"
+      intro={`How much soil for a raised bed? A 4 x 8 ft bed 12 inches deep holds ${QA_CUFT} cubic feet (${(QA_CUFT / 27).toFixed(1)} cubic yards): ${bagsFor(QA_CUFT, 2)} bags of 2 cu ft, ${bagsFor(QA_CUFT, 1.5)} bags of 1.5 cu ft, or about ${bagsFor(QA_CUFT, 0.75)} bags of 40 lb topsoil. The formula is length x width x depth in feet; divide by 27 for cubic yards.`}
     >
       <CalculatorSchema
         name="Raised Bed Soil Calculator"
@@ -239,7 +235,7 @@ export default function SoilCalculatorPage() {
         ) : (
           <>
             <NumberInput
-              label={shape === "square" ? "Side Length" : "Width"}
+              label={shape === "square" ? "Side Length" : shape === "lshaped" ? "Leg 1 Width" : "Width"}
               value={widthFt}
               onChange={setWidthFt}
               min={1}
@@ -249,14 +245,38 @@ export default function SoilCalculatorPage() {
             />
             {shape !== "square" && (
               <NumberInput
-                label="Length"
+                label={shape === "lshaped" ? "Leg 1 Length" : "Length"}
                 value={lengthFt}
                 onChange={setLengthFt}
                 min={1}
                 max={30}
                 step={0.5}
                 unit="feet"
+                helpText={shape === "lshaped" ? "Measure the L as two rectangles that do not overlap" : undefined}
               />
+            )}
+            {shape === "lshaped" && (
+              <>
+                <NumberInput
+                  label="Leg 2 Width"
+                  value={leg2WidthFt}
+                  onChange={setLeg2WidthFt}
+                  min={1}
+                  max={30}
+                  step={0.5}
+                  unit="feet"
+                />
+                <NumberInput
+                  label="Leg 2 Length"
+                  value={leg2LengthFt}
+                  onChange={setLeg2LengthFt}
+                  min={1}
+                  max={30}
+                  step={0.5}
+                  unit="feet"
+                  helpText="Only the part that sticks out past leg 1"
+                />
+              </>
             )}
           </>
         )}
@@ -334,30 +354,15 @@ export default function SoilCalculatorPage() {
             unit="cubic yards"
             icon="🚛"
           />
-          <ResultCard
-            label="Approx. Weight"
-            value={Math.round(results.weightLbs).toLocaleString()}
-            unit="lbs"
-            icon="⚖️"
-          />
-          <ResultCard
-            label="1 cu ft Bags Needed"
-            value={String(results.bags1cuft)}
-            unit="bags"
-            icon="🛍️"
-          />
-          <ResultCard
-            label="2 cu ft Bags Needed"
-            value={String(results.bags2cuft)}
-            unit="bags"
-            icon="🛍️"
-          />
-          <ResultCard
-            label="Est. Cost"
-            value={fmtCost.format(results.totalCost)}
-            unit="materials"
-            icon="💰"
-          />
+          {results.bags.map((b) => (
+            <ResultCard
+              key={b.label}
+              label={b.label}
+              value={String(b.count)}
+              unit="bags"
+              icon="🛍️"
+            />
+          ))}
         </div>
 
         {/* Soil Mix Breakdown */}
@@ -391,7 +396,7 @@ export default function SoilCalculatorPage() {
             )}
           </div>
 
-          {/* Legend */}
+          {/* Legend: line items */}
           <div className="space-y-2">
             {results.topsoilPct > 0 && (
               <div className="flex items-center justify-between text-sm">
@@ -411,7 +416,17 @@ export default function SoilCalculatorPage() {
                 <span className="font-semibold text-[var(--color-text)]">{fmt(results.compostCuFt)} cu ft</span>
               </div>
             )}
-            {results.otherPct > 0 && (
+            {results.otherPct > 0 && soilMix === "mellsbed" &&
+              ["Peat moss (or coir)", "Coarse vermiculite"].map((name) => (
+                <div key={name} className="flex items-center justify-between text-sm">
+                  <div className="flex items-center gap-2">
+                    <div className="h-3 w-3 rounded-full" style={{ backgroundColor: "#d97706" }} />
+                    <span className="font-medium text-[var(--color-text)]">{name} (33%)</span>
+                  </div>
+                  <span className="font-semibold text-[var(--color-text)]">{fmt(results.otherCuFt / 2)} cu ft</span>
+                </div>
+              ))}
+            {results.otherPct > 0 && soilMix !== "mellsbed" && (
               <div className="flex items-center justify-between text-sm">
                 <div className="flex items-center gap-2">
                   <div className="h-3 w-3 rounded-full" style={{ backgroundColor: "#d97706" }} />
@@ -429,12 +444,52 @@ export default function SoilCalculatorPage() {
 
         <ShareResults
           title={`Soil Needed: ${fmt(results.totalCuFt)} cu ft`}
-          text={`My ${shape} raised bed (${shape === "circle" ? `${diameterFt}ft diameter` : `${widthFt}×${lengthFt}ft`}, ${heightIn}" deep${numBeds > 1 ? `, ×${numBeds} beds` : ""}) needs ${fmt(results.totalCuFt)} cubic feet of soil (${fmt(results.totalCuYd)} cubic yards).`}
+          text={`My ${shape} raised bed (${shape === "circle" ? `${diameterFt}ft diameter` : shape === "lshaped" ? `${widthFt}×${lengthFt}ft + ${leg2WidthFt}×${leg2LengthFt}ft` : `${widthFt}×${lengthFt}ft`}, ${heightIn}" deep${numBeds > 1 ? `, ×${numBeds} beds` : ""}) needs ${fmt(results.totalCuFt)} cubic feet of soil (${fmt(results.totalCuYd)} cubic yards).`}
         />
         <p className="text-sm text-[var(--color-muted)] mt-4">
           <a href="/planting-dates" className="text-[var(--color-primary)] hover:underline">Find out when to plant in your bed &rarr;</a>
         </p>
       </div>
+
+      <section className="mt-10">
+        <h2 className="mb-2 text-lg font-bold text-[var(--color-text)]">How Much Soil for Common Raised Bed Sizes</h2>
+        <p className="mb-4 text-sm text-[var(--color-text-muted)]">
+          Volume is length x width x depth. Bag counts are rounded up; add a little extra for settling.
+        </p>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="text-left text-[var(--color-text)]">
+                <th className="py-2 pr-3">Bed size</th>
+                <th className="py-2 pr-3">Depth</th>
+                <th className="py-2 pr-3">Cubic feet</th>
+                <th className="py-2 pr-3">Cubic yards</th>
+                <th className="py-2 pr-3">2 cu ft bags</th>
+                <th className="py-2 pr-3">1.5 cu ft bags</th>
+                <th className="py-2">40 lb bags</th>
+              </tr>
+            </thead>
+            <tbody className="text-[var(--color-text-muted)]">
+              {TABLE_BEDS.flatMap((b) =>
+                TABLE_DEPTHS.map((d) => {
+                  const cuFt = (b.w * b.l * d) / 12;
+                  return (
+                    <tr key={`${b.w}x${b.l}x${d}`} className="border-t border-[var(--color-border)]">
+                      <td className="py-2 pr-3">{b.w} x {b.l} ft</td>
+                      <td className="py-2 pr-3">{d} in</td>
+                      <td className="py-2 pr-3">{fmt(cuFt)}</td>
+                      <td className="py-2 pr-3">{(cuFt / 27).toFixed(2)}</td>
+                      <td className="py-2 pr-3">{bagsFor(cuFt, 2)}</td>
+                      <td className="py-2 pr-3">{bagsFor(cuFt, 1.5)}</td>
+                      <td className="py-2">{bagsFor(cuFt, 0.75)}</td>
+                    </tr>
+                  );
+                })
+              )}
+            </tbody>
+          </table>
+        </div>
+      </section>
 
       <FAQSection questions={soilFAQ} />
 
@@ -442,12 +497,12 @@ export default function SoilCalculatorPage() {
       <div className="mt-10 space-y-6">
         <h2 className="text-lg font-bold text-[var(--color-text)]">How This Calculator Works</h2>
         <p className="text-sm leading-relaxed text-[var(--color-text-muted)]">
-          This calculator computes soil volume using standard geometric formulas: length × width × height for rectangular beds, π × r² × height for circular beds, and a 75% area factor for L-shaped beds. Weight estimates use an average of 40 lbs per cubic foot of garden soil mix. Cost estimates are based on typical retail pricing: topsoil at $0.75/cu ft, compost at $1.50/cu ft, and peat moss/vermiculite at $2.00-$3.50/cu ft. Bulk delivery (by the cubic yard) is usually 30-50% cheaper than bagged soil for beds larger than 4×8 feet.
+          This calculator computes soil volume using standard geometric formulas: length × width × depth for rectangular beds, π × r² × depth for round beds, and the sum of two rectangles for L-shaped beds. One cubic yard is 27 cubic feet. Bag counts divide the total by the bag volume printed on the bag and round up. A 40 lb bag of topsoil usually holds about 0.75 cubic feet, but bag sizes vary, so check the label. For several beds, compare the bag count with a bulk delivery priced by the cubic yard.
         </p>
         <h3 className="text-base font-semibold text-[var(--color-text)]">Tips for Filling Raised Beds</h3>
         <ul className="list-disc space-y-1.5 pl-5 text-sm text-[var(--color-text-muted)]">
           <li>For beds deeper than 12 inches, fill the bottom third with logs, sticks, or leaves (hugelkultur method) to reduce soil cost and improve drainage.</li>
-          <li>A 60/40 topsoil-to-compost ratio works for most vegetables. Mel&apos;s Mix (⅓ compost, ⅓ peat, ⅓ vermiculite) is popular for square-foot gardening but costs 2-3x more.</li>
+          <li>A 60/40 topsoil-to-compost ratio works for most vegetables. Mel&apos;s Mix (⅓ compost, ⅓ peat, ⅓ vermiculite) is popular for square-foot gardening; the breakdown above lists each part in cubic feet.</li>
           <li>Soil settles 10-15% in the first season. Consider overfilling slightly and topping off with compost each spring.</li>
           <li>Once your bed is filled, use our <a href="/planting-dates" className="text-[var(--color-primary)] hover:underline">planting date calculator</a> to find the best time to plant in your zone, then check <a href="/seed-spacing" className="text-[var(--color-primary)] hover:underline">seed spacing</a> to maximize your harvest.</li>
         </ul>
