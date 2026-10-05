@@ -319,7 +319,7 @@ export default function SoilPhCalculatorPage() {
         intro="The calculator is only as good as the pH you enter. Test first, then buy the amendment the result calls for: lime to raise pH, sulfur to lower it."
         picks={[
           { asin: "B01HQXF0PS", role: "Test: chemical kit", name: "Rapitest Soil Test Kit", note: "A color-match kit that tests pH plus nitrogen, phosphorus and potassium. A lab test through your county extension office is the more precise option." },
-          { asin: "B07BR52P26", role: "Test: probe meter", name: "SONKIR MS02 3-in-1 Soil Meter", note: "A battery-free probe that reads moisture, light and pH. Probe pH readings are rough; confirm with a chemical kit before you amend." },
+          { asin: "B07BR52P26", role: "Test: probe meter", name: "SONKIR MS02 3-in-1 Soil Meter", note: "A 3-in-1 probe that reads moisture, light and pH; the soil must be damp for a reading. Probe pH readings are rough; confirm with a chemical kit before you amend." },
           { asin: "B01N94B724", role: "Raise pH", name: "Jobe's Organics Garden Lime", note: "A lime soil amendment for acidic soil. Use the pounds the calculator gives for your area and soil type." },
           { asin: "B08VD9WT1P", role: "Lower pH", name: "True Organic Prilled Sulfur", note: "Elemental sulfur for alkaline soil. Sulfur works slowly as soil microbes convert it, so retest after a few months." },
         ]}
