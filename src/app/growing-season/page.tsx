@@ -273,10 +273,18 @@ export default function GrowingSeasonPage() {
     const wontFitCount = categorized.filter((v) => v.fit === "wontfit").length;
     const fitsCount = easyCount + tightCount;
 
+    // When the ZIP's subzone value differs from the zone average in the table, say which is which.
+    const zoneAvgDays = frostFreeDays(guide);
+    const subzoneNote =
+      zipMatchesZone && zipZoneData!.growingSeason > 0 && zipZoneData!.growingSeason !== zoneAvgDays
+        ? `This is the typical season for subzone ${zipZoneData!.zone.toLowerCase()}, where your ZIP is. The zone table below averages all of zone ${zoneNum} (about ${zoneAvgDays} days, ${Math.round(zoneAvgDays / 7)} weeks), so the two numbers differ.`
+        : "";
+
     return {
       zoneNum,
       seasonWeeks,
       seasonDays,
+      subzoneNote,
       lastFrostFormatted,
       firstFrostFormatted,
       plantingWindowStart,
@@ -401,6 +409,9 @@ export default function GrowingSeasonPage() {
                 icon="🗓️"
               />
             </div>
+            {results.subzoneNote && (
+              <p className="mt-3 text-sm text-[var(--color-text-muted)]">{results.subzoneNote}</p>
+            )}
 
             {/* Frost dates summary */}
             <div className="mt-6 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-5">
