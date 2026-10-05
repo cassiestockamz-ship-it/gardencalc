@@ -5,6 +5,7 @@ import MobileMenu from "@/components/MobileMenu";
 import NavDropdown from "@/components/NavDropdown";
 import StickyZipBar from "@/components/StickyZipBar";
 import TrackingPixel from "@/components/TrackingPixel";
+import ClickBeacon from "@/components/ClickBeacon";
 import "./globals.css";
 
 const inter = Inter({
@@ -61,6 +62,7 @@ export default function RootLayout({
       </head>
       <body className="flex min-h-screen flex-col">
         <TrackingPixel />
+        <ClickBeacon />
         <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2 focus:bg-white focus:text-[var(--color-primary-ink)] focus:rounded focus:shadow-lg">
           Skip to content
         </a>

@@ -11,6 +11,7 @@ import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import FAQSection from "@/components/FAQSection";
 import RelatedCalculators from "@/components/RelatedCalculators";
 import EmailCapture from "@/components/EmailCapture";
+import AmazonPicks from "@/components/AmazonPicks";
 import { soilFAQ } from "@/data/faq-data";
 
 type BedShape = "rectangle" | "square" | "circle" | "lshaped";
@@ -450,6 +451,17 @@ export default function SoilCalculatorPage() {
           <a href="/planting-dates" className="text-[var(--color-primary)] hover:underline">Find out when to plant in your bed &rarr;</a>
         </p>
       </div>
+
+      <AmazonPicks
+        heading="Bagged Soil and Mix Ingredients"
+        intro="Once you know your cubic feet, divide by the bag size on the label. These are widely sold bags for each part of a raised bed fill."
+        picks={[
+          { asin: "B0F9PW3XS4", role: "Ready-made raised bed mix", name: "FoxFarm Raised Bed Planting Mix, 1.5 cu ft", note: "A pre-blended raised bed mix with earthworm castings. Use the 1.5 cu ft bag count above." },
+          { asin: "B0F8585WR8", role: "Ready-made raised bed mix", name: "Miracle-Gro Organic Raised Bed and Garden Soil", note: "An organic raised bed soil with added natural fertilizer. Check the bag size on the listing and match it to the bag count above." },
+          { asin: "B0CRBDX9BK", role: "Mel's Mix: the peat or coir third", name: "Back to the Roots Organic Coir, 51 qt", note: "A compressed coco coir brick that expands to 51 quarts, about 2 cubic feet. Coir is the common peat moss swap." },
+          { asin: "B0DV5SD7YW", role: "Mel's Mix: the vermiculite third", name: "Palmetto Coarse Vermiculite, 4 cu ft", note: "Coarse horticultural-grade vermiculite in a 4 cu ft bag, the size that suits a full bed of Mel's Mix." },
+        ]}
+      />
 
       <section className="mt-10">
         <h2 className="mb-2 text-lg font-bold text-[var(--color-text)]">How Much Soil for Common Raised Bed Sizes</h2>
