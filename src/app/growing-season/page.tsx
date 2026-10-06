@@ -236,7 +236,7 @@ export default function GrowingSeasonPage() {
       const t = new Date(Date.UTC(2001, d.month - 1, d.day + days));
       return { month: t.getUTCMonth() + 1, day: t.getUTCDate() };
     };
-    const plantingWindowStart = frostFree ? "Year-round" : partOfMonth(shift(frost.lastFrost, 14));
+    const plantingWindowStart = frostFree ? "All year" : partOfMonth(shift(frost.lastFrost, 14));
     const plantingWindowEnd = frostFree ? "" : partOfMonth(shift(frost.firstFrost, -70));
 
     const categorized = categorizeVegetables(seasonDays, zoneNum);
