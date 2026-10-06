@@ -19,11 +19,11 @@ export async function generateMetadata({
   const guide = getZoneGuide(slug);
   if (!guide) return {};
 
-  const title = `Zone ${guide.zone} Planting Guide: Live Frost Countdown & This Week's Crops`;
+  const title = `Zone ${guide.zone} Planting Guide: Frost Countdown | PlantingCalc`;
   const description = `Complete Zone ${guide.zone} growing guide (${guide.tempRange}). Live frost countdown, ${guide.bestVegetables.length} plantable vegetables, and a ${guide.growingSeasonWeeks}-week season breakdown.`;
 
   return {
-    title,
+    title: { absolute: title },
     description,
     alternates: { canonical: `/guides/${guide.slug}` },
     openGraph: { title, description },

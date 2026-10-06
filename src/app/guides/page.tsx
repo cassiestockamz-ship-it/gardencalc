@@ -4,7 +4,7 @@ import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import { getAllZoneGuides } from "@/data/zone-guides";
 
 export const metadata: Metadata = {
-  title: "USDA Zone Growing Guides: What to Plant in Your Zone",
+  title: { absolute: "USDA Zone Growing Guides: What to Plant | PlantingCalc" },
   description:
     "Find what to plant in your USDA hardiness zone. Growing guides for Zones 1-13 with vegetable lists, planting tips, and season length. Powered by real USDA data.",
   alternates: { canonical: "/guides" },

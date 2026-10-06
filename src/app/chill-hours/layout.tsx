@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Chill Hours Tracker: Live Season Accumulation by ZIP | PlantingCalc",
+  title: { absolute: "Chill Hours Tracker by ZIP | PlantingCalc" },
   description:
     "Track fruit tree chill hour accumulation in real time for your ZIP. Compares against 30+ varieties including apples, peaches, cherries, pears and blueberries.",
   alternates: { canonical: "https://plantingcalc.com/chill-hours" },

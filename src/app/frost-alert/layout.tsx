@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Frost Alert: Cover Or Lose (by ZIP) | PlantingCalc",
+  title: { absolute: "Frost Alert: Cover Or Lose (by ZIP) | PlantingCalc" },
   description:
     "Frost warning tonight? Enter your ZIP, check your 72-hour forecast, and get a prioritized cover-or-lose list for your garden. Free, live data, no signup.",
   alternates: { canonical: "https://plantingcalc.com/frost-alert" },

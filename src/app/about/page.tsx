@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About PlantingCalc",
+  title: { absolute: "About PlantingCalc | Free Gardening Calculators" },
   description: "PlantingCalc is an independent publisher of free, data-driven gardening calculators built from USDA hardiness zone data, NOAA frost normals, and university agricultural extension research.",
   alternates: { canonical: "https://plantingcalc.com/about" },
 };

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Soil pH Calculator: Lime and Sulfur by Crop",
+  title: { absolute: "Soil pH Calculator: Lime and Sulfur by Crop | PlantingCalc" },
   description:
     "Enter your soil pH to see which vegetables grow well at it and how much lime or sulfur you need to adjust pH for your garden size and soil type.",
   openGraph: {
