@@ -414,7 +414,7 @@ export default function GrowingSeasonPage() {
 
             <ShareResults
               title={`Zone ${results.zoneNum} Growing Season: ${results.seasonWeeks} weeks`}
-              text={`Zone ${results.zoneNum} has a ${results.seasonWeeks}-week (${results.seasonDays}-day) growing season. ${results.fitsCount} vegetables fit within the season. Last frost: ${results.lastFrostFormatted}. First frost: ${results.firstFrostFormatted}.`}
+              text={`Zone ${results.zoneNum} has a ${results.seasonWeeks}-week (${results.seasonDays}-day) growing season. ${results.categorized.length === 0 ? "" : `${results.fitsCount} vegetables fit within the season. `}Last frost: ${results.lastFrostFormatted}. First frost: ${results.firstFrostFormatted}.`}
             />
           </div>
 
