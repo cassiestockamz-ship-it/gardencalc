@@ -36,6 +36,8 @@ interface CategorizedVegetable {
 }
 
 const ZONE_GUIDES = getAllZoneGuides();
+const MIN_LIST_ZONE = Math.min(...VEGETABLES.map((v) => v.minZone));
+const MAX_LIST_ZONE = Math.max(...VEGETABLES.map((v) => v.maxZone));
 
 // Day-of-year arithmetic on a non-leap calendar; frost dates are typical (50%) dates, not a specific year.
 const DAYS_BEFORE_MONTH = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
@@ -421,6 +423,12 @@ export default function GrowingSeasonPage() {
             <h2 className="mb-5 text-lg font-bold text-[var(--color-text)]">
               Vegetable Fit for {results.seasonDays}-Day Season
             </h2>
+
+            {results.categorized.length === 0 && (
+              <p className="text-sm text-[var(--color-text-muted)]">
+                Our vegetable list covers zones {MIN_LIST_ZONE} to {MAX_LIST_ZONE}, so we have no crop timings for zone {results.zoneNum}. Frost does not limit what you grow here; heat and rainfall do. See the zone {results.zoneNum} growing tips below.
+              </p>
+            )}
 
             {(["easy", "tight", "wontfit"] as FitCategory[]).map((fitCat) => {
               const vegs = results.categorized.filter((v) => v.fit === fitCat);
