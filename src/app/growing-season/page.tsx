@@ -210,62 +210,34 @@ export default function GrowingSeasonPage() {
     const guide = ZONE_GUIDES.find((z) => z.zone === zoneNum);
     if (!guide) return null;
 
-    // Season length: the ZIP's subzone value when we have one, otherwise the zone's typical frost dates.
+    // One pair of frost dates drives the season length, the frost box and the planting window:
+    // the ZIP's subzone dates when we have them, otherwise the zone's dates from the table below.
+    // Both are averages, so dates show only to the third of a month (playbook rule 6).
     const zipMatchesZone =
       !!zipZoneData && parseInt(zipZoneData.zone.replace(/[ab]/i, "")) === zoneNum;
-    const seasonDays =
-      zipMatchesZone && zipZoneData!.growingSeason > 0
-        ? zipZoneData!.growingSeason
-        : frostFreeDays(guide);
+    const toMonthDay = (iso: string) => {
+      const [m, d] = iso.slice(-5).split("-").map(Number);
+      return { month: m, day: d };
+    };
+    const frost = zipMatchesZone
+      ? { lastFrost: toMonthDay(zipZoneData!.lastFrost), firstFrost: toMonthDay(zipZoneData!.firstFrost) }
+      : { lastFrost: guide.lastFrost, firstFrost: guide.firstFrost };
+    // Zones 11-13 are stored as Jan 1 to Dec 31: no typical frost at all.
+    const frostFree =
+      frost.lastFrost.month === 1 && frost.lastFrost.day === 1 &&
+      frost.firstFrost.month === 12 && frost.firstFrost.day === 31;
+    const seasonDays = frostFree ? 365 : frostFreeDays(frost);
     const seasonWeeks = Math.round(seasonDays / 7);
+    const lastFrostFormatted = frostFree ? "Usually none" : partOfMonth(frost.lastFrost);
+    const firstFrostFormatted = frostFree ? "Usually none" : partOfMonth(frost.firstFrost);
 
-    // Use ZIP API data if available, otherwise estimate from zone
-    let lastFrostFormatted = "";
-    let firstFrostFormatted = "";
-    let plantingWindowStart = "";
-    let plantingWindowEnd = "";
-
-    if (zipZoneData && parseInt(zipZoneData.zone.replace(/[ab]/i, "")) === zoneNum) {
-      lastFrostFormatted = zipZoneData.lastFrostFormatted;
-      firstFrostFormatted = zipZoneData.firstFrostFormatted;
-
-      // Planting window: 2 weeks after last frost to 10 weeks before first frost
-      const lastFrost = new Date(zipZoneData.lastFrost + "T00:00:00");
-      const firstFrost = new Date(zipZoneData.firstFrost + "T00:00:00");
-      const windowStart = new Date(lastFrost);
-      windowStart.setDate(windowStart.getDate() + 14);
-      const windowEnd = new Date(firstFrost);
-      windowEnd.setDate(windowEnd.getDate() - 70);
-
-      plantingWindowStart = windowStart.toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-      });
-      plantingWindowEnd = windowEnd.toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-      });
-    } else {
-      // Estimate frost dates from zone
-      const estimatedLastFrost = estimateLastFrost(zoneNum);
-      const estimatedFirstFrost = estimateFirstFrost(zoneNum);
-      lastFrostFormatted = estimatedLastFrost.label;
-      firstFrostFormatted = estimatedFirstFrost.label;
-
-      const windowStart = new Date(estimatedLastFrost.date);
-      windowStart.setDate(windowStart.getDate() + 14);
-      const windowEnd = new Date(estimatedFirstFrost.date);
-      windowEnd.setDate(windowEnd.getDate() - 70);
-
-      plantingWindowStart = windowStart.toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-      });
-      plantingWindowEnd = windowEnd.toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-      });
-    }
+    // Planting window: 2 weeks after last frost to 10 weeks before first frost
+    const shift = (d: { month: number; day: number }, days: number) => {
+      const t = new Date(Date.UTC(2001, d.month - 1, d.day + days));
+      return { month: t.getUTCMonth() + 1, day: t.getUTCDate() };
+    };
+    const plantingWindowStart = frostFree ? "Year-round" : partOfMonth(shift(frost.lastFrost, 14));
+    const plantingWindowEnd = frostFree ? "" : partOfMonth(shift(frost.firstFrost, -70));
 
     const categorized = categorizeVegetables(seasonDays, zoneNum);
     const easyCount = categorized.filter((v) => v.fit === "easy").length;
@@ -274,9 +246,9 @@ export default function GrowingSeasonPage() {
     const fitsCount = easyCount + tightCount;
 
     // When the ZIP's subzone value differs from the zone average in the table, say which is which.
-    const zoneAvgDays = frostFreeDays(guide);
+    const zoneAvgDays = frostFree ? 365 : frostFreeDays(guide);
     const subzoneNote =
-      zipMatchesZone && zipZoneData!.growingSeason > 0 && zipZoneData!.growingSeason !== zoneAvgDays
+      zipMatchesZone && seasonDays !== zoneAvgDays
         ? `This is the typical season for subzone ${zipZoneData!.zone.toLowerCase()}, where your ZIP is. The zone table below averages all of zone ${zoneNum} (about ${zoneAvgDays} days, ${Math.round(zoneAvgDays / 7)} weeks), so the two numbers differ.`
         : "";
 
@@ -405,7 +377,7 @@ export default function GrowingSeasonPage() {
               <ResultCard
                 label="Planting Window"
                 value={results.plantingWindowStart}
-                unit={`to ${results.plantingWindowEnd}`}
+                unit={results.plantingWindowEnd ? `to ${results.plantingWindowEnd}` : ""}
                 icon="🗓️"
               />
             </div>
@@ -605,53 +577,4 @@ export default function GrowingSeasonPage() {
       <RelatedCalculators currentPath="/growing-season" />
     </CalculatorLayout>
   );
-}
-
-// Estimated frost dates by zone (used when ZIP lookup is not available)
-function estimateLastFrost(zone: number): { label: string; date: Date } {
-  const year = new Date().getFullYear();
-  const estimates: Record<number, { month: number; day: number; label: string }> = {
-    1: { month: 6, day: 8, label: "Early June" },
-    2: { month: 5, day: 22, label: "Late May" },
-    3: { month: 5, day: 12, label: "Mid May" },
-    4: { month: 5, day: 1, label: "Early May" },
-    5: { month: 4, day: 17, label: "Mid April" },
-    6: { month: 4, day: 7, label: "Early April" },
-    7: { month: 3, day: 26, label: "Late March" },
-    8: { month: 3, day: 11, label: "Mid March" },
-    9: { month: 2, day: 20, label: "Late February" },
-    10: { month: 1, day: 23, label: "Late January" },
-    11: { month: 1, day: 1, label: "January 1 (frost-free)" },
-    12: { month: 1, day: 1, label: "January 1 (frost-free)" },
-    13: { month: 1, day: 1, label: "January 1 (frost-free)" },
-  };
-  const est = estimates[zone] || estimates[6];
-  return {
-    label: est.label,
-    date: new Date(year, est.month - 1, est.day),
-  };
-}
-
-function estimateFirstFrost(zone: number): { label: string; date: Date } {
-  const year = new Date().getFullYear();
-  const estimates: Record<number, { month: number; day: number; label: string }> = {
-    1: { month: 8, day: 22, label: "Late August" },
-    2: { month: 9, day: 7, label: "Early September" },
-    3: { month: 9, day: 17, label: "Mid September" },
-    4: { month: 9, day: 28, label: "Late September" },
-    5: { month: 10, day: 9, label: "Early October" },
-    6: { month: 10, day: 19, label: "Mid October" },
-    7: { month: 10, day: 31, label: "Late October" },
-    8: { month: 11, day: 14, label: "Mid November" },
-    9: { month: 12, day: 4, label: "Early December" },
-    10: { month: 12, day: 25, label: "Late December" },
-    11: { month: 12, day: 31, label: "December 31 (frost-free)" },
-    12: { month: 12, day: 31, label: "December 31 (frost-free)" },
-    13: { month: 12, day: 31, label: "December 31 (frost-free)" },
-  };
-  const est = estimates[zone] || estimates[6];
-  return {
-    label: est.label,
-    date: new Date(year, est.month - 1, est.day),
-  };
 }
