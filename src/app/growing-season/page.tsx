@@ -372,8 +372,8 @@ export default function GrowingSeasonPage() {
               />
               <ResultCard
                 label="Vegetables That Fit"
-                value={String(results.fitsCount)}
-                unit="crops"
+                value={results.categorized.length === 0 ? "n/a" : String(results.fitsCount)}
+                unit={results.categorized.length === 0 ? "see below" : "crops"}
                 icon="🌱"
               />
               <ResultCard
