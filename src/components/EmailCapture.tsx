@@ -6,9 +6,13 @@ import Link from "next/link";
 interface EmailCaptureProps {
   variant?: "inline" | "banner";
   context?: string;
+  zip?: string;
+  heading?: string;
+  blurb?: string;
+  successText?: string;
 }
 
-export default function EmailCapture({ variant = "inline", context }: EmailCaptureProps) {
+export default function EmailCapture({ variant = "inline", context, zip, heading, blurb, successText }: EmailCaptureProps) {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
@@ -21,7 +25,7 @@ export default function EmailCapture({ variant = "inline", context }: EmailCaptu
       const res = await fetch("/api/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, source: context || "general" }),
+        body: JSON.stringify({ email, source: context || "general", zip }),
       });
       if (res.ok) {
         setStatus("success");
@@ -37,7 +41,7 @@ export default function EmailCapture({ variant = "inline", context }: EmailCaptu
   if (status === "success") {
     return (
       <div className={`rounded-xl border border-green-200 bg-green-50 p-5 text-center ${variant === "banner" ? "my-8" : "mt-8"}`}>
-        <p className="text-sm font-semibold text-green-700">You&apos;re on the list. We&apos;ll email you planting calendar and frost reminders.</p>
+        <p className="text-sm font-semibold text-green-700">{successText ?? "You\u2019re on the list. We\u2019ll email you planting calendar and frost reminders."}</p>
       </div>
     );
   }
@@ -83,19 +87,19 @@ export default function EmailCapture({ variant = "inline", context }: EmailCaptu
   return (
     <div className="mt-8 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-5 text-center">
       <h3 className="text-sm font-bold text-[var(--color-text)]">
-        Planting calendar and frost reminders
+        {heading ?? "Planting calendar and frost reminders"}
       </h3>
       <p className="mt-1 text-xs text-[var(--color-text-muted)]">
-        Get your planting calendar and frost reminders by email. Nothing else, no sharing, unsubscribe in one click.
+        {blurb ?? "Get your planting calendar and frost reminders by email. Nothing else, no sharing, unsubscribe in one click."}
       </p>
-      <form onSubmit={handleSubmit} className="mt-3 flex justify-center gap-2">
+      <form onSubmit={handleSubmit} className="mt-3 flex flex-col justify-center gap-2 sm:flex-row">
         <input
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="your@email.com"
           required
-          className="w-56 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-sm text-[var(--color-text)] placeholder:text-[var(--color-text-muted)]/40 focus:border-[var(--color-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20"
+          className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-sm text-[var(--color-text)] placeholder:text-[var(--color-text-muted)]/40 focus:border-[var(--color-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20 sm:w-56"
         />
         <button
           type="submit"

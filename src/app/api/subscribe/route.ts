@@ -5,7 +5,7 @@ const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || "";
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, source } = await req.json();
+    const { email, source, zip } = await req.json();
 
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return NextResponse.json({ error: "Invalid email" }, { status: 400 });
@@ -23,6 +23,7 @@ export async function POST(req: NextRequest) {
         email,
         site_id: "plantingcalc",
         source: source || "general",
+        ...(typeof zip === "string" && /^\d{5}$/.test(zip) ? { zip } : {}),
       }),
     });
 

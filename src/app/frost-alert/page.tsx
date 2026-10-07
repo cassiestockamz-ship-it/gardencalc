@@ -7,6 +7,7 @@ import CalculatorSchema from "@/components/CalculatorSchema";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import FAQSection from "@/components/FAQSection";
 import ShareResults from "@/components/ShareResults";
+import EmailCapture from "@/components/EmailCapture";
 import RelatedCalculators from "@/components/RelatedCalculators";
 import ZipRingDecoder, { type DecodedZip } from "@/components/ZipRingDecoder";
 import {
@@ -75,6 +76,7 @@ export default function FrostAlertPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [placeName, setPlaceName] = useState<string | null>(null);
+  const [resultZip, setResultZip] = useState<string | null>(null);
   const [forecast, setForecast] = useState<DailyForecast[]>([]);
   const [selectedCrops, setSelectedCrops] = useState<Set<string>>(
     () =>
@@ -118,6 +120,7 @@ export default function FrostAlertPage() {
     setForecast([]);
     try {
       const loc = await lookupZip(decoded.zip);
+      setResultZip(decoded.zip);
       if (!loc) {
         setError("Could not look up that ZIP code.");
         return;
@@ -206,7 +209,7 @@ export default function FrostAlertPage() {
         ]}
       />
 
-      {/* ZIP Ring Decoder — the first interactive control */}
+      {/* ZIP Ring Decoder: the first interactive control */}
       <div className="mb-6">
         <ZipRingDecoder
           value={zip}
@@ -226,7 +229,7 @@ export default function FrostAlertPage() {
         )}
       </div>
 
-      {/* Verdict card — the one-screen answer */}
+      {/* Verdict card: the one-screen answer */}
       {verdict && byAction && (
         <section
           className={`pc-fade-up mb-8 overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] shadow-sm ${VERDICT_RIBBON[verdict.level]}`}
@@ -365,7 +368,17 @@ export default function FrostAlertPage() {
         </div>
       )}
 
-      {/* Crop selector — secondary control */}
+      {verdict && resultZip && (
+        <EmailCapture
+          context="frost-alert"
+          zip={resultZip}
+          heading={`Frost reminders for ${placeName ?? resultZip}`}
+          blurb="Email me when to cover crops before frost, and when to start seeds and transplant next spring, for this ZIP. Nothing else, unsubscribe in one click. We will confirm by email once reminders launch."
+          successText="Saved. We will confirm by email once frost reminders launch for your ZIP."
+        />
+      )}
+
+      {/* Crop selector: secondary control */}
       <details className="mt-8 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)]">
         <summary className="cursor-pointer list-none px-5 py-4">
           <span className="flex items-center justify-between">
