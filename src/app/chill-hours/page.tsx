@@ -296,7 +296,7 @@ export default function ChillHoursPage() {
             />
             <ResultCard
               label="10-year average"
-              value={average != null ? `${average.toFixed(0)}` : ", "}
+              value={average != null ? `${average.toFixed(0)}` : "n/a"}
               unit="chill hours"
               icon="📊"
             />
@@ -412,7 +412,7 @@ export default function ChillHoursPage() {
                         )}
                       </td>
                       <td className="px-5 py-2 text-xs text-[var(--color-text-muted)]">
-                        {v.notes || ", "}
+                        {v.notes || "n/a"}
                       </td>
                     </tr>
                   );
@@ -423,11 +423,11 @@ export default function ChillHoursPage() {
 
           <ShareResults
             title={`${accumulated.toFixed(0)} chill hours accumulated in ${placeName}`}
-            text={`${placeName} has accumulated ${accumulated.toFixed(0)} chill hours this winter. 10-year average: ${average?.toFixed(0) ?? ", "}.`}
+            text={`${placeName} has accumulated ${accumulated.toFixed(0)} chill hours this winter. 10-year average: ${average?.toFixed(0) ?? "n/a"}.`}
             card={{
               headline: `${accumulated.toFixed(0)}`,
               label: `Chill hours this winter: ${placeName ?? ""}`,
-              sub: `10-year avg ${average?.toFixed(0) ?? ", "} · ${varietiesForFruit.filter((v) => v.minHours <= accumulated).length} of ${varietiesForFruit.length} ${fruit.toLowerCase()} varieties satisfied`,
+              sub: `10-year avg ${average?.toFixed(0) ?? "n/a"} · ${varietiesForFruit.filter((v) => v.minHours <= accumulated).length} of ${varietiesForFruit.length} ${fruit.toLowerCase()} varieties satisfied`,
               calc: "chill-hours",
             }}
           />

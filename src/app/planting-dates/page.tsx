@@ -342,7 +342,7 @@ export default function PlantingDatesPage() {
                             {fmtDate(veg.indoorDate)}
                           </span>
                         ) : (
-                          <span className="text-xs text-[var(--color-text-muted)]">, </span>
+                          <span className="text-xs text-[var(--color-text-muted)]">Direct sow</span>
                         )}
                       </td>
                     )}

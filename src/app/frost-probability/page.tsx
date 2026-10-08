@@ -258,13 +258,13 @@ export default function FrostProbabilityPage() {
             />
             <ResultCard
               label="50% (mean last frost)"
-              value={percentile(50) ?? ", "}
+              value={percentile(50) ?? "n/a"}
               unit="typical date"
               icon="📊"
             />
             <ResultCard
               label="90% safe date"
-              value={percentile(90) ?? ", "}
+              value={percentile(90) ?? "n/a"}
               unit="tomatoes OK"
               icon="🛡️"
             />
