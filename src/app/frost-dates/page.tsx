@@ -530,7 +530,17 @@ export default function FrostDatesPage() {
         />
       )}
 
-      <EmailCapture variant="banner" context="frost-dates" />
+      {frostResult && zoneData ? (
+        <EmailCapture
+          context="frost-dates"
+          zip={zoneData.zip}
+          heading={`Frost reminders for ZIP ${zoneData.zip}`}
+          blurb="Email me when to start seeds, transplant, and cover crops before first frost, for this ZIP. Nothing else, unsubscribe in one click. We will confirm by email once reminders launch."
+          successText="Saved. We will confirm by email once frost reminders launch for your ZIP."
+        />
+      ) : (
+        <EmailCapture variant="banner" context="frost-dates" />
+      )}
       <FAQSection questions={frostDatesFAQ} />
 
       {/* Educational Content */}

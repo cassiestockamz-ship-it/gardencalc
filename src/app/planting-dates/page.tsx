@@ -389,7 +389,17 @@ export default function PlantingDatesPage() {
         />
       )}
 
-      <EmailCapture variant="banner" context="planting-dates" />
+      {zoneData ? (
+        <EmailCapture
+          context="planting-dates"
+          zip={zoneData.zip}
+          heading={`Your Zone ${zoneData.zone} planting calendar by email`}
+          blurb="Email me this calendar and remind me when to start seeds, transplant, and cover before first frost, for this ZIP. Nothing else, unsubscribe in one click. We will confirm by email once reminders launch."
+          successText="Saved. We will confirm by email once planting reminders launch for your ZIP."
+        />
+      ) : (
+        <EmailCapture variant="banner" context="planting-dates" />
+      )}
       <FAQSection questions={plantingDatesFAQ} />
 
       {/* Educational Content */}
