@@ -405,7 +405,7 @@ export default function PlantingDatesPage() {
       <div className="mt-10 space-y-6">
         <h2 className="text-lg font-bold text-[var(--color-text)]">How This Calculator Works</h2>
         <p className="text-sm leading-relaxed text-[var(--color-text-muted)]">
-          Planting dates are calculated relative to your local last frost date, which we determine using your USDA hardiness zone. We look up your zone via the USDA Plant Hardiness Zone Map API (phzmapi.org), then cross-reference it with 30-year average frost date normals from NOAA. Each vegetable has a planting window defined as weeks before or after the last frost. For example, tomatoes are typically transplanted 1-2 weeks after the last frost, while peas can be direct-sown 4-6 weeks before it.
+          Planting dates are calculated relative to your local last frost date, which we determine using your USDA hardiness zone. We look up your zone via the USDA Plant Hardiness Zone Map API (phzmapi.org), then use the average last and first frost dates for that zone (approximate, based on NOAA and USDA data), so your own garden may differ by a week or two. Each vegetable has a planting window defined as weeks before or after the last frost. For example, tomatoes are transplanted about 2 weeks after the last frost, while peas can be direct-sown about 5 weeks before it.
         </p>
         <h3 className="text-base font-semibold text-[var(--color-text)]">Making the Most of Your Growing Season</h3>
         <ul className="list-disc space-y-1.5 pl-5 text-sm text-[var(--color-text-muted)]">
