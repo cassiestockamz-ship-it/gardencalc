@@ -157,7 +157,9 @@ export default function SeedStartCalendarPage() {
       // Find last-frost-day-of-year for each year, average
       const byYear: Record<number, number> = {};
       for (let i = 0; i < data.dates.length; i++) {
-        if (data.tmin[i] <= 32) {
+        // Spring only (Feb-Jun): the range also covers each fall and winter.
+        const mm = data.dates[i].slice(5, 7);
+        if (data.tmin[i] <= 32 && mm >= "02" && mm <= "06") {
           const year = Number(data.dates[i].slice(0, 4));
           const date = new Date(data.dates[i]);
           const doy = Math.floor(

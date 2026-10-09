@@ -109,9 +109,11 @@ export default function FrostProbabilityPage() {
       for (let i = 0; i < data.dates.length; i++) {
         const d = data.dates[i];
         const tmin = data.tmin[i];
-        if (tmin <= 32) {
+        const monthDay = d.slice(5);
+        // The range runs Feb of the first year to Jun of the last, so it includes
+        // every fall and winter in between; only Feb-Jun counts as spring.
+        if (tmin <= 32 && monthDay >= "02-01" && monthDay <= "06-30") {
           const year = Number(d.slice(0, 4));
-          const monthDay = d.slice(5);
           const existing = byYear[year];
           if (!existing || monthDay > existing.lastFrostMonthDay) {
             byYear[year] = {
