@@ -30,7 +30,7 @@ const featured = [
     title: "Frost Probability",
     tagline: "30 years of NOAA data",
     description:
-      "Real frost probability for any date from the ERA5 climate record.",
+      "Real frost probability for any date from 30 years of NOAA climate records.",
     href: "/frost-probability",
     icon: "📊",
   },

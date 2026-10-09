@@ -397,7 +397,7 @@ const seedStartFAQ = [
   {
     question: "Where does the last-frost date come from?",
     answer:
-      "It's computed fresh for your ZIP from the last 15 years of daily temperature records. The tool looks up your ZIP's lat/lng, pulls 15 years of daily minimums from the ECMWF ERA5 reanalysis, finds the last spring day in each year that hit 32°F or below, and averages those dates. That's the 50th percentile last-frost date. It automatically reflects recent warming because it always uses the most recent 15 years.",
+      "It's computed fresh for your ZIP from the last 15 years of daily temperature records. The tool looks up your ZIP's lat/lng, pulls 15 years of daily minimums from NOAA's Regional Climate Centers (PRISM daily grid), finds the last spring day in each year that hit 32°F or below, and averages those dates. That's the 50th percentile last-frost date. It automatically reflects recent warming because it always uses the most recent 15 years.",
   },
   {
     question: "Does this handle fall plantings too?",

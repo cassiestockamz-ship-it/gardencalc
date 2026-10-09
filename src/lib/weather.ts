@@ -67,9 +67,8 @@ export async function fetchForecast14(
 
 /**
  * Historical daily temperature at a location, used to estimate frost probability
- * and chill-hour accumulation. Uses Open-Meteo's Historical Weather API which
- * pulls from ERA5 reanalysis (1940+) — the same data NOAA's climatology tables
- * are built from.
+ * and chill-hour accumulation. Uses NOAA's Regional Climate Centers ACIS
+ * GridData service (PRISM daily grid, about 4 km, 1981 onward; public data).
  */
 export async function fetchHistoricalDaily(
   lat: number,
@@ -85,20 +84,31 @@ export async function fetchHistoricalDaily(
   | null
 > {
   try {
-    const url =
-      `https://archive-api.open-meteo.com/v1/archive` +
-      `?latitude=${lat}&longitude=${lng}` +
-      `&start_date=${startDate}&end_date=${endDate}` +
-      `&daily=temperature_2m_min,temperature_2m_max` +
-      `&temperature_unit=fahrenheit&timezone=auto`;
-    const r = await fetch(url);
+    const r = await fetch("https://data.rcc-acis.org/GridData", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        loc: `${lng},${lat}`,
+        sdate: startDate,
+        edate: endDate,
+        grid: "21",
+        elems: "mint,maxt",
+      }),
+    });
     if (!r.ok) return null;
     const j = await r.json();
-    return {
-      dates: j.daily?.time ?? [],
-      tmin: j.daily?.temperature_2m_min ?? [],
-      tmax: j.daily?.temperature_2m_max ?? [],
-    };
+    const rows: [string, number, number][] = j.data ?? [];
+    const dates: string[] = [];
+    const tmin: number[] = [];
+    const tmax: number[] = [];
+    for (const [d, lo, hi] of rows) {
+      // ACIS marks missing values as -999; skip those days.
+      if (lo <= -999 || hi <= -999) continue;
+      dates.push(d);
+      tmin.push(lo);
+      tmax.push(hi);
+    }
+    return { dates, tmin, tmax };
   } catch {
     return null;
   }

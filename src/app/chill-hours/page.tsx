@@ -469,7 +469,7 @@ const chillFAQ = [
   {
     question: "How does the calculator compute hours from daily temperatures?",
     answer:
-      "The Open-Meteo historical archive returns daily minimum and maximum temperatures for your exact location. For each day, the tool models the temperature as a sine wave between tmin and tmax and computes the fraction of the 24-hour period where the temperature was at or below 45°F. This is a standard approximation used by extension service calculators when hourly data isn't available. Accuracy is typically within 10% of true hourly-data chill hours over a full season.",
+      "NOAA's Regional Climate Centers (PRISM daily grid, about 4 km) return daily minimum and maximum temperatures for your exact location. For each day, the tool models the temperature as a sine wave between tmin and tmax and computes the fraction of the 24-hour period where the temperature was at or below 45°F. This is a standard approximation used by extension service calculators when hourly data isn't available. Accuracy is typically within 10% of true hourly-data chill hours over a full season.",
   },
   {
     question: "What happens if my variety doesn't get enough chill?",

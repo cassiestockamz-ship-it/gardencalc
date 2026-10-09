@@ -164,8 +164,8 @@ export default function FrostProbabilityPage() {
         <p>
           <strong>Quick answer:</strong> The &ldquo;average last frost date&rdquo; you see
           in garden books is just the 50th percentile. Half the time it freezes later.
-          This tool pulls 30 years of daily minimum temperatures from the ERA5 historical
-          reanalysis (the same dataset NOAA uses for climatology tables), finds the real
+          This tool pulls 30 years of daily minimum temperatures for your location from
+          NOAA's Regional Climate Centers (the PRISM daily grid, about 4 km), finds the real
           last-frost date for each year, and gives you the probability that it freezes on
           or after any date you pick. Use the 90% column as the &ldquo;safe&rdquo; date
           for tender crops like tomatoes.
@@ -400,7 +400,7 @@ const frostProbFAQ = [
   {
     question: "Where does the 30 years of data come from?",
     answer:
-      "Open-Meteo's historical archive pulls from the ECMWF ERA5 reanalysis. The same global dataset NOAA climatology tables are built from. It covers every location on Earth at ~9 km resolution since 1940. The 32°F threshold is the standard light-freeze definition used by NOAA NCEI and cooperative extension services.",
+      "NOAA's Regional Climate Centers, through their ACIS data service. We read the PRISM daily temperature grid, which covers the lower 48 states at about 4 km resolution from 1981 onward and is built from thousands of weather stations. The 32°F threshold is the standard light-freeze definition used by NOAA NCEI and cooperative extension services.",
   },
   {
     question: "Why only February through June?",
@@ -410,7 +410,7 @@ const frostProbFAQ = [
   {
     question: "Does this account for microclimate?",
     answer:
-      "Only indirectly. ERA5 is a 9km gridded product, so it captures regional climate but not your specific south-facing brick wall or frost pocket. A south-facing slope with full sun and good drainage typically beats the ZIP average by 1-2 weeks on the last frost side. Urban heat islands can add 1-3 weeks of extension. Use the tool's number as a floor, then adjust for your site conditions.",
+      "Only indirectly. PRISM is a 4 km gridded product, so it captures regional climate but not your specific south-facing brick wall or frost pocket. A south-facing slope with full sun and good drainage typically beats the ZIP average by 1-2 weeks on the last frost side. Urban heat islands can add 1-3 weeks of extension. Use the tool's number as a floor, then adjust for your site conditions.",
   },
   {
     question: "My zone didn't change after 2023. Is the historical data still relevant?",

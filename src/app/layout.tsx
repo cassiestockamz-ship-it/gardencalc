@@ -103,7 +103,7 @@ export default function RootLayout({
                 PlantingCalc
               </p>
               <p className="max-w-lg text-xs text-[var(--color-text-muted)]">
-                Live forecasts from the National Weather Service, 30-year frost normals from ERA5 reanalysis, USDA plant hardiness zones, crop data from university extension publications. An independent publisher. Calculations are estimates. Your local extension office is always the gold standard for region-specific advice.
+                Live forecasts from the National Weather Service, historical temperatures from NOAA's Regional Climate Centers, USDA plant hardiness zones, crop data from university extension publications. An independent publisher. Calculations are estimates. Your local extension office is always the gold standard for region-specific advice.
               </p>
               <nav className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-xs text-[var(--color-text-muted)]">
                 <Link href="/guides" className="underline hover:text-[var(--color-text)]">Zone Guides</Link>
