@@ -47,7 +47,8 @@ export async function POST(request: NextRequest) {
     // Set by Vercel's edge from the client IP; the browser cannot supply it.
     country: request.headers.get("x-vercel-ip-country")?.slice(0, 2) || null,
   };
-  const key = process.env.SUPABASE_ANON_KEY || "";
+  // Server-side key: the public key may not insert into affiliate_clicks (plan b10c62ec).
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
 
   await fetch("https://yoypsojuedwyzymbsubu.supabase.co/rest/v1/affiliate_clicks", {
     method: "POST",
