@@ -159,8 +159,8 @@ export default function PlantingDatesPage() {
     <CalculatorLayout
       title="Planting Date Calculator"
       description="Enter your ZIP code to get personalized planting dates for 35+ vegetables based on your USDA hardiness zone and local frost dates."
-      lastUpdated="March 2026"
-      intro="Your planting dates depend on your USDA hardiness zone and local last frost date. Most vegetables should be started indoors 6-8 weeks before the last frost, while cold-hardy crops like peas, spinach, and kale can be direct-sown 4-6 weeks before. Enter your ZIP code below for personalized dates."
+      lastUpdated="October 2026"
+      intro="Planting dates are set relative to your average last spring frost, which comes from your USDA hardiness zone. Peas can go in the ground about 5 weeks before it, spinach, broccoli and radishes about 4 weeks before, and carrots about 3. Tomatoes and peppers are started indoors 8 to 10 weeks before the last frost and moved outside about 2 weeks after it. Enter your ZIP code below for dates for 35+ vegetables. Zone frost dates are averages, so check your local forecast before planting."
     >
       <CalculatorSchema
         name="Planting Date Calculator by ZIP Code"
@@ -176,7 +176,7 @@ export default function PlantingDatesPage() {
             "@type": "Dataset",
             name: "Per-ZIP planting date calendar for 35 common vegetables",
             description:
-              "Indoor-start, transplant, direct-sow, and harvest dates for 35 vegetables, computed from USDA hardiness zone data and NOAA 30-year frost normals by ZIP code.",
+              "Indoor-start, transplant, direct-sow, and harvest dates for 35 vegetables, estimated from USDA hardiness zone data and average zone frost dates for each ZIP code.",
             url: "https://plantingcalc.com/planting-dates",
             license: "https://creativecommons.org/publicdomain/zero/1.0/",
             creator: {
@@ -186,7 +186,6 @@ export default function PlantingDatesPage() {
             },
             sourceOrganization: [
               { "@type": "Organization", name: "USDA Plant Hardiness Zone Map" },
-              { "@type": "Organization", name: "NOAA NCEI Climate Normals 1991-2020" },
             ],
             variableMeasured: [
               "last spring frost date",
