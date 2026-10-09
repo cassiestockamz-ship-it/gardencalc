@@ -266,7 +266,7 @@ export default function FrostProbabilityPage() {
             />
             <ResultCard
               label="90% safe date"
-              value={percentile(90) ?? "n/a"}
+              value={percentile(10) ?? "n/a"}
               unit="tomatoes OK"
               icon="🛡️"
             />
