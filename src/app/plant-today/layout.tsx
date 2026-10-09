@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: { absolute: "Can I Plant Today? 14-Day Forecast Check | PlantingCalc" },
+  title: { absolute: "Can I Plant Today? 7-Day Forecast Check | PlantingCalc" },
   description:
     "Is it safe to plant tomatoes today at your ZIP? This tool pulls your live 7-day weather forecast, estimates soil temperature, and gives you a red/yellow/green answer crop by crop.",
   alternates: { canonical: "https://plantingcalc.com/plant-today" },

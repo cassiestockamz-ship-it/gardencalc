@@ -300,7 +300,7 @@ export default function PlantTodayPage() {
           {/* 7-day forecast strip */}
           <div className="border-t border-[var(--color-border)] bg-[var(--color-surface-alt)]/40 p-4 sm:p-5">
             <p className="mb-3 text-[10px] font-semibold uppercase tracking-wider text-[var(--color-text-faint)]">
-              Next 7 days
+              Next {forecast.length} days
             </p>
             <div className="grid grid-cols-7 gap-2 text-center text-xs">
               {forecast.map((d) => {
