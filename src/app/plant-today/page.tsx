@@ -175,17 +175,17 @@ export default function PlantTodayPage() {
   return (
     <CalculatorLayout
       title="Can I Plant Today?"
-      description="Live red/yellow/green decision for any crop at any ZIP. Uses the real 14-day forecast and estimated soil temperature."
+      description="Live red/yellow/green decision for any crop at any ZIP. Uses the real 7-day forecast and estimated soil temperature."
       lastUpdated="Live"
       answerBlock={
         <p>
-          Two things matter for planting today: is a frost coming in the next week, and is your soil warm enough for germination. Tender crops like tomatoes need 55°F soil and zero freezing nights. Cold-hardy crops like peas can tolerate 40°F soil and a 28°F night. This tool pulls your live 14-day forecast from Open-Meteo, estimates soil temperature from the 7-day rolling mean of air temperature, and gives you a red/yellow/green answer for any of 40+ crops.
+          Two things matter for planting today: is a frost coming in the next week, and is your soil warm enough for germination. Tender crops like tomatoes need 55°F soil and zero freezing nights. Cold-hardy crops like peas can tolerate 40°F soil and a 28°F night. This tool pulls your live 7-day forecast from the National Weather Service, estimates soil temperature from the 7-day rolling mean of air temperature, and gives you a red/yellow/green answer for any of 40+ crops.
         </p>
       }
     >
       <CalculatorSchema
         name="Can I Plant Today?"
-        description="Live planting decision tool. Uses 14-day forecast and soil temperature estimate to answer yes/no for any crop at any US ZIP. Free."
+        description="Live planting decision tool. Uses the 7-day forecast and soil temperature estimate to answer yes/no for any crop at any US ZIP. Free."
         url="https://plantingcalc.com/plant-today"
       />
       <BreadcrumbSchema
@@ -297,10 +297,10 @@ export default function PlantTodayPage() {
             </div>
           </div>
 
-          {/* 14-day forecast strip */}
+          {/* 7-day forecast strip */}
           <div className="border-t border-[var(--color-border)] bg-[var(--color-surface-alt)]/40 p-4 sm:p-5">
             <p className="mb-3 text-[10px] font-semibold uppercase tracking-wider text-[var(--color-text-faint)]">
-              Next 14 days
+              Next 7 days
             </p>
             <div className="grid grid-cols-7 gap-2 text-center text-xs">
               {forecast.map((d) => {
@@ -342,7 +342,7 @@ export default function PlantTodayPage() {
       {analysis && forecast.length > 0 && (
         <ShareResults
           title={`${verdictLabel}: ${crop.name} in ${placeName}`}
-          text={`For ${crop.name} in ${placeName}, PlantingCalc says ${verdictLabel} based on the next 14 days.`}
+          text={`For ${crop.name} in ${placeName}, PlantingCalc says ${verdictLabel} based on the next 7 days.`}
           card={{
             headline: verdictLabel,
             label: `${crop.name} · ${placeName ?? ""}`,
@@ -391,13 +391,13 @@ const plantTodayFAQ = [
       "Tender crops like tomatoes and basil don't actually die at 33°F. They stop growing below 50°F and suffer cold damage that takes weeks to recover from. A string of 35-40°F nights early in the season will produce stunted plants that underperform plants transplanted two weeks later into warm soil. The soil-temperature check is what forces a yellow or red even when there's no frost in the forecast.",
   },
   {
-    question: "Is the 14-day forecast reliable out to day 14?",
+    question: "How far ahead does the forecast go?",
     answer:
-      "Days 1-7 are usually within 2-4°F of reality. Days 8-14 get progressively less accurate and should be treated as guidance, not commitment. The tool weights the first 7 days for the freeze check and soil estimate, so day-14 noise has minimal impact. If you want to be ultra-safe on a planting day, re-check 48 hours before you were planning to sow.",
+      "About 7 days, from the National Weather Service. The first few days are the most reliable and later days are guidance, not commitment. The freeze check and soil estimate use those days only, so a planting date more than a week out is better judged with the seed start calendar. If you want to be extra safe on a planting day, re-check 48 hours before you plan to sow.",
   },
   {
     question: "Should I trust this more than the Farmers' Almanac last frost date?",
     answer:
-      "For the 'should I plant this weekend' question, yes. The Almanac date is the 50th-percentile last frost, averaged over a large region. This tool uses YOUR ZIP's actual 14-day weather. When they disagree, the live forecast wins. For long-range planning (when to start seeds in February for a May transplant), use the seed start calendar tool instead, since it's based on your ZIP's actual historical last-frost date.",
+      "For the 'should I plant this weekend' question, yes. The Almanac date is the 50th-percentile last frost, averaged over a large region. This tool uses YOUR ZIP's actual 7-day forecast. When they disagree, the live forecast wins. For long-range planning (when to start seeds in February for a May transplant), use the seed start calendar tool instead, since it's based on your ZIP's actual historical last-frost date.",
   },
 ];

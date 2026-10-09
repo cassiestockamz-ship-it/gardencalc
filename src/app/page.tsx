@@ -22,7 +22,7 @@ const featured = [
     title: "Plant Today?",
     tagline: "Live red/yellow/green",
     description:
-      "One verdict against the 14-day forecast and estimated soil temperature.",
+      "One verdict against the 7-day forecast and estimated soil temperature.",
     href: "/plant-today",
     icon: "✅",
   },
@@ -104,7 +104,7 @@ export default function HomePage() {
             name: "PlantingCalc",
             url: "https://plantingcalc.com",
             description:
-              "The planting calendar that reads your forecast. Free gardening calculators powered by live 14-day forecasts, 30-year NOAA frost history, and USDA hardiness zone data.",
+              "The planting calendar that reads your forecast. Free gardening calculators powered by live 7-day forecasts, 30-year NOAA frost history, and USDA hardiness zone data.",
             publisher: {
               "@type": "Organization",
               name: "PlantingCalc",
@@ -130,7 +130,7 @@ export default function HomePage() {
             operatingSystem: "Any",
             offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
             description:
-              "Enter a ZIP and get this week's exact gardening decisions. Reads the live 14-day forecast and tells you what to sow, what to watch, and what to cover against frost.",
+              "Enter a ZIP and get this week's exact gardening decisions. Reads the live 7-day forecast and tells you what to sow, what to watch, and what to cover against frost.",
           }),
         }}
       />
@@ -147,7 +147,7 @@ export default function HomePage() {
             Get this week&apos;s answer.
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-base text-[var(--color-text-muted)] sm:text-lg">
-            Live 14-day forecast, 30 years of NOAA frost history, your USDA zone. No wizard, no signup, no ads in the way. One ZIP tells you what to plant, what to cover, and how many days remain until your last frost.
+            Live 7-day forecast, 30 years of NOAA frost history, your USDA zone. No wizard, no signup, no ads in the way. One ZIP tells you what to plant, what to cover, and how many days remain until your last frost.
           </p>
         </div>
 

@@ -17,7 +17,7 @@ const categories = [
     description: "Real-time tools that pull your ZIP's live weather, 30-year frost history, and variety databases.",
     calculators: [
       { title: "Frost Alert", description: "Cover-or-lose list for tonight", href: "/frost-alert" },
-      { title: "Plant Today?", description: "Red/yellow/green based on 14-day forecast", href: "/plant-today" },
+      { title: "Plant Today?", description: "Red/yellow/green based on 7-day forecast", href: "/plant-today" },
       { title: "Frost Probability", description: "NOAA-style exceedance for any date", href: "/frost-probability" },
       { title: "Seed Start Calendar", description: "Indoor start dates with ICS download", href: "/seed-start-calendar" },
       { title: "Chill Hours Tracker", description: "Live fruit tree chill accumulation", href: "/chill-hours" },

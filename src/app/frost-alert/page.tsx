@@ -192,7 +192,7 @@ export default function FrostAlertPage() {
             Tender crops (tomatoes, peppers, basil, cucumbers, zucchini, beans) are damaged at any temperature below 33°F and killed outright below 30°F. Hardy crops (kale, spinach, broccoli, carrots, peas) are fine down to 26°F and actually taste better after a light frost.
           </p>
           <p className="mt-3">
-            This tool pulls your live 72-hour forecast from Open-Meteo, checks your selected crops against documented frost tolerance from Cornell and Penn State extension publications, and returns a sorted cover-or-lose list. Do this 30 minutes before sunset for maximum benefit.
+            This tool pulls your live 72-hour forecast from the National Weather Service, checks your selected crops against documented frost tolerance from Cornell and Penn State extension publications, and returns a sorted cover-or-lose list. Do this 30 minutes before sunset for maximum benefit.
           </p>
         </>
       }
@@ -492,7 +492,7 @@ const frostAlertFAQ = [
   {
     question: "Where does the forecast come from?",
     answer:
-      "Open-Meteo, which aggregates NOAA GFS, NWS HRRR, and ECMWF models depending on region. It's the same data feed the National Weather Service uses for public forecasts. Your ZIP is looked up via zippopotam.us to get a lat/lng, then Open-Meteo returns daily min/max temperatures. No signup, no API key, no logging.",
+      "The National Weather Service (api.weather.gov), the same forecast weather.gov shows for your location. Your ZIP is looked up via zippopotam.us to get a lat/lng, then the NWS point forecast gives the daily low and high for the next few days. No signup, no API key, no logging.",
   },
   {
     question: "At what temperature should I cover my tomatoes?",

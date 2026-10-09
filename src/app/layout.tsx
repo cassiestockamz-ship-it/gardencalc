@@ -28,13 +28,13 @@ export const metadata: Metadata = {
     template: "%s: PlantingCalc",
   },
   description:
-    "Free gardening calculators that read your live 14-day forecast. One ZIP tells you what to plant this week, what to cover tonight, and exactly how many days remain until your last frost.",
+    "Free gardening calculators that read your live 7-day forecast. One ZIP tells you what to plant this week, what to cover tonight, and exactly how many days remain until your last frost.",
   openGraph: {
     type: "website",
     siteName: "PlantingCalc",
     title: "PlantingCalc: The Planting Calendar That Reads Your Forecast",
     description:
-      "Enter a ZIP. Get this week's exact gardening decisions. Live 14-day forecast, frost probability from 30 years of NOAA data, USDA hardiness zones.",
+      "Enter a ZIP. Get this week's exact gardening decisions. Live 7-day NWS forecast, frost probability from 30 years of NOAA data, USDA hardiness zones.",
     images: [{ url: "/og/home", width: 1200, height: 630 }],
   },
   twitter: {
@@ -103,7 +103,7 @@ export default function RootLayout({
                 PlantingCalc
               </p>
               <p className="max-w-lg text-xs text-[var(--color-text-muted)]">
-                Live forecasts from Open-Meteo, 30-year frost normals from ERA5 reanalysis, USDA plant hardiness zones, crop data from university extension publications. An independent publisher. Calculations are estimates. Your local extension office is always the gold standard for region-specific advice.
+                Live forecasts from the National Weather Service, 30-year frost normals from ERA5 reanalysis, USDA plant hardiness zones, crop data from university extension publications. An independent publisher. Calculations are estimates. Your local extension office is always the gold standard for region-specific advice.
               </p>
               <nav className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-xs text-[var(--color-text-muted)]">
                 <Link href="/guides" className="underline hover:text-[var(--color-text)]">Zone Guides</Link>

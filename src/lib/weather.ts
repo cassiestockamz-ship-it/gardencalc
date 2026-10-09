@@ -2,7 +2,7 @@
  * Shared weather + location utilities for PlantingCalc.
  *
  * - zippopotam.us → lat/lng (free, no key, CORS-enabled)
- * - open-meteo.com → live daily forecast (free, no key, CORS-enabled)
+ * - api.weather.gov (NWS) → live daily forecast, via /api/forecast
  * - open-meteo.com/v1/climate → historical daily normals (1991-2020)
  */
 
@@ -38,39 +38,28 @@ export interface DailyForecast {
   date: string;
   tempMinF: number;
   tempMaxF: number;
-  precipIn: number;
-  windMphMax: number;
+  precipIn?: number;
+  windMphMax?: number;
 }
 
 /**
- * 14-day forecast from Open-Meteo. Fahrenheit, inches, mph.
+ * About 7-day daily min/max forecast from the National Weather Service,
+ * through our own /api/forecast route (NWS asks for a User-Agent). US only.
+ * Name kept so callers do not change.
  */
 export async function fetchForecast14(
   lat: number,
   lng: number
 ): Promise<DailyForecast[] | null> {
   try {
-    const url =
-      `https://api.open-meteo.com/v1/forecast` +
-      `?latitude=${lat}&longitude=${lng}` +
-      `&daily=temperature_2m_min,temperature_2m_max,precipitation_sum,wind_speed_10m_max` +
-      `&temperature_unit=fahrenheit&precipitation_unit=inch&wind_speed_unit=mph` +
-      `&timezone=auto&forecast_days=14`;
-    const r = await fetch(url);
+    const r = await fetch(`/api/forecast?lat=${lat}&lng=${lng}`);
     if (!r.ok) return null;
     const j = await r.json();
-    const dates: string[] = j.daily?.time ?? [];
-    const tmin: number[] = j.daily?.temperature_2m_min ?? [];
-    const tmax: number[] = j.daily?.temperature_2m_max ?? [];
-    const precip: number[] = j.daily?.precipitation_sum ?? [];
-    const wind: number[] = j.daily?.wind_speed_10m_max ?? [];
-    return dates.map((d, i) => ({
-      date: d,
-      tempMinF: tmin[i],
-      tempMaxF: tmax[i],
-      precipIn: precip[i],
-      windMphMax: wind[i],
-    }));
+    const dates: string[] = j.dates ?? [];
+    const tmin: number[] = j.tmin ?? [];
+    const tmax: number[] = j.tmax ?? [];
+    if (!dates.length) return null;
+    return dates.map((d, i) => ({ date: d, tempMinF: tmin[i], tempMaxF: tmax[i] }));
   } catch {
     return null;
   }

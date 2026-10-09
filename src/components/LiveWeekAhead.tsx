@@ -127,7 +127,7 @@ export default function LiveWeekAhead() {
             Your forecast-aware almanac
           </h2>
           <p className="mt-2 text-sm text-[var(--color-text-muted)]">
-            Type your ZIP above. We read your live 14-day forecast, find your USDA hardiness zone, calculate your frost date, and show you exactly what to plant this week and what to cover tonight.
+            Type your ZIP above. We read your live 7-day forecast, find your USDA hardiness zone, calculate your frost date, and show you exactly what to plant this week and what to cover tonight.
           </p>
         </section>
       )}

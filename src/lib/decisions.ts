@@ -1,7 +1,7 @@
 /**
  * PlantingCalc decision engine.
  *
- * Pure functions that turn a ZIP location + live 14-day forecast into
+ * Pure functions that turn a ZIP location + live 7-day forecast into
  * concrete gardening actions. This is the severity-engine equivalent
  * of recallscanner/src/lib/severity.ts. Zero network calls at render
  * time. The tools feed data in, the engine returns structured verdicts.
@@ -80,7 +80,7 @@ export function buildLocationContext(args: {
 
 /**
  * Decide the action level for a single vegetable given a location and
- * the next 14 days of forecast. The decision walks through:
+ * the next 7 days of forecast. The decision walks through:
  *
  *   1. Frost risk in the window: any day with tempMinF below the crop's
  *      frost tolerance -> frost (do not plant, or cover if already in).
