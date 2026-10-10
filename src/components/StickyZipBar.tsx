@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { STATE_FROST, daysBetween, formatMonthDay } from "@/lib/frostDates";
+import { ZONE_FROST_DATES } from "@/lib/zoneFrostDates";
 
 const STORAGE_KEY = "pc_zip_context_v1";
 
@@ -59,7 +60,13 @@ export default function StickyZipBar() {
 
   if (!saved || hidden) return null;
 
-  const normals = STATE_FROST[saved.state];
+  // Same subzone dates /api/zone gives the ZIP tools; state average only as a fallback.
+  const zoneKey = String(saved.zone ?? "").toLowerCase();
+  const sub = ZONE_FROST_DATES[zoneKey] || ZONE_FROST_DATES[zoneKey.replace(/[ab]$/, "a")];
+  const md = (s: string) => ({ month: Number(s.slice(0, 2)), day: Number(s.slice(3, 5)) });
+  const normals = sub
+    ? { lastFrost: md(sub.lastFrost), firstFrost: md(sub.firstFrost) }
+    : STATE_FROST[saved.state];
   let daysLabel = "";
   if (normals) {
     const now = new Date();
