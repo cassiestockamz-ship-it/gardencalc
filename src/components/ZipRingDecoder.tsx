@@ -2,7 +2,8 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { lookupZipPrefix } from "@/lib/zipTable";
-import { STATE_FROST, formatMonthDay, nextOccurrence, daysBetween } from "@/lib/frostDates";
+import { formatMonthDay, nextOccurrence, daysBetween } from "@/lib/frostDates";
+import { frostNormalsFor } from "@/lib/zoneFrostDates";
 
 /**
  * ZIP Ring Decoder — the signature interaction.
@@ -143,7 +144,7 @@ export default function ZipRingDecoder({
         value: formatLat(partial.approxLat),
         state: "partial",
       };
-      const normals = STATE_FROST[partial.state];
+      const normals = frostNormalsFor(partial.approxZone, partial.state);
       if (normals) {
         base[3] = {
           label: "Last Frost",
