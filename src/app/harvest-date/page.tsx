@@ -14,7 +14,8 @@ import RelatedCalculators from "@/components/RelatedCalculators";
 import EmailCapture from "@/components/EmailCapture";
 import { VEGETABLES } from "@/data/vegetables";
 import { harvestDateFAQ } from "@/data/faq-data";
-import { STATE_FROST, nextOccurrence } from "@/lib/frostDates";
+import { nextOccurrence } from "@/lib/frostDates";
+import { frostNormalsFor } from "@/lib/zoneFrostDates";
 import { lookupZip } from "@/lib/weather";
 
 const STORAGE_KEY = "pc_zip_context_v1";
@@ -163,7 +164,7 @@ export default function HarvestDatePage() {
     const loc = await lookupZip(decoded.zip);
     if (loc) setPlaceName(loc.place);
     const state = decoded.state || loc?.stateAbbr || "";
-    const normals = STATE_FROST[state.toUpperCase()];
+    const normals = frostNormalsFor(decoded.zone, state);
     if (normals) {
       const frostDate = nextOccurrence(normals.lastFrost.month, normals.lastFrost.day);
       const now = new Date();

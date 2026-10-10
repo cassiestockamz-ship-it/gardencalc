@@ -15,7 +15,8 @@
 import type { DailyForecast } from "./weather";
 import type { Vegetable } from "@/data/vegetables";
 import { FROST_CROPS, assessCropAtTemp, type FrostCrop } from "@/data/frost-tolerance";
-import { STATE_FROST, nextOccurrence, daysBetween, type FrostNormals } from "./frostDates";
+import { nextOccurrence, daysBetween, type FrostNormals } from "./frostDates";
+import { frostNormalsFor } from "./zoneFrostDates";
 
 export type ActionLevel = "sow" | "watch" | "frost" | "pending";
 
@@ -56,11 +57,10 @@ export function buildLocationContext(args: {
   now?: Date;
 }): LocationContext {
   const now = args.now ?? new Date();
-  const normals: FrostNormals =
-    STATE_FROST[args.state.toUpperCase()] ?? {
+  const normals: Pick<FrostNormals, "lastFrost" | "firstFrost"> =
+    frostNormalsFor(args.zone, args.state) ?? {
       lastFrost: { month: 5, day: 1 },
       firstFrost: { month: 10, day: 10 },
-      avgZone: args.zone,
     };
   const lastFrost = nextOccurrence(normals.lastFrost.month, normals.lastFrost.day, now);
   const firstFrost = nextOccurrence(normals.firstFrost.month, normals.firstFrost.day, now);

@@ -1,4 +1,5 @@
 // Typical last/first frost (MM-DD) and season days by USDA subzone. /api/zone and the sticky ZIP bar both read this, so every ZIP shows one date.
+import { STATE_FROST } from "@/lib/frostDates";
 export const ZONE_FROST_DATES: Record<string, { lastFrost: string; firstFrost: string; growingSeason: number }> = {
   "1a": { lastFrost: "06-15", firstFrost: "08-15", growingSeason: 60 },
   "1b": { lastFrost: "06-01", firstFrost: "08-31", growingSeason: 90 },
@@ -27,3 +28,19 @@ export const ZONE_FROST_DATES: Record<string, { lastFrost: string; firstFrost: s
   "13a": { lastFrost: "01-01", firstFrost: "12-31", growingSeason: 365 },
   "13b": { lastFrost: "01-01", firstFrost: "12-31", growingSeason: 365 },
 };
+
+/** Subzone entry for a zone string like "5a" or "5"; a bare number reads its "a" half. */
+export function zoneFrostEntry(zone: string | number | undefined | null) {
+  const key = String(zone ?? "").trim().toLowerCase();
+  if (!key) return undefined;
+  return ZONE_FROST_DATES[key] || ZONE_FROST_DATES[key.replace(/[ab]$/, "") + "a"];
+}
+
+/** Last/first frost as month/day for a ZIP's subzone, else the state average. One source for every ZIP tool. */
+export function frostNormalsFor(zone: string | number | undefined | null, state?: string) {
+  const sub = zoneFrostEntry(zone);
+  const md = (s: string) => ({ month: Number(s.slice(0, 2)), day: Number(s.slice(3, 5)) });
+  if (sub) return { lastFrost: md(sub.lastFrost), firstFrost: md(sub.firstFrost) };
+  const st = state ? STATE_FROST[state.toUpperCase()] : undefined;
+  return st ? { lastFrost: st.lastFrost, firstFrost: st.firstFrost } : undefined;
+}

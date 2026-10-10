@@ -10,6 +10,7 @@ import FAQSection from "@/components/FAQSection";
 import RelatedCalculators from "@/components/RelatedCalculators";
 import EmailCapture from "@/components/EmailCapture";
 import { frostDatesFAQ } from "@/data/faq-data";
+import { zoneFrostEntry } from "@/lib/zoneFrostDates";
 
 interface ZoneData {
   zip: string;
@@ -22,24 +23,6 @@ interface ZoneData {
   firstFrostFormatted: string;
 }
 
-const FROST_DATES_BY_ZONE: Record<
-  string,
-  { lastFrost: string; firstFrost: string } | null
-> = {
-  "1": { lastFrost: "05-30", firstFrost: "08-15" },
-  "2": { lastFrost: "05-20", firstFrost: "09-01" },
-  "3": { lastFrost: "05-10", firstFrost: "09-15" },
-  "4": { lastFrost: "05-01", firstFrost: "10-01" },
-  "5": { lastFrost: "04-15", firstFrost: "10-15" },
-  "6": { lastFrost: "04-10", firstFrost: "10-20" },
-  "7": { lastFrost: "04-01", firstFrost: "11-01" },
-  "8": { lastFrost: "03-15", firstFrost: "11-15" },
-  "9": { lastFrost: "03-01", firstFrost: "12-01" },
-  "10": { lastFrost: "02-15", firstFrost: "12-15" },
-  "11": null,
-  "12": null,
-  "13": null,
-};
 
 function parseZoneNumber(zone: string): string {
   const match = zone.match(/^(\d+)/);
@@ -75,7 +58,8 @@ interface FrostResult {
 }
 
 function calculateFrost(zoneNum: string): FrostResult | null {
-  const entry = FROST_DATES_BY_ZONE[zoneNum];
+  // Same subzone table as /api/zone and the location bar; zones 11+ are treated as frost-free.
+  const entry = parseInt(zoneNum, 10) >= 11 ? null : zoneFrostEntry(zoneNum);
 
   if (entry === null) {
     // Frost-free zones
@@ -327,7 +311,7 @@ export default function FrostDatesPage() {
   const frostResult = useMemo(() => {
     if (!zoneData) return null;
     const zoneNum = parseZoneNumber(zoneData.zone);
-    return calculateFrost(zoneNum);
+    return calculateFrost(zoneData.zone || zoneNum);
   }, [zoneData]);
 
   return (
