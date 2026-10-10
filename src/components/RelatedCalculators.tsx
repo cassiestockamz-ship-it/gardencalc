@@ -67,7 +67,7 @@ export default function RelatedCalculators({ currentPath }: { currentPath: strin
       </div>
       <div className="mt-6 text-center">
         <Link href="/calculators" className="text-sm font-medium text-[var(--color-primary)] hover:underline">
-          {`View all ${ALL_CALCULATORS.length} calculators`} &rarr;
+          {`View all ${ALL_CALCULATORS.length} calculators \u2192`}
         </Link>
       </div>
     </div>
