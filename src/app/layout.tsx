@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     template: "%s: PlantingCalc",
   },
   description:
-    "Free gardening calculators that read your live 7-day forecast. One ZIP tells you what to plant this week, what to cover tonight, and exactly how many days remain until your last frost.",
+    "Free gardening calculators that read your 7-day forecast. Enter a ZIP to see what to plant this week, what to cover tonight, and your last frost date.",
   openGraph: {
     type: "website",
     siteName: "PlantingCalc",
