@@ -12,6 +12,7 @@ import RelatedCalculators from "@/components/RelatedCalculators";
 import EmailCapture from "@/components/EmailCapture";
 import { VEGETABLES, CATEGORIES } from "@/data/vegetables";
 import { getAllZoneGuides } from "@/data/zone-guides";
+import { frostFreeDays } from "@/lib/zoneFrostDates";
 
 interface ZoneApiData {
   zip: string;
@@ -40,14 +41,7 @@ const MIN_LIST_ZONE = Math.min(...VEGETABLES.map((v) => v.minZone));
 const MAX_LIST_ZONE = Math.max(...VEGETABLES.map((v) => v.maxZone));
 
 // Day-of-year arithmetic on a non-leap calendar; frost dates are typical (50%) dates, not a specific year.
-const DAYS_BEFORE_MONTH = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
 const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-function dayOfYear(d: { month: number; day: number }): number {
-  return DAYS_BEFORE_MONTH[d.month - 1] + d.day;
-}
-function frostFreeDays(z: { lastFrost: { month: number; day: number }; firstFrost: { month: number; day: number } }): number {
-  return dayOfYear(z.firstFrost) - dayOfYear(z.lastFrost);
-}
 /** Zone frost dates are averages, so show them only to the third of a month ("Mid-May"), never to the day. */
 function partOfMonth(d: { month: number; day: number }): string {
   const part = d.day <= 10 ? "Early" : d.day <= 20 ? "Mid" : "Late";
@@ -56,7 +50,7 @@ function partOfMonth(d: { month: number; day: number }): string {
 
 /** Typical season length for zones 3-10 (where most US gardeners live), from the same frost table as the zone guides. */
 const SEASON_TABLE = ZONE_GUIDES.filter((z) => z.zone >= 3 && z.zone <= 10).map((z) => {
-  const days = frostFreeDays(z);
+  const days = frostFreeDays(z.lastFrost, z.firstFrost);
   return {
     zone: z.zone,
     slug: z.slug,
@@ -228,7 +222,7 @@ export default function GrowingSeasonPage() {
     const frostFree =
       frost.lastFrost.month === 1 && frost.lastFrost.day === 1 &&
       frost.firstFrost.month === 12 && frost.firstFrost.day === 31;
-    const seasonDays = frostFree ? 365 : frostFreeDays(frost);
+    const seasonDays = frostFreeDays(frost.lastFrost, frost.firstFrost);
     const seasonWeeks = Math.round(seasonDays / 7);
     const lastFrostFormatted = frostFree ? "Usually none" : partOfMonth(frost.lastFrost);
     const firstFrostFormatted = frostFree ? "Usually none" : partOfMonth(frost.firstFrost);
@@ -248,7 +242,7 @@ export default function GrowingSeasonPage() {
     const fitsCount = easyCount + tightCount;
 
     // When the ZIP's subzone value differs from the zone average in the table, say which is which.
-    const zoneAvgDays = frostFree ? 365 : frostFreeDays(guide);
+    const zoneAvgDays = frostFree ? 365 : frostFreeDays(guide.lastFrost, guide.firstFrost);
     const subzoneNote =
       zipMatchesZone && seasonDays !== zoneAvgDays
         ? `This is the typical season for subzone ${zipZoneData!.zone.toLowerCase()}, where your ZIP is. The zone table below averages all of zone ${zoneNum} (about ${zoneAvgDays} days, ${Math.round(zoneAvgDays / 7)} weeks), so the two numbers differ.`
