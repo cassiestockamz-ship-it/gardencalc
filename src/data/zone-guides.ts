@@ -1,5 +1,5 @@
 import { VEGETABLES, type Vegetable } from "./vegetables";
-import { zoneFrostEntry } from "@/lib/zoneFrostDates";
+import { frostFreeDays, zoneFrostEntry } from "@/lib/zoneFrostDates";
 
 export interface ZoneGuideData {
   zone: number;
@@ -16,11 +16,10 @@ export interface ZoneGuideData {
 
 // Frost dates come from the shared subzone table (src/lib/zoneFrostDates.ts); a bare zone reads its "a" half.
 
-const ZONE_INFO: Record<number, { temp: string; desc: string; seasonWeeks: number; tips: string[] }> = {
+const ZONE_INFO: Record<number, { temp: string; desc: string; tips: string[] }> = {
   1: {
     temp: "-60°F to -50°F",
     desc: "Extreme cold with very short growing seasons. Interior Alaska. Snow cover persists well into spring.",
-    seasonWeeks: 8,
     tips: [
       "Start everything indoors 8-10 weeks before last frost. Your outdoor window is narrow.",
       "Use cold frames, hoop houses, or greenhouses to extend the season by 4-6 weeks on each end.",
@@ -30,8 +29,7 @@ const ZONE_INFO: Record<number, { temp: string; desc: string; seasonWeeks: numbe
   },
   2: {
     temp: "-50°F to -40°F",
-    desc: "Very cold winters with 10-12 weeks of growing season. Northern Minnesota, Montana, parts of Alaska.",
-    seasonWeeks: 11,
+    desc: "Very cold winters and a short growing season. Northern Minnesota, Montana, parts of Alaska.",
     tips: [
       "Wall o' Water or cloches can let you transplant tomatoes 2-3 weeks early.",
       "Root vegetables (carrots, beets, turnips) store well and can handle light frost in fall.",
@@ -42,7 +40,6 @@ const ZONE_INFO: Record<number, { temp: string; desc: string; seasonWeeks: numbe
   3: {
     temp: "-40°F to -30°F",
     desc: "Cold winters, moderate summers. Upper Midwest, northern New England, parts of the Rockies.",
-    seasonWeeks: 13,
     tips: [
       "Start warm-season crops (tomatoes, peppers) indoors 8 weeks before last frost for best results.",
       "Direct-sow cool-season crops (peas, spinach, lettuce) as soon as soil can be worked in spring.",
@@ -53,7 +50,6 @@ const ZONE_INFO: Record<number, { temp: string; desc: string; seasonWeeks: numbe
   4: {
     temp: "-30°F to -20°F",
     desc: "Cold winters with a solid 4-month growing season. Much of the northern U.S.: Iowa, southern Minnesota, northern Oregon.",
-    seasonWeeks: 16,
     tips: [
       "You have enough season for most vegetables including melons if you start them indoors.",
       "Succession plant lettuce and radishes every 2-3 weeks from April through September.",
@@ -64,7 +60,6 @@ const ZONE_INFO: Record<number, { temp: string; desc: string; seasonWeeks: numbe
   5: {
     temp: "-20°F to -10°F",
     desc: "Moderate cold winters, 5+ month growing season. Central U.S., southern New England, Pacific Northwest interior.",
-    seasonWeeks: 20,
     tips: [
       "Most vegetables grow well in Zone 5. This is a very productive gardening zone.",
       "Sweet potatoes and long-season melons are possible with black plastic mulch to warm soil.",
@@ -75,7 +70,6 @@ const ZONE_INFO: Record<number, { temp: string; desc: string; seasonWeeks: numbe
   6: {
     temp: "-10°F to 0°F",
     desc: "Moderate climate with 6-month growing season. Mid-Atlantic, central states, Pacific Northwest coast.",
-    seasonWeeks: 24,
     tips: [
       "Almost everything grows in Zone 6. Focus on timing and succession planting for maximum yield.",
       "Start a fall garden in August: broccoli, cabbage, kale, and Brussels sprouts thrive in cool fall air.",
@@ -86,7 +80,6 @@ const ZONE_INFO: Record<number, { temp: string; desc: string; seasonWeeks: numbe
   7: {
     temp: "0°F to 10°F",
     desc: "Mild winters, long growing season. Virginia, Tennessee, Oklahoma, parts of the Southwest.",
-    seasonWeeks: 28,
     tips: [
       "Two full growing seasons are possible: cool-season crops in spring/fall, warm-season in summer.",
       "Direct-sow beans and corn as late as early July for a second harvest before frost.",
@@ -97,7 +90,6 @@ const ZONE_INFO: Record<number, { temp: string; desc: string; seasonWeeks: numbe
   8: {
     temp: "10°F to 20°F",
     desc: "Mild climate with 8+ month growing season. Coastal South, Texas, Arizona, Pacific coast.",
-    seasonWeeks: 32,
     tips: [
       "Heat is your main challenge, not cold. Afternoon shade cloth helps summer tomatoes and peppers.",
       "Plant cool-season crops (lettuce, peas, broccoli) in fall for winter harvest. A Zone 8 advantage.",
@@ -108,7 +100,6 @@ const ZONE_INFO: Record<number, { temp: string; desc: string; seasonWeeks: numbe
   9: {
     temp: "20°F to 30°F",
     desc: "Year-round growing possible. Gulf Coast, southern Texas, inland California, southern Arizona.",
-    seasonWeeks: 40,
     tips: [
       "You can grow food every month of the year. Plan seasonal rotations for continuous harvest.",
       "Heat-loving crops (okra, sweet potatoes, peppers) produce for 6+ months in Zone 9.",
@@ -119,7 +110,6 @@ const ZONE_INFO: Record<number, { temp: string; desc: string; seasonWeeks: numbe
   10: {
     temp: "30°F to 40°F",
     desc: "Frost-free most years. Southern Florida, coastal California, Hawaii (lower elevations).",
-    seasonWeeks: 48,
     tips: [
       "Standard cool-season crops (broccoli, cabbage) grow only in the coolest months (December-February).",
       "Tropical vegetables (yardlong beans, chayote, taro) are excellent additions to Zone 10 gardens.",
@@ -130,7 +120,6 @@ const ZONE_INFO: Record<number, { temp: string; desc: string; seasonWeeks: numbe
   11: {
     temp: "40°F to 50°F",
     desc: "Tropical. Hawaii, southernmost Florida, Puerto Rico. No frost.",
-    seasonWeeks: 52,
     tips: [
       "Growing seasons are defined by wet/dry cycles rather than temperature.",
       "Tropical crops excel: papaya, bananas, taro, cassava, breadfruit grow year-round.",
@@ -141,7 +130,6 @@ const ZONE_INFO: Record<number, { temp: string; desc: string; seasonWeeks: numbe
   12: {
     temp: "50°F to 60°F",
     desc: "Tropical maritime. Coastal Hawaii, US Virgin Islands. Warm year-round.",
-    seasonWeeks: 52,
     tips: [
       "Focus on tropical crops: breadfruit, taro, cassava, tropical spinach (Malabar), chaya.",
       "Standard temperate vegetables need shade in afternoon and may require cooling strategies.",
@@ -152,7 +140,6 @@ const ZONE_INFO: Record<number, { temp: string; desc: string; seasonWeeks: numbe
   13: {
     temp: "60°F to 70°F",
     desc: "Hot tropical. Southern Hawaii, equatorial territories. Year-round warmth.",
-    seasonWeeks: 52,
     tips: [
       "Tropical perennials (moringa, papaya, banana, breadfruit) are your most productive crops.",
       "Many temperate vegetables struggle in constant heat. Choose heat-adapted varieties.",
@@ -179,7 +166,7 @@ export function getAllZoneGuides(): ZoneGuideData[] {
       slug: `zone-${zone}`,
       tempRange: info.temp,
       description: info.desc,
-      growingSeasonWeeks: info.seasonWeeks,
+      growingSeasonWeeks: Math.round(frostFreeDays(md(entry.lastFrost), md(entry.firstFrost)) / 7),
       lastFrost: md(entry.lastFrost),
       firstFrost: md(entry.firstFrost),
       bestVegetables,
