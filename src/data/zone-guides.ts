@@ -1,4 +1,5 @@
 import { VEGETABLES, type Vegetable } from "./vegetables";
+import { zoneFrostEntry } from "@/lib/zoneFrostDates";
 
 export interface ZoneGuideData {
   zone: number;
@@ -13,27 +14,7 @@ export interface ZoneGuideData {
   tips: string[];
 }
 
-/**
- * Typical last spring frost and first fall frost by USDA hardiness zone.
- * These are 50th-percentile dates averaged across the populated portion
- * of each zone. The per-ZIP tool uses more precise values from the
- * USDA phzmapi and NOAA NCEI normals at runtime.
- */
-const ZONE_FROST: Record<number, { lastFrost: [number, number]; firstFrost: [number, number] }> = {
-  1: { lastFrost: [6, 15], firstFrost: [8, 15] },
-  2: { lastFrost: [5, 25], firstFrost: [9, 5] },
-  3: { lastFrost: [5, 15], firstFrost: [9, 15] },
-  4: { lastFrost: [5, 5], firstFrost: [9, 25] },
-  5: { lastFrost: [4, 20], firstFrost: [10, 7] },
-  6: { lastFrost: [4, 10], firstFrost: [10, 17] },
-  7: { lastFrost: [3, 30], firstFrost: [10, 28] },
-  8: { lastFrost: [3, 15], firstFrost: [11, 10] },
-  9: { lastFrost: [2, 25], firstFrost: [11, 28] },
-  10: { lastFrost: [1, 31], firstFrost: [12, 20] },
-  11: { lastFrost: [1, 1], firstFrost: [12, 31] },
-  12: { lastFrost: [1, 1], firstFrost: [12, 31] },
-  13: { lastFrost: [1, 1], firstFrost: [12, 31] },
-};
+// Frost dates come from the shared subzone table (src/lib/zoneFrostDates.ts); a bare zone reads its "a" half.
 
 const ZONE_INFO: Record<number, { temp: string; desc: string; seasonWeeks: number; tips: string[] }> = {
   1: {
@@ -190,7 +171,8 @@ export function getAllZoneGuides(): ZoneGuideData[] {
     const challengeVegetables = VEGETABLES.filter(
       (v) => v.minZone === zone || v.maxZone === zone
     );
-    const frost = ZONE_FROST[zone] ?? ZONE_FROST[5];
+    const entry = zoneFrostEntry(zone) ?? zoneFrostEntry(5)!;
+    const md = (v: string) => ({ month: Number(v.slice(0, 2)), day: Number(v.slice(3, 5)) });
 
     return {
       zone,
@@ -198,8 +180,8 @@ export function getAllZoneGuides(): ZoneGuideData[] {
       tempRange: info.temp,
       description: info.desc,
       growingSeasonWeeks: info.seasonWeeks,
-      lastFrost: { month: frost.lastFrost[0], day: frost.lastFrost[1] },
-      firstFrost: { month: frost.firstFrost[0], day: frost.firstFrost[1] },
+      lastFrost: md(entry.lastFrost),
+      firstFrost: md(entry.firstFrost),
       bestVegetables,
       challengeVegetables,
       tips: info.tips,

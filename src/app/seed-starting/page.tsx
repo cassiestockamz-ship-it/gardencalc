@@ -13,26 +13,26 @@ import EmailCapture from "@/components/EmailCapture";
 import { VEGETABLES } from "@/data/vegetables";
 import { seedStartingFAQ } from "@/data/faq-data";
 import { nextOccurrence } from "@/lib/frostDates";
+import { zoneFrostEntry } from "@/lib/zoneFrostDates";
 
-// Last frost dates by zone (approximate averages)
-const ZONE_FROST_MONTH_DAY: Record<string, [number, number] | null> = {
-  "3": [5, 10],
-  "4": [5, 1],
-  "5": [4, 15],
-  "6": [4, 10],
-  "7": [4, 1],
-  "8": [3, 15],
-  "9": [3, 1],
-  "10": [2, 15],
-  "11": null, // year-round
-  "12": null,
-  "13": null,
-};
+// Last frost by zone from the shared subzone table (a bare zone reads its "a" half); null = no typical frost.
+function zoneLastFrost(zone: string): [number, number] | null | undefined {
+  const e = zoneFrostEntry(zone);
+  if (!e) return undefined;
+  if (e.lastFrost === "01-01" && e.firstFrost === "12-31") return null;
+  return [Number(e.lastFrost.slice(0, 2)), Number(e.lastFrost.slice(3, 5))];
+}
+
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+/** Zone frost dates are averages: show them to the third of a month ("Mid-April"), never to the day (playbook rule 6). */
+function partOfMonth(month: number, day: number): string {
+  return `${day <= 10 ? "Early" : day <= 20 ? "Mid" : "Late"}-${MONTHS[month - 1]}`;
+}
 
 // Upcoming last-frost date as YYYY-MM-DD. The season rolls to next year about
 // four months after the frost date, so spring dates are never in the past.
 function upcomingFrostDate(zone: string): string | null | undefined {
-  const md = ZONE_FROST_MONTH_DAY[zone];
+  const md = zoneLastFrost(zone);
   if (!md) return md;
   const d = nextOccurrence(md[0], md[1], new Date(Date.now() - 120 * 86400000));
   const pad = (n: number) => String(n).padStart(2, "0");
@@ -41,18 +41,11 @@ function upcomingFrostDate(zone: string): string | null | undefined {
 
 const ZONE_OPTIONS = [
   { value: "", label: "Select your zone..." },
-  { value: "3", label: "Zone 3 - Last frost: May 10" },
-  { value: "4", label: "Zone 4 - Last frost: May 1" },
-  { value: "5", label: "Zone 5 - Last frost: Apr 15" },
-  { value: "6", label: "Zone 6 - Last frost: Apr 10" },
-  { value: "7", label: "Zone 7 - Last frost: Apr 1" },
-  { value: "8", label: "Zone 8 - Last frost: Mar 15" },
-  { value: "9", label: "Zone 9 - Last frost: Mar 1" },
-  { value: "10", label: "Zone 10 - Last frost: Feb 15" },
-  { value: "11", label: "Zone 11 - Year-round growing" },
-  { value: "12", label: "Zone 12 - Year-round growing" },
-  { value: "13", label: "Zone 13 - Year-round growing" },
-];
+  ...["3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"].map((z) => {
+    const md = zoneLastFrost(z);
+    return { value: z, label: md ? `Zone ${z} - Last frost: ${partOfMonth(md[0], md[1])}` : `Zone ${z} - Year-round growing` };
+  }),
+]
 
 function addWeeks(dateStr: string, weeks: number): Date {
   const d = new Date(dateStr + "T00:00:00");
@@ -138,10 +131,7 @@ export default function SeedStartingPage() {
   }, [lastFrostStr]);
 
   const lastFrostFormatted = lastFrostStr
-    ? new Date(lastFrostStr + "T00:00:00").toLocaleDateString("en-US", {
-        month: "long",
-        day: "numeric",
-      })
+    ? partOfMonth(Number(lastFrostStr.slice(5, 7)), Number(lastFrostStr.slice(8, 10)))
     : "";
 
   return (
