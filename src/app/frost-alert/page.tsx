@@ -8,6 +8,7 @@ import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import FAQSection from "@/components/FAQSection";
 import ShareResults from "@/components/ShareResults";
 import EmailCapture from "@/components/EmailCapture";
+import AmazonPicks from "@/components/AmazonPicks";
 import RelatedCalculators from "@/components/RelatedCalculators";
 import ZipRingDecoder, { type DecodedZip } from "@/components/ZipRingDecoder";
 import {
@@ -375,6 +376,16 @@ export default function FrostAlertPage() {
           heading={`Frost reminders for ${placeName ?? resultZip}`}
           blurb="Email me when to cover crops before frost, and when to start seeds and transplant next spring, for this ZIP. Nothing else, unsubscribe in one click. We will confirm by email once reminders launch."
           successText="Saved. We will confirm by email once frost reminders launch for your ZIP."
+        />
+      )}
+
+      {verdict && byAction && byAction.cover.length + byAction.lost.length > 0 && (
+        <AmazonPicks
+          heading="Frost cloth for the crops on your cover list"
+          intro="Bedsheets work in a pinch. Frost cloth is made for the job: it is light, cuts to any size, and lets air, light and moisture through to the plants."
+          picks={[
+            { asin: "B0CH86PT5B", role: "Frost cloth", name: "KLEWEE Plant Covers Freeze Protection, 10 x 50 ft", note: "A 10 x 50 ft roll of 1.5 oz/yd² spun polypropylene. Cut it to the size of your beds, and use a doubled or tripled layer on the coldest nights." },
+          ]}
         />
       )}
 
