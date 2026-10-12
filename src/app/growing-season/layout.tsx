@@ -1,13 +1,17 @@
 import type { Metadata } from "next";
+import { ZONE_FROST_DATES } from "@/lib/zoneFrostDates";
+const days = (z: string) => ZONE_FROST_DATES[z].growingSeason;
+
+const TITLE = "Growing Season Length by ZIP: Days Between Frosts";
+const DESCRIPTION =
+  `Your growing season is the days between the last spring frost and the first fall frost: about ${days("3a")} days in zone 3a, ${days("5a")} in 5a, ${days("7a")} in 7a. Enter your ZIP for yours.`;
 
 export const metadata: Metadata = {
-  title: { absolute: "How Long Is Your Growing Season? Length Calculator by ZIP" },
-  description:
-    "Find your growing season length in days and weeks from your ZIP code or USDA zone, the typical frost-free window, and which vegetables fit inside it.",
+  title: { absolute: TITLE },
+  description: DESCRIPTION,
   openGraph: {
-    title: "How Long Is Your Growing Season? Length Calculator by ZIP",
-    description:
-      "Find your growing season length in days and weeks from your ZIP code or USDA zone, the typical frost-free window, and which vegetables fit inside it.",
+    title: TITLE,
+    description: DESCRIPTION,
     images: [{ url: "/og/growing-season", width: 1200, height: 630 }],
   },
   alternates: { canonical: "/growing-season" },
