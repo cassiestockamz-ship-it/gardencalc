@@ -96,6 +96,7 @@ export default function SoilCalculatorPage() {
   const [customTopsoil, setCustomTopsoil] = useState(50);
   const [customCompost, setCustomCompost] = useState(30);
   const [numBeds, setNumBeds] = useState(1);
+  const [extraPct, setExtraPct] = useState("0");
 
   const handlePreset = (val: string) => {
     setPreset(val);
@@ -133,7 +134,7 @@ export default function SoilCalculatorPage() {
         perimeterFt = (widthFt + lengthFt) * 2;
     }
 
-    const totalCuFt = areaSqFt * heightFt * numBeds;
+    const totalCuFt = areaSqFt * heightFt * numBeds * (1 + parseInt(extraPct) / 100);
     const totalCuYd = totalCuFt / 27;
 
     // Soil mix breakdown
@@ -167,7 +168,7 @@ export default function SoilCalculatorPage() {
       compostPct,
       otherPct,
     };
-  }, [shape, widthFt, lengthFt, heightIn, diameterFt, leg2WidthFt, leg2LengthFt, soilMix, customTopsoil, customCompost, numBeds]);
+  }, [shape, widthFt, lengthFt, heightIn, diameterFt, leg2WidthFt, leg2LengthFt, soilMix, customTopsoil, customCompost, numBeds, extraPct]);
 
   const mix = SOIL_MIXES[soilMix];
 
@@ -301,6 +302,19 @@ export default function SoilCalculatorPage() {
           max={20}
           step={1}
           unit="beds"
+        />
+
+        <SelectInput
+          label="Extra for Settling"
+          value={extraPct}
+          onChange={setExtraPct}
+          options={[
+            { value: "0", label: "None (exact fill)" },
+            { value: "5", label: "Add 5%" },
+            { value: "10", label: "Add 10%" },
+            { value: "15", label: "Add 15%" },
+          ]}
+          helpText="New soil settles, so some gardeners buy a little extra to top up"
         />
 
         <SelectInput
