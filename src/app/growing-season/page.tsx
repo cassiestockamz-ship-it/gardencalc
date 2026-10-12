@@ -290,6 +290,20 @@ export default function GrowingSeasonPage() {
         ]}
       />
 
+      {/* Direct answer, above the tool */}
+      <div className="mb-6 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <p className="text-sm leading-relaxed text-[var(--color-text)]">
+          <strong>A growing season usually lasts about {SHORTEST.days} to {LONGEST.days} days</strong> in USDA zones {SHORTEST.zone} to {LONGEST.zone}: the frost-free days between the typical last spring frost and first fall frost.
+        </p>
+        <ul className="mt-3 grid grid-cols-2 gap-x-4 gap-y-1 text-sm sm:grid-cols-4">
+          {SEASON_TABLE.map((r) => (
+            <li key={r.zone} className="text-[var(--color-text-muted)]">
+              Zone {r.zone}: <span className="font-semibold text-[var(--color-text)]">{r.days} days</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
       {/* Inputs */}
       <div className="grid gap-6 sm:grid-cols-2">
         <SelectInput

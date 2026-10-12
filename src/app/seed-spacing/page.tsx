@@ -104,7 +104,7 @@ export default function SeedSpacingPage() {
 
   return (
     <CalculatorLayout
-      title="Seed Spacing & Yield Calculator"
+      title="Seed Spacing Calculator: Plants per Bed"
       description="Select a vegetable and enter your bed dimensions to see how many plants fit, estimated yield, seed depth, and optimal spacing."
       lastUpdated="March 2026"
     >

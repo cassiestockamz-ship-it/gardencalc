@@ -257,7 +257,7 @@ export default function HarvestDatePage() {
 
   return (
     <CalculatorLayout
-      title="Harvest Date Calculator: Days to Harvest"
+      title="Harvest Calculator: Days to Harvest"
       description="Estimate when your vegetables will be ready to harvest based on the crop, planting date, USDA zone, and growing conditions."
       lastUpdated="October 2026"
       intro={`How many days until harvest? It depends on the crop: ${FASTEST.name.toLowerCase()} can be ready in about ${FASTEST.daysToHarvest[0]} days, ${TOMATO ? `tomatoes take about ${TOMATO.daysToHarvest[0]} to ${TOMATO.daysToHarvest[1]} days from transplant, ` : ""}and ${SLOWEST.name.toLowerCase()} can need up to ${SLOWEST.daysToHarvest[1]} days. Pick your vegetable and planting date below for your harvest window, or see the days-to-harvest table for all ${VEGETABLES.length} vegetables.`}
