@@ -515,7 +515,7 @@ export default function SoilCalculatorPage() {
         <ul className="list-disc space-y-1.5 pl-5 text-sm text-[var(--color-text-muted)]">
           <li>For beds deeper than 12 inches, fill the bottom third with logs, sticks, or leaves (hugelkultur method) to reduce soil cost and improve drainage.</li>
           <li>A 60/40 topsoil-to-compost ratio works for most vegetables. Mel&apos;s Mix (⅓ compost, ⅓ peat, ⅓ vermiculite) is popular for square-foot gardening; the breakdown above lists each part in cubic feet.</li>
-          <li>Soil settles 10-15% in the first season. Consider overfilling slightly and topping off with compost each spring.</li>
+          <li>New soil settles during the first season. Fill slightly above the rim and top off with compost each spring.</li>
           <li>Once your bed is filled, use our <a href="/planting-dates" className="text-[var(--color-primary)] hover:underline">planting date calculator</a> to find the best time to plant in your zone, then check <a href="/seed-spacing" className="text-[var(--color-primary)] hover:underline">seed spacing</a> to maximize your harvest.</li>
         </ul>
       </div>
