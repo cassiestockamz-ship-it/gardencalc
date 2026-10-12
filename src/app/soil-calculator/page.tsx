@@ -345,7 +345,7 @@ export default function SoilCalculatorPage() {
           <ResultCard
             label="Total Volume"
             value={fmt(results.totalCuFt)}
-            unit="cubic feet"
+            unit={`cubic feet (${Math.round(results.totalCuFt * 28.3168).toLocaleString("en-US")} litres)`}
             highlight
             icon="📦"
           />
