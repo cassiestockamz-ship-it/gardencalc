@@ -97,41 +97,66 @@ export default function SoilCalculatorPage() {
   const [customCompost, setCustomCompost] = useState(30);
   const [numBeds, setNumBeds] = useState(1);
   const [extraPct, setExtraPct] = useState("0");
+  const [units, setUnits] = useState<"imperial" | "metric">("imperial");
+  const metric = units === "metric";
+  // Exact: 1 ft = 0.3048 m, 1 in = 2.54 cm. Lengths are kept in the unit shown.
+  const lenToFt = metric ? 1 / 0.3048 : 1;
+  const depthToIn = metric ? 1 / 2.54 : 1;
+
+  const handleUnits = (val: string) => {
+    const next = val as "imperial" | "metric";
+    if (next === units) return;
+    const toM = next === "metric";
+    const conv = (ft: number) => (toM ? Math.round(ft * 0.3048 * 10) / 10 : Math.round((ft / 0.3048) * 2) / 2);
+    setWidthFt(conv(widthFt));
+    setLengthFt(conv(lengthFt));
+    setDiameterFt(conv(diameterFt));
+    setLeg2WidthFt(conv(leg2WidthFt));
+    setLeg2LengthFt(conv(leg2LengthFt));
+    setHeightIn(toM ? Math.round(heightIn * 2.54) : Math.round(heightIn / 2.54));
+    setUnits(next);
+  };
 
   const handlePreset = (val: string) => {
     setPreset(val);
     const idx = parseInt(val);
     if (idx > 0 && COMMON_SIZES[idx]) {
       const s = COMMON_SIZES[idx];
-      setWidthFt(s.w);
-      setLengthFt(s.l);
-      setHeightIn(s.h);
+      const f = metric ? 0.3048 : 1;
+      setWidthFt(metric ? Math.round(s.w * f * 10) / 10 : s.w);
+      setLengthFt(metric ? Math.round(s.l * f * 10) / 10 : s.l);
+      setHeightIn(metric ? Math.round(s.h * 2.54) : s.h);
       setShape("rectangle");
     }
   };
 
   const results = useMemo(() => {
-    const heightFt = heightIn / 12;
+    const heightFt = (heightIn * depthToIn) / 12;
+    const w = widthFt * lenToFt;
+    const l = lengthFt * lenToFt;
+    const d = diameterFt * lenToFt;
+    const w2 = leg2WidthFt * lenToFt;
+    const l2 = leg2LengthFt * lenToFt;
     let areaSqFt: number;
     let perimeterFt: number;
 
     switch (shape) {
       case "circle":
-        areaSqFt = Math.PI * (diameterFt / 2) ** 2;
-        perimeterFt = Math.PI * diameterFt;
+        areaSqFt = Math.PI * (d / 2) ** 2;
+        perimeterFt = Math.PI * d;
         break;
       case "square":
-        areaSqFt = widthFt * widthFt;
-        perimeterFt = widthFt * 4;
+        areaSqFt = w * w;
+        perimeterFt = w * 4;
         break;
       case "lshaped":
         // L-shape = two rectangles that do not overlap (leg 1 + leg 2)
-        areaSqFt = widthFt * lengthFt + leg2WidthFt * leg2LengthFt;
-        perimeterFt = (lengthFt + widthFt + leg2LengthFt) * 2;
+        areaSqFt = w * l + w2 * l2;
+        perimeterFt = (l + w + l2) * 2;
         break;
       default: // rectangle
-        areaSqFt = widthFt * lengthFt;
-        perimeterFt = (widthFt + lengthFt) * 2;
+        areaSqFt = w * l;
+        perimeterFt = (w + l) * 2;
     }
 
     const totalCuFt = areaSqFt * heightFt * numBeds * (1 + parseInt(extraPct) / 100);
@@ -168,7 +193,7 @@ export default function SoilCalculatorPage() {
       compostPct,
       otherPct,
     };
-  }, [shape, widthFt, lengthFt, heightIn, diameterFt, leg2WidthFt, leg2LengthFt, soilMix, customTopsoil, customCompost, numBeds, extraPct]);
+  }, [shape, widthFt, lengthFt, heightIn, diameterFt, leg2WidthFt, leg2LengthFt, soilMix, customTopsoil, customCompost, numBeds, extraPct, lenToFt, depthToIn]);
 
   const mix = SOIL_MIXES[soilMix];
 
@@ -210,6 +235,16 @@ export default function SoilCalculatorPage() {
       {/* Inputs */}
       <div className="grid gap-6 sm:grid-cols-2">
         <SelectInput
+          label="Units"
+          value={units}
+          onChange={handleUnits}
+          options={[
+            { value: "imperial", label: "Feet and inches" },
+            { value: "metric", label: "Metres and centimetres" },
+          ]}
+        />
+
+        <SelectInput
           label="Common Bed Sizes"
           value={preset}
           onChange={handlePreset}
@@ -229,10 +264,10 @@ export default function SoilCalculatorPage() {
             label="Diameter"
             value={diameterFt}
             onChange={setDiameterFt}
-            min={1}
-            max={30}
-            step={0.5}
-            unit="feet"
+            min={metric ? 0.3 : 1}
+            max={metric ? 9 : 30}
+            step={metric ? 0.1 : 0.5}
+            unit={metric ? "metres" : "feet"}
           />
         ) : (
           <>
@@ -240,20 +275,20 @@ export default function SoilCalculatorPage() {
               label={shape === "square" ? "Side Length" : shape === "lshaped" ? "Leg 1 Width" : "Width"}
               value={widthFt}
               onChange={setWidthFt}
-              min={1}
-              max={30}
-              step={0.5}
-              unit="feet"
+              min={metric ? 0.3 : 1}
+              max={metric ? 9 : 30}
+              step={metric ? 0.1 : 0.5}
+              unit={metric ? "metres" : "feet"}
             />
             {shape !== "square" && (
               <NumberInput
                 label={shape === "lshaped" ? "Leg 1 Length" : "Length"}
                 value={lengthFt}
                 onChange={setLengthFt}
-                min={1}
-                max={30}
-                step={0.5}
-                unit="feet"
+                min={metric ? 0.3 : 1}
+                max={metric ? 9 : 30}
+                step={metric ? 0.1 : 0.5}
+                unit={metric ? "metres" : "feet"}
                 helpText={shape === "lshaped" ? "Measure the L as two rectangles that do not overlap" : undefined}
               />
             )}
@@ -263,19 +298,19 @@ export default function SoilCalculatorPage() {
                   label="Leg 2 Width"
                   value={leg2WidthFt}
                   onChange={setLeg2WidthFt}
-                  min={1}
-                  max={30}
-                  step={0.5}
-                  unit="feet"
+                  min={metric ? 0.3 : 1}
+                  max={metric ? 9 : 30}
+                  step={metric ? 0.1 : 0.5}
+                  unit={metric ? "metres" : "feet"}
                 />
                 <NumberInput
                   label="Leg 2 Length"
                   value={leg2LengthFt}
                   onChange={setLeg2LengthFt}
-                  min={1}
-                  max={30}
-                  step={0.5}
-                  unit="feet"
+                  min={metric ? 0.3 : 1}
+                  max={metric ? 9 : 30}
+                  step={metric ? 0.1 : 0.5}
+                  unit={metric ? "metres" : "feet"}
                   helpText="Only the part that sticks out past leg 1"
                 />
               </>
@@ -287,11 +322,11 @@ export default function SoilCalculatorPage() {
           label="Height / Depth"
           value={heightIn}
           onChange={setHeightIn}
-          min={3}
-          max={48}
+          min={metric ? 8 : 3}
+          max={metric ? 120 : 48}
           step={1}
-          unit="inches"
-          helpText="Most vegetables need at least 6–12 inches of soil"
+          unit={metric ? "cm" : "inches"}
+          helpText={metric ? "Most vegetables need at least 15 to 30 cm of soil" : "Most vegetables need at least 6 to 12 inches of soil"}
         />
 
         <NumberInput
@@ -368,6 +403,12 @@ export default function SoilCalculatorPage() {
             value={fmt(results.totalCuYd)}
             unit="cubic yards"
             icon="🚛"
+          />
+          <ResultCard
+            label="Total Volume"
+            value={(results.totalCuFt * 0.0283168).toFixed(2)}
+            unit={`cubic metres (${Math.round(results.totalCuFt * 29.9221).toLocaleString("en-US")} US quarts)`}
+            icon="📏"
           />
           {results.bags.map((b) => (
             <ResultCard
