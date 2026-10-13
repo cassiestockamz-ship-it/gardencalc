@@ -3,11 +3,11 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: { absolute: "Raised Bed Soil Calculator (Cubic Feet, Yards and Bags)" },
   description:
-    "How much soil for a raised bed? Enter your bed size for cubic feet, cubic yards and bag counts (1, 1.5, 2 cu ft and 40 lb), plus round, L-shaped and multiple beds.",
+    "How much soil for a raised bed or garden bed? Enter the size in feet or metres for cubic feet, yards, cubic metres and bag counts, with round, L-shaped, part-filled and multiple beds.",
   openGraph: {
     title: "Raised Bed Soil Calculator (Cubic Feet, Yards and Bags)",
     description:
-      "Calculate exactly how many cubic feet or yards of soil, compost, and amendments you need for your raised garden bed. Works for any size bed.",
+      "How much soil for a raised bed or garden bed? Enter the size in feet or metres for cubic feet, yards, cubic metres and bag counts, with round, L-shaped, part-filled and multiple beds.",
     images: [{ url: "/og/soil-calculator", width: 1200, height: 630 }],
   },
   alternates: { canonical: "/soil-calculator" },
