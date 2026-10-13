@@ -5,6 +5,11 @@ export const soilFAQ = [
       "The amount of soil depends on your bed dimensions. Multiply length x width x depth (all in feet) to get cubic feet. For example, a 4x8-foot bed that is 12 inches deep needs 32 cubic feet of soil. Divide by 27 to convert to cubic yards if ordering in bulk. Our calculator above handles all the math for you, including multiple bed shapes and soil mix breakdowns.",
   },
   {
+    question: "How many bags of soil do I need for a 4x8 raised bed?",
+    answer:
+      "A 4x8-foot bed filled 12 inches deep holds 32 cubic feet: 16 bags of 2 cubic feet, 22 bags of 1.5 cubic feet, or 32 bags of 1 cubic foot. At 6 inches deep it holds 16 cubic feet, half as many bags. Divide your cubic feet by the volume printed on the bag and round up. If the bottom of the bed already holds old soil, logs or cardboard, enter that depth in the calculator so it only counts the space left to fill.",
+  },
+  {
     question: "What soil mix is best for raised beds?",
     answer:
       "The most popular raised bed mix is 60% topsoil and 40% compost, which provides good drainage, nutrients, and structure. Mel's Mix (equal parts compost, peat moss, and vermiculite) is ideal for square foot gardening. For deep beds, a hugelkultur-inspired layered approach with wood on the bottom saves money and improves long-term fertility. Avoid using 100% garden soil, which compacts easily in raised beds.",
