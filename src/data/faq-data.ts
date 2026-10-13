@@ -12,22 +12,22 @@ export const soilFAQ = [
   {
     question: "What soil mix is best for raised beds?",
     answer:
-      "The most popular raised bed mix is 60% topsoil and 40% compost, which provides good drainage, nutrients, and structure. Mel's Mix (equal parts compost, peat moss, and vermiculite) is ideal for square foot gardening. For deep beds, a hugelkultur-inspired layered approach with wood on the bottom saves money and improves long-term fertility. Avoid using 100% garden soil, which compacts easily in raised beds.",
+      "A common raised bed mix is topsoil blended with compost, such as the 60% topsoil and 40% compost preset in the calculator above. Mel's Mix (equal parts compost, peat moss, and vermiculite) is ideal for square foot gardening. For deep beds, some gardeners put logs or wood at the bottom (hugelkultur) so less bought soil is needed; enter that depth as already filled. Avoid using 100% garden soil, which compacts easily in raised beds.",
   },
   {
     question: "How deep should a raised bed be?",
     answer:
-      "Most vegetables grow well in 6 to 12 inches of soil. Shallow-rooted crops like lettuce, herbs, and radishes do fine in 6 inches. Tomatoes, peppers, and root vegetables like carrots prefer 12 inches or more. If your raised bed sits on top of concrete or compacted ground, aim for at least 12 to 18 inches to give roots enough room to grow.",
+      "Most vegetables grow well in 6 to 12 inches of soil. Shallow-rooted crops like lettuce, herbs, and radishes do fine in 6 inches. Tomatoes, peppers, and root vegetables like carrots prefer 12 inches or more. If your raised bed sits on concrete or compacted ground, the roots cannot go below the bed, so build it deeper.",
   },
   {
     question: "Do I need to replace soil in a raised bed every year?",
     answer:
-      "No, you do not need to replace all the soil each year. Soil naturally settles and compresses over time, so plan to top off your beds with 1 to 2 inches of fresh compost each spring. Every 3 to 5 years, you may want to amend more heavily by mixing in fresh compost, aged manure, or other organic matter to replenish nutrients and improve soil structure.",
+      "No, you do not need to replace all the soil each year. Soil settles and breaks down over time, so most gardeners top up their beds with fresh compost when the level drops. Measure how far below the rim the soil sits and enter the bed height and the filled depth in the calculator to see how much to buy.",
   },
   {
     question: "Can I use regular garden soil in a raised bed?",
     answer:
-      "Using straight garden soil in a raised bed is not recommended. Garden soil tends to compact in the confined space of a raised bed, leading to poor drainage and limited root growth. Instead, use a purpose-made raised bed mix or blend topsoil with compost and amendments like perlite or peat moss. If you want to use some garden soil, limit it to about 25% of the total mix and blend it with compost and a drainage amendment.",
+      "Using straight garden soil in a raised bed is not recommended. Garden soil tends to compact in the confined space of a raised bed, leading to poor drainage and limited root growth. Instead, use a purpose-made raised bed mix or blend topsoil with compost and amendments like perlite or peat moss. If you use some garden soil, blend it with compost and a drainage amendment rather than using it alone.",
   },
 ];
 
