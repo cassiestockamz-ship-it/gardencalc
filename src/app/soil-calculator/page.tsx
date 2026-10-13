@@ -97,6 +97,7 @@ export default function SoilCalculatorPage() {
   const [customCompost, setCustomCompost] = useState(30);
   const [numBeds, setNumBeds] = useState(1);
   const [extraPct, setExtraPct] = useState("0");
+  const [filledIn, setFilledIn] = useState(0);
   const [units, setUnits] = useState<"imperial" | "metric">("imperial");
   const metric = units === "metric";
   // Exact: 1 ft = 0.3048 m, 1 in = 2.54 cm. Lengths are kept in the unit shown.
@@ -114,6 +115,7 @@ export default function SoilCalculatorPage() {
     setLeg2WidthFt(conv(leg2WidthFt));
     setLeg2LengthFt(conv(leg2LengthFt));
     setHeightIn(toM ? Math.round(heightIn * 2.54) : Math.round(heightIn / 2.54));
+    setFilledIn(toM ? Math.round(filledIn * 2.54) : Math.round(filledIn / 2.54));
     setUnits(next);
   };
 
@@ -131,7 +133,8 @@ export default function SoilCalculatorPage() {
   };
 
   const results = useMemo(() => {
-    const heightFt = (heightIn * depthToIn) / 12;
+    // Only the part not already filled (old soil, logs, cardboard) needs new soil.
+    const heightFt = (Math.max(0, heightIn - filledIn) * depthToIn) / 12;
     const w = widthFt * lenToFt;
     const l = lengthFt * lenToFt;
     const d = diameterFt * lenToFt;
@@ -193,7 +196,7 @@ export default function SoilCalculatorPage() {
       compostPct,
       otherPct,
     };
-  }, [shape, widthFt, lengthFt, heightIn, diameterFt, leg2WidthFt, leg2LengthFt, soilMix, customTopsoil, customCompost, numBeds, extraPct, lenToFt, depthToIn]);
+  }, [shape, widthFt, lengthFt, heightIn, diameterFt, leg2WidthFt, leg2LengthFt, soilMix, customTopsoil, customCompost, numBeds, extraPct, filledIn, lenToFt, depthToIn]);
 
   const mix = SOIL_MIXES[soilMix];
 
@@ -327,6 +330,21 @@ export default function SoilCalculatorPage() {
           step={1}
           unit={metric ? "cm" : "inches"}
           helpText={metric ? "Most vegetables need at least 15 to 30 cm of soil" : "Most vegetables need at least 6 to 12 inches of soil"}
+        />
+
+        <NumberInput
+          label="Already Filled at the Bottom"
+          value={filledIn}
+          onChange={setFilledIn}
+          min={0}
+          max={metric ? 120 : 48}
+          step={1}
+          unit={metric ? "cm" : "inches"}
+          helpText={
+            filledIn >= heightIn
+              ? "That fills the whole bed, so no new soil is needed"
+              : `Old soil, logs or cardboard already in the bed. New soil fills the top ${heightIn - filledIn} ${metric ? "cm" : "inches"}; enter 0 for an empty bed`
+          }
         />
 
         <NumberInput
