@@ -107,7 +107,7 @@ export default function SoilCalculatorPage() {
     const next = val as "imperial" | "metric";
     if (next === units) return;
     const toM = next === "metric";
-    const conv = (ft: number) => (toM ? Math.round(ft * 0.3048 * 10) / 10 : Math.round((ft / 0.3048) * 2) / 2);
+    const conv = (ft: number) => (toM ? Math.round(ft * 0.3048 * 100) / 100 : Math.round((ft / 0.3048) * 2) / 2);
     setWidthFt(conv(widthFt));
     setLengthFt(conv(lengthFt));
     setDiameterFt(conv(diameterFt));
@@ -123,8 +123,8 @@ export default function SoilCalculatorPage() {
     if (idx > 0 && COMMON_SIZES[idx]) {
       const s = COMMON_SIZES[idx];
       const f = metric ? 0.3048 : 1;
-      setWidthFt(metric ? Math.round(s.w * f * 10) / 10 : s.w);
-      setLengthFt(metric ? Math.round(s.l * f * 10) / 10 : s.l);
+      setWidthFt(metric ? Math.round(s.w * f * 100) / 100 : s.w);
+      setLengthFt(metric ? Math.round(s.l * f * 100) / 100 : s.l);
       setHeightIn(metric ? Math.round(s.h * 2.54) : s.h);
       setShape("rectangle");
     }
@@ -266,7 +266,7 @@ export default function SoilCalculatorPage() {
             onChange={setDiameterFt}
             min={metric ? 0.3 : 1}
             max={metric ? 9 : 30}
-            step={metric ? 0.1 : 0.5}
+            step={metric ? 0.01 : 0.5}
             unit={metric ? "metres" : "feet"}
           />
         ) : (
@@ -277,7 +277,7 @@ export default function SoilCalculatorPage() {
               onChange={setWidthFt}
               min={metric ? 0.3 : 1}
               max={metric ? 9 : 30}
-              step={metric ? 0.1 : 0.5}
+              step={metric ? 0.01 : 0.5}
               unit={metric ? "metres" : "feet"}
             />
             {shape !== "square" && (
@@ -287,7 +287,7 @@ export default function SoilCalculatorPage() {
                 onChange={setLengthFt}
                 min={metric ? 0.3 : 1}
                 max={metric ? 9 : 30}
-                step={metric ? 0.1 : 0.5}
+                step={metric ? 0.01 : 0.5}
                 unit={metric ? "metres" : "feet"}
                 helpText={shape === "lshaped" ? "Measure the L as two rectangles that do not overlap" : undefined}
               />
@@ -300,7 +300,7 @@ export default function SoilCalculatorPage() {
                   onChange={setLeg2WidthFt}
                   min={metric ? 0.3 : 1}
                   max={metric ? 9 : 30}
-                  step={metric ? 0.1 : 0.5}
+                  step={metric ? 0.01 : 0.5}
                   unit={metric ? "metres" : "feet"}
                 />
                 <NumberInput
@@ -309,7 +309,7 @@ export default function SoilCalculatorPage() {
                   onChange={setLeg2LengthFt}
                   min={metric ? 0.3 : 1}
                   max={metric ? 9 : 30}
-                  step={metric ? 0.1 : 0.5}
+                  step={metric ? 0.01 : 0.5}
                   unit={metric ? "metres" : "feet"}
                   helpText="Only the part that sticks out past leg 1"
                 />
