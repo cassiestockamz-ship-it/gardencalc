@@ -432,7 +432,9 @@ export default function SuccessionPlantingPage() {
           using the crop&apos;s days-to-harvest range from agricultural extension
           data. Overlap periods are detected when one planting&apos;s harvest
           window intersects with the next, meaning you will have multiple
-          plantings producing at once.
+          plantings producing at once. For a single planting, the{" "}
+          <a href="/harvest-date" className="text-[var(--color-primary)] hover:underline">harvest calculator</a> gives the
+          days to harvest and the expected picking date.
         </p>
         <h3 className="text-base font-semibold text-[var(--color-text)]">
           Tips for Successful Succession Planting

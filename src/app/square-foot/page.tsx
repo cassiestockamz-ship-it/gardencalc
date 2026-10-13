@@ -373,7 +373,7 @@ export default function SquareFootPage() {
         </p>
         <h3 className="text-base font-semibold text-[var(--color-text)]">Tips for a Productive Square Foot Garden</h3>
         <ul className="list-disc space-y-1.5 pl-5 text-sm text-[var(--color-text-muted)]">
-          <li>Use a high-quality soil mix (Mel&apos;s Mix: equal parts compost, peat moss, and vermiculite) for best results in raised SFG beds.</li>
+          <li>Use a high-quality soil mix (Mel&apos;s Mix: equal parts compost, peat moss, and vermiculite) for best results in raised SFG beds. The <a href="/soil-calculator" className="text-[var(--color-primary)] hover:underline">raised bed soil calculator</a> tells you how many cubic feet or bags it takes to fill your bed.</li>
           <li>Plant tall crops on the north side of the bed so they do not shade shorter vegetables.</li>
           <li>Succession plant quick-harvesting squares (radishes, lettuce) to get multiple crops per season from the same square.</li>
           <li>Add a trellis on the north end to grow vining crops like cucumbers, peas, and pole beans vertically without shading neighbors.</li>

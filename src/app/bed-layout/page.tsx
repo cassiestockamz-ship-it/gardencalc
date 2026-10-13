@@ -401,6 +401,9 @@ export default function BedLayoutPage() {
           from one end of the bed, and each subsequent vegetable fills the
           remaining space. This approach mirrors how most gardeners actually
           plant mixed beds: in defined sections rather than interleaved rows.
+          Before planting, the{" "}
+          <a href="/soil-calculator" className="text-[var(--color-primary)] hover:underline">raised bed soil calculator</a>{" "}
+          works out how much soil fills the bed.
         </p>
         <h3 className="text-base font-semibold text-[var(--color-text)]">
           Tips for Planning Your Bed Layout

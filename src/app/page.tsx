@@ -3,6 +3,7 @@ import Link from "next/link";
 import CalculatorSearch from "@/components/CalculatorSearch";
 import LiveWeekAhead from "@/components/LiveWeekAhead";
 import FAQSection from "@/components/FAQSection";
+import lastmod from "@/data/sitemap-lastmod.json";
 import { plantingDatesFAQ } from "@/data/faq-data";
 
 export const metadata: Metadata = {
@@ -91,6 +92,19 @@ const categories = [
     ],
   },
 ];
+
+// Pages rewritten with a real content change. Drop each about 30 days after its date.
+const recentlyUpdated = [
+  { title: "Growing Season Length by ZIP", href: "/growing-season" },
+  { title: "Harvest Calculator", href: "/harvest-date" },
+  { title: "Raised Bed Soil Calculator", href: "/soil-calculator" },
+]
+  .map((p) => ({ ...p, date: (lastmod as Record<string, string>)[p.href] }))
+  .filter((p) => p.date)
+  .sort((a, b) => b.date.localeCompare(a.date));
+
+const fmtDate = (d: string) =>
+  new Date(`${d}T00:00:00Z`).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
 
 export default function HomePage() {
   return (
@@ -199,6 +213,23 @@ export default function HomePage() {
             </Link>
           ))}
         </div>
+      </section>
+
+      {/* Recently updated: rewritten pages, dated from sitemap-lastmod.json */}
+      <section className="mx-auto max-w-6xl px-4 pb-10 sm:px-6">
+        <h2 className="font-display text-lg font-bold text-[var(--color-text)]">Recently updated</h2>
+        <ul className="mt-3 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-x-8">
+          {recentlyUpdated.map((p) => (
+            <li key={p.href} className="text-sm">
+              <Link href={p.href} className="font-semibold text-[var(--color-primary)] hover:underline">
+                {p.title}
+              </Link>{" "}
+              <span className="text-[var(--color-text-muted)]">
+                updated <time dateTime={p.date}>{fmtDate(p.date)}</time>
+              </span>
+            </li>
+          ))}
+        </ul>
       </section>
 
       {/* Search + directory */}

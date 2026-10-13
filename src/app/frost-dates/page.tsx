@@ -540,6 +540,9 @@ export default function FrostDatesPage() {
           chance of frost occurring after the last spring frost date and before
           the first fall frost date. Actual frost dates can vary by 2 to 3 weeks
           depending on local microclimates, elevation, and weather patterns.
+          To see how many frost-free days fall between those two dates at your
+          ZIP, use the{" "}
+          <a href="/growing-season" className="text-[var(--color-primary)] hover:underline">growing season length calculator</a>.
         </p>
         <h3 className="text-base font-semibold text-[var(--color-text)]">
           Tips for Working With Frost Dates
