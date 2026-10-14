@@ -134,7 +134,7 @@ export const fertilizerFAQ = [
   {
     question: "What is a soil test and why should I get one?",
     answer:
-      "A soil test analyzes your soil's nutrient levels, pH, and organic matter content. It tells you exactly what your soil needs instead of guessing. Your local cooperative extension office usually offers soil tests for $10 to $25. Test results come with specific fertilizer recommendations for your crops. Test in fall or early spring before the growing season. Without a test, you risk over-applying nutrients that are already adequate.",
+      "A soil test analyzes your soil's nutrient levels, pH, and organic matter content. It tells you exactly what your soil needs instead of guessing. Your county cooperative extension office offers soil tests for a small fee. Test results come with specific fertilizer recommendations for your crops. Test in fall or early spring before the growing season. Without a test, you risk over-applying nutrients that are already adequate.",
   },
   {
     question: "What are the signs of over-fertilizing?",
@@ -208,7 +208,7 @@ export const soilPhFAQ = [
   {
     question: "How do I test my soil pH at home?",
     answer:
-      "The easiest method is a home soil pH test kit, which typically costs $8 to $25. Digital pH meters give instant readings when inserted into moist soil. Chemical test kits use a color-changing solution that you compare to a chart. For the most accurate results, collect soil samples from several spots in your garden, mix them together, and test the combined sample. Your local cooperative extension office also offers professional soil testing for $10 to $25 with detailed recommendations.",
+      "The easiest method is a home soil pH test kit. Digital pH meters give instant readings when inserted into moist soil. Chemical test kits use a color-changing solution that you compare to a chart. For the most accurate results, collect soil samples from several spots in your garden, mix them together, and test the combined sample. Your local cooperative extension office also offers a professional soil test for a small fee, with detailed recommendations.",
   },
   {
     question: "How long does it take for lime or sulfur to change soil pH?",
