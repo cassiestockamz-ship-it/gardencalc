@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "All Gardening Calculators",
   description:
-    "21 free live-data gardening calculators: frost alert, plant today check, NOAA frost probability, seed start calendar with ICS export, chill hours tracker, planting dates, soil volume, companion planting, and more.",
+    "21 free gardening calculators: frost alert, plant today check, frost probability, seed start calendar, chill hours, planting dates, soil volume and more.",
   alternates: { canonical: "/calculators" },
 };
 

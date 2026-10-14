@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: { absolute: "Frost Probability Calculator by ZIP | PlantingCalc" },
   description:
-    "Want to know the actual probability of frost on May 3rd at your location? This tool runs 30 years of historical daily temperatures for your ZIP and returns the real frost probability, not just the average last frost date.",
+    "Real frost probability for any date at your ZIP, computed from 30 years of daily temperatures, not just an average last frost date.",
   alternates: { canonical: "https://plantingcalc.com/frost-probability" },
   openGraph: {
     title: "Frost Probability Calculator",
