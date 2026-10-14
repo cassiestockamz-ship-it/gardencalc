@@ -304,6 +304,11 @@ export default function SoilPhCalculatorPage() {
                   ? "Pelletized lime is easier to spread than powdered lime."
                   : "Elemental sulfur works slowly over several months. Apply well before planting season."}
               </p>
+              <p className="mt-3">
+                <a href="#ph-products" className="font-semibold text-[var(--color-primary)] underline">
+                  See {results.amendmentType === "lime" ? "garden lime" : "garden sulfur"} and soil test kits below
+                </a>
+              </p>
             </div>
           </div>
         )}
@@ -314,6 +319,7 @@ export default function SoilPhCalculatorPage() {
         />
       </div>
 
+      <div id="ph-products" className="scroll-mt-20">
       <AmazonPicks
         heading="Test Kits and pH Amendments"
         intro="The calculator is only as good as the pH you enter. Test first, then buy the amendment the result calls for: lime to raise pH, sulfur to lower it."
@@ -324,6 +330,7 @@ export default function SoilPhCalculatorPage() {
           { asin: "B08VD9WT1P", role: "Lower pH", name: "True Organic Prilled Sulfur", note: "Elemental sulfur for alkaline soil. Sulfur works slowly as soil microbes convert it, so retest after a few months." },
         ]}
       />
+      </div>
 
       <FAQSection questions={soilPhFAQ} />
 
@@ -335,7 +342,7 @@ export default function SoilPhCalculatorPage() {
         </p>
         <h3 className="text-base font-semibold text-[var(--color-text)]">Soil pH Tips</h3>
         <ul className="list-disc space-y-1.5 pl-5 text-sm text-[var(--color-text-muted)]">
-          <li>Always test your soil pH before adding amendments. Home test kits cost under $15 and give you a reliable reading in minutes. Your local cooperative extension office also offers professional soil testing for $10 to $25.</li>
+          <li>Always test your soil pH before adding amendments. A home kit gives a quick reading; your county cooperative extension office offers a lab soil test for a small fee, which is the more precise option.</li>
           <li>Lime raises pH (makes soil less acidic) and works best when applied in fall so it has time to react with the soil over winter. Pelletized lime is easier to spread evenly than powdered lime.</li>
           <li>Elemental sulfur lowers pH (makes soil more acidic) but works slowly, taking several months for soil bacteria to convert it. Apply well before planting season for best results.</li>
           <li>Clay soil requires more amendment per pH unit than sandy soil because clay has a higher buffering capacity. Loam falls in between. This is why soil type matters for calculating amendment amounts.</li>
