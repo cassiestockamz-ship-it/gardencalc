@@ -587,7 +587,7 @@ export default function SoilCalculatorPage() {
         <h3 className="text-base font-semibold text-[var(--color-text)]">Tips for Filling Raised Beds</h3>
         <ul className="list-disc space-y-1.5 pl-5 text-sm text-[var(--color-text-muted)]">
           <li>In a deep bed, some gardeners lay logs, sticks or leaves in the bottom (the hugelkultur method) so less soil has to be bought. Enter that depth under Already Filled at the Bottom.</li>
-          <li>A 60/40 topsoil-to-compost ratio works for most vegetables. Mel&apos;s Mix (⅓ compost, ⅓ peat, ⅓ vermiculite) is popular for square-foot gardening; the breakdown above lists each part in cubic feet.</li>
+          <li>A common mix is 60% topsoil and 40% compost (the Standard Mix preset). Mel&apos;s Mix (⅓ compost, ⅓ peat, ⅓ vermiculite) is popular for square-foot gardening; the breakdown above lists each part in cubic feet.</li>
           <li>New soil settles during the first season, so expect to top it up with compost. The Extra for Settling option adds a margin to your order.</li>
           <li>Once your bed is filled, use our <a href="/planting-dates" className="text-[var(--color-primary)] hover:underline">planting date calculator</a> to find the best time to plant in your zone, then check <a href="/seed-spacing" className="text-[var(--color-primary)] hover:underline">seed spacing</a> to maximize your harvest.</li>
         </ul>
