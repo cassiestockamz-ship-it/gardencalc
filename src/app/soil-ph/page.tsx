@@ -76,8 +76,12 @@ const SULFUR_RATES: Record<string, number> = {
 const SULFUR_MAX_PER_APP = 0.5;
 const SULFUR_MAX_PER_YEAR = 2;
 
+// Date the lime and sulfur rates were last checked against the sources below.
+const RATES_UPDATED = new Date("2026-10-15T00:00:00Z");
+const RATES_UPDATED_LABEL = RATES_UPDATED.toLocaleDateString("en-US", { month: "long", year: "numeric", timeZone: "UTC" });
+
 const LIME_SOURCE = { name: "Cornell Cooperative Extension Rockland County, Correcting Soil pH", url: "https://rocklandcce.org/resources/correcting-soil-ph" };
-const SULFUR_SOURCE = { name: "Mississippi State University Extension, Publication 2831", url: "http://extension.msstate.edu/publications/adjusting-soil-ph-mississippi-landscapes" };
+const SULFUR_SOURCE = { name: "Mississippi State University Extension, Publication 2831", url: "https://extension.msstate.edu/publications/adjusting-soil-ph-mississippi-landscapes" };
 
 function getPhLabel(ph: number): string {
   if (ph < 5.5) return "Strongly Acidic";
@@ -141,7 +145,7 @@ export default function SoilPhCalculatorPage() {
     <CalculatorLayout
       title="Soil pH Calculator"
       description="Find out which vegetables match your soil pH and how much lime or sulfur you need to adjust it for optimal growing conditions."
-      lastUpdated="March 2026"
+      lastUpdated={RATES_UPDATED_LABEL}
     >
       <CalculatorSchema
         name="Soil pH Calculator"
@@ -376,7 +380,7 @@ export default function SoilPhCalculatorPage() {
           <li>Always test your soil pH before adding amendments. A home kit gives a quick reading; your county cooperative extension office offers a lab soil test for a small fee, which is the more precise option.</li>
           <li>Lime raises pH (makes soil less acidic) and works best when applied in fall so it has time to react with the soil over winter. Pelletized lime is easier to spread evenly than powdered lime.</li>
           <li>Elemental sulfur lowers pH (makes soil more acidic) but works slowly, taking several months for soil bacteria to convert it. Apply well before planting season for best results.</li>
-          <li>Clay soil requires more amendment per pH unit than sandy soil because clay has a higher buffering capacity. Loam falls in between. This is why soil type matters for calculating amendment amounts.</li>
+          <li>Heavier soil resists pH change more than sandy soil, so it needs more amendment per pH unit. For lime, Cornell gives one rate for clay and loam and half that for sandy soil. For sulfur, Mississippi State gives three rates: clay needs the most, loam less, sandy the least.</li>
         </ul>
       </div>
 

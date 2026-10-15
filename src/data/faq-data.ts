@@ -218,7 +218,7 @@ export const soilPhFAQ = [
   {
     question: "Why does soil type affect how much lime or sulfur I need?",
     answer:
-      "Soil type determines buffering capacity, which is the soil's resistance to pH change. Clay soil has a high buffering capacity because its tiny particles have a large surface area that holds onto nutrients and minerals. This means clay soil needs significantly more lime or sulfur to shift pH compared to sandy soil, which has low buffering capacity and changes pH more easily. Loam, a balanced mix of clay, silt, and sand, falls in between. Always factor in your soil type when calculating amendment amounts.",
+      "Soil type determines buffering capacity, which is the soil's resistance to pH change. Clay soil has a high buffering capacity because its tiny particles have a large surface area that holds onto nutrients and minerals. This means heavier soil needs more lime or sulfur to shift pH than sandy soil, which has low buffering capacity and changes pH more easily. For lime, Cornell Cooperative Extension gives one rate for clay and loam (heavy soils) and half that for sandy soil. For sulfur, Mississippi State University Extension gives separate rates: clay needs the most, loam less and sandy soil the least. Always factor in your soil type when calculating amendment amounts.",
   },
   {
     question: "Can I grow blueberries in alkaline soil?",
