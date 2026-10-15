@@ -246,7 +246,7 @@ export const mulchFAQ = [
   {
     question: "Is bulk mulch cheaper than bagged mulch?",
     answer:
-      "Yes, bulk mulch is almost always cheaper per cubic yard. A cubic yard of bulk wood chip mulch costs around $30, while the same volume in 2-cubic-foot bags (about 14 bags) would cost $65 to $85 at retail. The break-even point is usually around 3 to 5 cubic yards, where the savings justify the delivery fee ($30 to $75 in most areas). For small jobs under 1 cubic yard, bagged mulch is more convenient despite the higher cost.",
+      "Yes, bulk mulch is almost always cheaper per cubic yard. A cubic yard is 27 cubic feet, the same volume as about 14 bags of 2 cubic feet each, and bagged mulch costs noticeably more for that volume. Bulk suppliers usually charge a delivery fee, so the savings grow with the size of the job: ask your local supplier for both prices and compare them for the volume you need. For small jobs under 1 cubic yard, bagged mulch is more convenient despite the higher cost.",
   },
   {
     question: "When is the best time to mulch?",
@@ -400,27 +400,27 @@ export const costSavingsFAQ = [
   {
     question: "How much money can a home garden actually save?",
     answer:
-      "A well-maintained home garden can save $500 to $2,000 or more per year on groceries depending on what you grow and how much space you have. High-value crops like tomatoes, peppers, herbs, and leafy greens offer the best return because their grocery prices are high relative to the cost of seeds and soil. A single tomato plant costing $3 to start can produce 10 to 15 pounds of tomatoes worth $35 to $50 at store prices.",
+      "A well-maintained home garden can save real money on groceries, but how much depends on what you grow, how much space you have and what you pay at your local store. High-value crops like tomatoes, peppers, herbs, and leafy greens offer the best return because their grocery prices are high relative to the cost of seeds and soil. Weigh what you harvest and price it at your own grocery store to see your actual number.",
   },
   {
     question: "What are the most cost-effective vegetables to grow at home?",
     answer:
-      "Tomatoes, zucchini, herbs (basil, cilantro, parsley), lettuce, kale, and peppers are among the most cost-effective vegetables for home gardeners. These crops produce large harvests relative to their seed cost and space requirements. Herbs are especially profitable to grow because fresh herbs at the grocery store cost $2 to $4 for a small package, while a single plant can produce that amount every week for months. Zucchini and tomatoes are prolific producers that quickly offset garden startup costs.",
+      "Tomatoes, zucchini, herbs (basil, cilantro, parsley), lettuce, kale, and peppers are among the most cost-effective vegetables for home gardeners. These crops produce large harvests relative to their seed cost and space requirements. Herbs are especially profitable to grow because fresh herbs at the grocery store come in small, pricey packages, while a single plant can keep producing for months. Zucchini and tomatoes are prolific producers that quickly offset garden startup costs.",
   },
   {
     question: "Does a home garden really save money after startup costs?",
     answer:
-      "Yes, but the first year is the most expensive. Startup costs like raised bed materials, soil, and basic tools can run $100 to $300. However, most of these are one-time investments that last many years. By the second season, your only recurring costs are seeds ($10 to $30), compost ($20 to $40), and water ($5 to $15 per month). Most gardeners break even or see net savings by mid-season of their first year if they focus on high-value crops and avoid overbuying supplies.",
+      "Yes, but the first year is the most expensive. Startup costs like raised bed materials, soil, and basic tools add up quickly. However, most of these are one-time investments that last many years. By the second season, your only recurring costs are seeds, compost, and water. Most gardeners break even or see net savings by mid-season of their first year if they focus on high-value crops and avoid overbuying supplies.",
   },
   {
     question: "How do I calculate the ROI of my garden?",
     answer:
-      "To calculate your garden ROI, add up all your costs (seeds, soil, amendments, water, fertilizer) and compare them to the retail value of your harvest. Weigh your produce as you pick it and multiply by local grocery prices. ROI percentage equals (grocery value minus total costs) divided by total costs, multiplied by 100. A typical vegetable garden returns 200% to 500% on investment, meaning you get $2 to $5 worth of produce for every $1 spent. Track your harvests with a simple notebook or spreadsheet for accurate numbers.",
+      "To calculate your garden ROI, add up all your costs (seeds, soil, amendments, water, fertilizer) and compare them to the retail value of your harvest. Weigh your produce as you pick it and multiply by local grocery prices. ROI percentage equals (grocery value minus total costs) divided by total costs, multiplied by 100. Results vary widely with crop choice, climate and how much you spend on startup, so use your own numbers rather than a typical figure. Track your harvests with a simple notebook or spreadsheet for accurate numbers.",
   },
   {
     question: "What hidden costs should I factor into garden savings calculations?",
     answer:
-      "Beyond seeds and soil, factor in water costs ($5 to $15 per month for a small garden), fertilizer or compost ($20 to $50 per season), pest control supplies ($10 to $30), and replacement seeds for crops that fail. Do not forget the value of your time if that matters to you, though most gardeners consider the labor a hobby rather than a cost. One-time startup costs like raised beds, tools, and irrigation supplies should be amortized over their useful life of 5 to 10 years rather than counted against a single season.",
+      "Beyond seeds and soil, factor in water costs, fertilizer or compost, pest control supplies, and replacement seeds for crops that fail. Do not forget the value of your time if that matters to you, though most gardeners consider the labor a hobby rather than a cost. One-time startup costs like raised beds, tools, and irrigation supplies should be amortized over their useful life of many years rather than counted against a single season.",
   },
 ];
 
