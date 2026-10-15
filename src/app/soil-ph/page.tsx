@@ -54,19 +54,30 @@ const SOIL_TYPES = [
   { value: "sandy", label: "Sandy" },
 ];
 
-// Lbs per 100 sqft to raise pH by 0.5
+// Lbs of ground limestone per 100 sqft to raise pH by 0.5.
+// Cornell CCE Rockland, "Correcting Soil pH": 5 lb per 100 sq ft on heavy soil
+// (pH 5.6 to 6.4), half that on sandy soil. Cornell does not split clay from loam.
 const LIME_RATES: Record<string, number> = {
-  clay: 8,
+  clay: 5,
   loam: 5,
-  sandy: 3,
+  sandy: 2.5,
 };
 
-// Lbs per 100 sqft to lower pH by 0.5
+// Lbs of elemental sulfur per 100 sqft to lower pH by 0.5.
+// Mississippi State Extension pub 2831: 1.3 (sandy), 2 (loam), 3 (clay) lb per 100 sq ft per 1 pH unit.
 const SULFUR_RATES: Record<string, number> = {
-  clay: 3,
-  loam: 2,
-  sandy: 1,
+  clay: 1.5,
+  loam: 1,
+  sandy: 0.65,
 };
+
+// MSU pub 2831: no more than 0.5 lb sulfur per 100 sq ft per application,
+// at least 3 months apart, and no more than 2 lb per 100 sq ft a year.
+const SULFUR_MAX_PER_APP = 0.5;
+const SULFUR_MAX_PER_YEAR = 2;
+
+const LIME_SOURCE = { name: "Cornell Cooperative Extension Rockland County, Correcting Soil pH", url: "https://rocklandcce.org/resources/correcting-soil-ph" };
+const SULFUR_SOURCE = { name: "Mississippi State University Extension, Publication 2831", url: "http://extension.msstate.edu/publications/adjusting-soil-ph-mississippi-landscapes" };
 
 function getPhLabel(ph: number): string {
   if (ph < 5.5) return "Strongly Acidic";
@@ -298,6 +309,27 @@ export default function SoilPhCalculatorPage() {
                   Total {results.amendmentType === "lime" ? "lime" : "sulfur"} needed: {results.amendmentLbs.toFixed(1)} lbs
                 </li>
               </ul>
+              {results.amendmentType === "sulfur" && (() => {
+                const perApp = SULFUR_MAX_PER_APP * areaSqFt / 100;
+                const apps = Math.max(1, Math.ceil(results.amendmentLbs / perApp - 1e-9));
+                const years = Math.ceil((results.amendmentLbs / (areaSqFt / 100)) / SULFUR_MAX_PER_YEAR - 1e-9);
+                return (
+                  <p>
+                    Do not apply it all at once. Spread it over {apps} application{apps === 1 ? "" : "s"} of no more than {perApp.toFixed(1)} lbs each, at least 3 months apart
+                    {years > 1 ? `, which takes about ${years} years at the limit of 2 lbs per 100 sq ft a year` : ""}. Retest before each one.
+                  </p>
+                );
+              })()}
+              {results.amendmentType === "lime" && soilType === "loam" && (
+                <p>Cornell gives one rate for heavy soils and does not split clay from loam, so loam uses the heavy-soil rate. Retest before adding more.</p>
+              )}
+              <p className="text-xs">
+                Rate source:{" "}
+                <a href={(results.amendmentType === "lime" ? LIME_SOURCE : SULFUR_SOURCE).url} target="_blank" rel="noopener noreferrer" className="underline">
+                  {(results.amendmentType === "lime" ? LIME_SOURCE : SULFUR_SOURCE).name}
+                </a>
+                {results.amendmentType === "lime" ? " (ground limestone)" : " (elemental sulfur)"}.
+              </p>
               <p className="mt-3">
                 Apply in fall for best results. Work into the top 6 to 8 inches of soil.{" "}
                 {results.amendmentType === "lime"
@@ -338,7 +370,7 @@ export default function SoilPhCalculatorPage() {
       <div className="mt-10 space-y-6">
         <h2 className="text-lg font-bold text-[var(--color-text)]">How This Calculator Works</h2>
         <p className="text-sm leading-relaxed text-[var(--color-text-muted)]">
-          This calculator compares your current soil pH against the preferred pH range for 23 common garden vegetables. Vegetables shown in the &quot;match&quot; list will grow well at your current pH without any soil amendment. Vegetables in the &quot;needs adjustment&quot; list require you to raise or lower your soil pH before planting for best results. Amendment rates are based on agricultural extension recommendations for the three main soil types: clay, loam, and sandy soil.
+          This calculator compares your current soil pH against the preferred pH range for 23 common garden vegetables. Vegetables shown in the &quot;match&quot; list will grow well at your current pH without any soil amendment. Vegetables in the &quot;needs adjustment&quot; list require you to raise or lower your soil pH before planting for best results. Lime rates follow Cornell Cooperative Extension (Rockland County), which gives one rate for heavy soils and half that for sandy soil. Sulfur rates and the limit of 0.5 lbs per 100 sq ft per application follow Mississippi State University Extension Publication 2831, which gives separate rates for sandy, loam and clay soil.
         </p>
         <h3 className="text-base font-semibold text-[var(--color-text)]">Soil pH Tips</h3>
         <ul className="list-disc space-y-1.5 pl-5 text-sm text-[var(--color-text-muted)]">
