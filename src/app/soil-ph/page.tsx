@@ -331,10 +331,9 @@ export default function SoilPhCalculatorPage() {
                 {results.amendmentType === "lime" ? " (ground limestone)" : " (elemental sulfur)"}.
               </p>
               <p className="mt-3">
-                Apply in fall for best results. Work into the top 6 to 8 inches of soil.{" "}
                 {results.amendmentType === "lime"
-                  ? "Pelletized lime is easier to spread than powdered lime."
-                  : "Elemental sulfur works slowly over several months. Apply well before planting season."}
+                  ? "Apply in fall for best results. Work into the top 6 to 8 inches of soil. Pelletized lime is easier to spread than powdered lime."
+                  : "Start the first application in fall if you can. Work it into the top 6 to 8 inches of soil. Elemental sulfur works slowly over several months, so start well before planting season."}
               </p>
               <p className="mt-3">
                 <a href="#ph-products" className="font-semibold text-[var(--color-primary)] underline">
