@@ -51,9 +51,9 @@ export default function EmailCapture({ variant = "inline", context, zip, heading
       <div className="my-8 rounded-xl border border-[var(--color-primary)]/20 bg-[var(--color-primary)]/5 p-6">
         <div className="flex flex-col items-center gap-4 sm:flex-row">
           <div className="flex-1 text-center sm:text-left">
-            <h3 className="text-base font-bold text-[var(--color-text)]">
+            <h2 className="text-base font-bold text-[var(--color-text)]">
               Planting calendar and frost reminders
-            </h3>
+            </h2>
             <p className="mt-1 text-sm text-[var(--color-text-muted)]">
               Get your planting calendar and frost reminders by email. Nothing else, no sharing, unsubscribe in one click. See our <Link href="/privacy" className="underline hover:text-[var(--color-text)]">privacy policy</Link>.
             </p>
@@ -86,9 +86,9 @@ export default function EmailCapture({ variant = "inline", context, zip, heading
   // Inline variant
   return (
     <div className="mt-8 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-5 text-center">
-      <h3 className="text-sm font-bold text-[var(--color-text)]">
+      <h2 className="text-sm font-bold text-[var(--color-text)]">
         {heading ?? "Planting calendar and frost reminders"}
-      </h3>
+      </h2>
       <p className="mt-1 text-xs text-[var(--color-text-muted)]">
         {blurb ?? "Get your planting calendar and frost reminders by email. Nothing else, no sharing, unsubscribe in one click."}
       </p>

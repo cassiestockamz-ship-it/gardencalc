@@ -14,7 +14,7 @@ const orgJsonLd = {
   url: "https://plantingcalc.com",
   logo: "https://plantingcalc.com/icon.svg",
   description:
-    "Independent publisher of free, data-driven gardening calculators for U.S. home gardeners. Built from USDA hardiness zone data, NOAA frost normals, and university agricultural extension research.",
+    "Independent publisher of free, data-driven gardening calculators for U.S. home gardeners. Built from USDA hardiness zone data, typical frost dates for each zone, NOAA weather records, and university agricultural extension guidance.",
   sameAs: ["https://plantingcalc.com"],
 };
 
@@ -29,8 +29,8 @@ export default function AboutPage() {
 
       <p className="mt-4 text-lg text-[var(--color-text-muted)]">
         PlantingCalc provides free gardening calculators powered by USDA
-        hardiness zone data, NOAA frost dates, and agricultural extension
-        research. Every tool on this site is designed to help home gardeners
+        hardiness zone data, typical frost dates for each zone, NOAA weather
+        records, and agricultural extension guidance. Every tool on this site is designed to help home gardeners
         make data-driven decisions, from soil preparation to harvest
         timing.
       </p>
@@ -49,21 +49,27 @@ export default function AboutPage() {
           </li>
           <li>
             <strong className="text-[var(--color-text)]">
-              NOAA Frost Date Normals
+              Typical frost dates by hardiness zone
             </strong>
-            : average first and last frost dates for accurate planting windows.
+            : the usual last spring and first fall frost for each USDA subzone, used for planting windows. They are zone averages, so your own garden can differ.
+          </li>
+          <li>
+            <strong className="text-[var(--color-text)]">
+              NOAA and National Weather Service data
+            </strong>
+            : 30 years of temperature records for your location on the frost probability tool, and the current forecast on Frost Alert.
           </li>
           <li>
             <strong className="text-[var(--color-text)]">
               University Agricultural Extension Publications
             </strong>
-            : peer-reviewed spacing, fertilizer, and watering guidelines.
+            : planting timing, spacing and soil amendment guidelines. Where a page uses a specific rate, it names the source.
           </li>
           <li>
             <strong className="text-[var(--color-text)]">
-              Open-source companion planting databases
+              Companion planting references
             </strong>
-            : research-backed companion and antagonist plant pairings.
+            : traditional good and bad pairings. Few of these have been tested in field trials, so treat them as guidance.
           </li>
         </ul>
       </section>
@@ -76,19 +82,19 @@ export default function AboutPage() {
         <ul className="mt-4 list-disc space-y-2 pl-6 text-[var(--color-text-muted)]">
           <li>
             <strong className="text-[var(--color-text)]">Real government data</strong>
-            : USDA zones and NOAA frost dates, not guesswork.
+            : USDA zones, NOAA weather records and extension guidance, not guesswork.
           </li>
           <li>
-            <strong className="text-[var(--color-text)]">Open-source plant databases</strong>
-            : transparent, verifiable information.
+            <strong className="text-[var(--color-text)]">Sources named</strong>
+            : where a page gives a specific rate, it says where the number comes from.
           </li>
           <li>
             <strong className="text-[var(--color-text)]">Transparent methodology</strong>
             : every calculation explains how it works.
           </li>
           <li>
-            <strong className="text-[var(--color-text)]">Regularly updated</strong>
-            : data refreshed to reflect the latest USDA and NOAA releases.
+            <strong className="text-[var(--color-text)]">Corrected when wrong</strong>
+            : when a number does not match its source, we fix it and update the page date.
           </li>
         </ul>
       </section>
@@ -99,7 +105,7 @@ export default function AboutPage() {
           Who We Are
         </h2>
         <p className="mt-4 text-[var(--color-text-muted)]">
-          PlantingCalc is built by home gardeners who got tired of guessing. We maintain raised beds and in-ground gardens across multiple USDA zones, and we built these tools because we wanted the same data-driven planning resources that commercial growers have, without the $200/year software subscriptions.
+          PlantingCalc is a small independent publisher of free tools for home gardeners who want to plan from data instead of guessing: the kind of planning help commercial growers get, without paying for planning software.
         </p>
         <p className="mt-3 text-[var(--color-text-muted)]">
           Every calculator on this site is backed by published agricultural data, not guesswork. When we say &ldquo;plant tomatoes 2 weeks after your last frost,&rdquo; that comes from the same extension office guidelines that professional farmers follow.
@@ -113,7 +119,7 @@ export default function AboutPage() {
         </h2>
         <ul className="mt-4 list-disc space-y-2 pl-6 text-[var(--color-text-muted)]">
           <li>
-            <strong className="text-[var(--color-text)]">Frost dates</strong> are averaged from 30-year NOAA climate normals, cross-referenced with your USDA hardiness zone via the official phzmapi.org API.
+            <strong className="text-[var(--color-text)]">Frost dates</strong> are the typical dates for your USDA hardiness subzone, which we look up from your ZIP through the phzmapi.org API. They are zone averages, not readings from a station near you; the frost probability tool uses 30 years of NOAA records for your location instead.
           </li>
           <li>
             <strong className="text-[var(--color-text)]">Planting windows</strong> use the standard extension office formula: weeks before or after your local last frost date, calibrated per crop.

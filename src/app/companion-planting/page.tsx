@@ -125,9 +125,9 @@ export default function CompanionPlantingPage() {
           <div className="mt-8 grid gap-6 sm:grid-cols-2">
             {/* Good Companions */}
             <div className="rounded-xl border border-green-200 bg-green-50/50 p-5">
-              <h3 className="mb-4 flex items-center gap-2 text-sm font-bold text-green-700">
+              <h2 className="mb-4 flex items-center gap-2 text-sm font-bold text-green-700">
                 <span className="text-lg">{"\u2705"}</span> Good Companions
-              </h3>
+              </h2>
               {plant.companions.length > 0 ? (
                 <div className="space-y-2">
                   {plant.companions.map((name) => (
@@ -147,9 +147,9 @@ export default function CompanionPlantingPage() {
 
             {/* Foes */}
             <div className="rounded-xl border border-red-200 bg-red-50/50 p-5">
-              <h3 className="mb-4 flex items-center gap-2 text-sm font-bold text-red-700">
+              <h2 className="mb-4 flex items-center gap-2 text-sm font-bold text-red-700">
                 <span className="text-lg">{"\u274C"}</span> Keep Away
-              </h3>
+              </h2>
               {plant.foes.length > 0 ? (
                 <div className="space-y-2">
                   {plant.foes.map((name) => (
@@ -171,9 +171,9 @@ export default function CompanionPlantingPage() {
           {/* Notes */}
           {plant.notes && (
             <div className="mt-6 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-5">
-              <h3 className="mb-2 text-sm font-semibold text-[var(--color-text)]">
+              <h2 className="mb-2 text-sm font-semibold text-[var(--color-text)]">
                 Why it matters
-              </h3>
+              </h2>
               <p className="text-sm text-[var(--color-text-muted)]">
                 <span className="mr-1.5 text-base">{plant.icon}</span>
                 <strong>{plant.name}:</strong> {plant.notes}

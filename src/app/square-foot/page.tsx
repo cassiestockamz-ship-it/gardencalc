@@ -211,9 +211,9 @@ export default function SquareFootPage() {
 
       {/* SFG Spacing Reference */}
       <div className="mt-8 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-5">
-        <h3 className="mb-3 text-sm font-semibold text-[var(--color-text)]">
+        <h2 className="mb-3 text-sm font-semibold text-[var(--color-text)]">
           Square Foot Gardening Spacing Rules
-        </h3>
+        </h2>
         <div className="grid gap-2 text-xs sm:grid-cols-2 lg:grid-cols-3">
           {Object.entries(SFG_RULES).map(([key, rule]) => (
             <div key={key} className="flex items-center gap-2 rounded-lg bg-[var(--color-surface)] px-3 py-2">
