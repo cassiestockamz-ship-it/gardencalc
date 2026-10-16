@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: { absolute: "Seed Start Calendar by ZIP (with ICS) | PlantingCalc" },
   description:
-    "Enter your ZIP. Get a personalized seed starting calendar for 40+ vegetables with indoor start, harden-off, and transplant dates. Download as an ICS calendar file.",
+    "Enter your ZIP for a seed starting calendar for 40+ vegetables with indoor start, harden-off and transplant dates. Download it as an ICS file.",
   alternates: { canonical: "https://plantingcalc.com/seed-start-calendar" },
   openGraph: {
     title: "Seed Start Calendar: with ICS download",
