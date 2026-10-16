@@ -28,7 +28,7 @@ const PH_PREFERENCES: PhRange[] = [
   { name: "Sweet Potatoes", icon: "🍠", minPh: 5.5, maxPh: 6.5 },
   { name: "Tomatoes", icon: "🍅", minPh: 6.0, maxPh: 6.8 },
   { name: "Peppers", icon: "🌶️", minPh: 6.0, maxPh: 6.8 },
-  { name: "Eggplant", icon: "🍆", minPh: 6.0, maxPh: 6.8 },
+  { name: "Eggplant", icon: "🍆", minPh: 6.0, maxPh: 6.5 },
   { name: "Carrots", icon: "🥕", minPh: 6.0, maxPh: 7.0 },
   { name: "Beets", icon: "🟣", minPh: 6.0, maxPh: 7.0 },
   { name: "Lettuce", icon: "🥬", minPh: 6.0, maxPh: 7.0 },
@@ -40,9 +40,9 @@ const PH_PREFERENCES: PhRange[] = [
   { name: "Corn", icon: "🌽", minPh: 6.0, maxPh: 7.0 },
   { name: "Onions", icon: "🧅", minPh: 6.0, maxPh: 7.0 },
   { name: "Garlic", icon: "🧄", minPh: 6.0, maxPh: 7.0 },
-  { name: "Broccoli", icon: "🥦", minPh: 6.5, maxPh: 7.5 },
-  { name: "Cabbage", icon: "🥬", minPh: 6.5, maxPh: 7.5 },
-  { name: "Cauliflower", icon: "🥦", minPh: 6.5, maxPh: 7.5 },
+  { name: "Broccoli", icon: "🥦", minPh: 6.5, maxPh: 7.0 },
+  { name: "Cabbage", icon: "🥬", minPh: 6.5, maxPh: 7.0 },
+  { name: "Cauliflower", icon: "🥦", minPh: 6.5, maxPh: 7.0 },
   { name: "Kale", icon: "🥬", minPh: 6.5, maxPh: 7.5 },
   { name: "Brussels Sprouts", icon: "🥬", minPh: 6.5, maxPh: 7.5 },
   { name: "Asparagus", icon: "🌿", minPh: 6.5, maxPh: 7.5 },
@@ -77,9 +77,10 @@ const SULFUR_MAX_PER_APP = 0.5;
 const SULFUR_MAX_PER_YEAR = 2;
 
 // Date the lime and sulfur rates were last checked against the sources below.
-const RATES_UPDATED = new Date("2026-10-15T00:00:00Z");
+const RATES_UPDATED = new Date("2026-10-16T00:00:00Z");
 const RATES_UPDATED_LABEL = RATES_UPDATED.toLocaleDateString("en-US", { month: "long", year: "numeric", timeZone: "UTC" });
 
+const CROP_PH_SOURCE = { name: "University of Maryland Extension, Table B-1", url: "https://extension.umd.edu/sites/extension.umd.edu/files/2021-03/B-1.pdf" };
 const LIME_SOURCE = { name: "Cornell Cooperative Extension Rockland County, Correcting Soil pH", url: "https://rocklandcce.org/resources/correcting-soil-ph" };
 const SULFUR_SOURCE = { name: "Mississippi State University Extension, Publication 2831", url: "https://extension.msstate.edu/publications/adjusting-soil-ph-mississippi-landscapes" };
 
@@ -373,7 +374,8 @@ export default function SoilPhCalculatorPage() {
       <div className="mt-10 space-y-6">
         <h2 className="text-lg font-bold text-[var(--color-text)]">How This Calculator Works</h2>
         <p className="text-sm leading-relaxed text-[var(--color-text-muted)]">
-          This calculator compares your current soil pH against the preferred pH range for 23 common garden vegetables. Vegetables shown in the &quot;match&quot; list will grow well at your current pH without any soil amendment. Vegetables in the &quot;needs adjustment&quot; list require you to raise or lower your soil pH before planting for best results. Lime rates follow Cornell Cooperative Extension (Rockland County), which gives one rate for heavy soils and half that for sandy soil. Sulfur rates and the limit of 0.5 lbs per 100 sq ft per application follow Mississippi State University Extension Publication 2831, which gives separate rates for sandy, loam and clay soil.
+          This calculator compares your current soil pH against the preferred pH range for 23 common garden vegetables. Vegetables shown in the &quot;match&quot; list will grow well at your current pH without any soil amendment. Vegetables in the &quot;needs adjustment&quot; list require you to raise or lower your soil pH before planting for best results. Lime rates follow Cornell Cooperative Extension (Rockland County), which gives one rate for heavy soils and half that for sandy soil. Sulfur rates and the limit of 0.5 lbs per 100 sq ft per application follow Mississippi State University Extension Publication 2831, which gives separate rates for sandy, loam and clay soil. Crop pH ranges were checked against{" "}
+          <a href={CROP_PH_SOURCE.url} target="_blank" rel="noopener noreferrer" className="underline">{CROP_PH_SOURCE.name}</a>.
         </p>
         <h3 className="text-base font-semibold text-[var(--color-text)]">Soil pH Tips</h3>
         <ul className="list-disc space-y-1.5 pl-5 text-sm text-[var(--color-text-muted)]">

@@ -203,7 +203,7 @@ export const soilPhFAQ = [
   {
     question: "What is the ideal soil pH for a vegetable garden?",
     answer:
-      "Most vegetables grow best in soil with a pH between 6.0 and 7.0, which is slightly acidic to neutral. This range allows plants to absorb the widest variety of nutrients from the soil. Some crops prefer slightly different ranges: blueberries thrive in acidic soil (4.5 to 5.5), while brassicas like broccoli and cabbage prefer slightly alkaline conditions (6.5 to 7.5). Testing your soil pH before planting helps you match crops to your conditions or amend the soil accordingly.",
+      "Most vegetables grow best in soil with a pH between 6.0 and 7.0, which is slightly acidic to neutral. This range allows plants to absorb the widest variety of nutrients from the soil. Some crops prefer slightly different ranges: blueberries thrive in acidic soil (4.5 to 5.5), while brassicas like broccoli and cabbage do best at the top of the common range (6.5 to 7.0). Testing your soil pH before planting helps you match crops to your conditions or amend the soil accordingly.",
   },
   {
     question: "How do I test my soil pH at home?",
