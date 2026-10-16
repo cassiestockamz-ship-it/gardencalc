@@ -213,7 +213,7 @@ export const soilPhFAQ = [
   {
     question: "How long does it take for lime or sulfur to change soil pH?",
     answer:
-      "Lime typically takes 2 to 3 months to fully react with the soil, which is why fall application is recommended so the pH is adjusted by spring planting time. Elemental sulfur works even more slowly, requiring 3 to 6 months as soil bacteria must convert it before it affects pH. Faster-acting products exist (such as aluminum sulfate for lowering pH) but can damage plants if over-applied. For best results, amend your soil in fall, retest in early spring, and adjust if needed before planting.",
+      "Both work slowly, over months rather than weeks, which is why fall application is recommended so the pH has moved by spring planting time. Elemental sulfur is slower than lime because soil bacteria must convert it before it affects pH, and Mississippi State University Extension advises doses of no more than 0.5 lbs per 100 sq ft, at least 3 months apart. Faster-acting products exist (such as aluminum sulfate for lowering pH) but can damage plants if over-applied. For best results, amend your soil in fall, retest in early spring, and adjust if needed before planting.",
   },
   {
     question: "Why does soil type affect how much lime or sulfur I need?",
@@ -223,7 +223,7 @@ export const soilPhFAQ = [
   {
     question: "Can I grow blueberries in alkaline soil?",
     answer:
-      "Growing blueberries in alkaline soil is challenging but possible with significant amendment. Blueberries require a pH of 4.5 to 5.5, so alkaline soil (above 7.0) would need a large amount of elemental sulfur worked into the ground over multiple seasons. A more practical approach is to grow blueberries in raised beds or large containers filled with an acidic potting mix (peat moss-based). You can also use sulfur-coated fertilizers and pine needle mulch to help maintain low pH over time.",
+      "Growing blueberries in alkaline soil is challenging but possible with significant amendment. Blueberries require a pH of 4.5 to 5.5, so alkaline soil (above 7.0) would need a large amount of elemental sulfur worked into the ground over multiple seasons. A more practical approach is to grow blueberries in raised beds or large containers filled with an acidic potting mix (peat moss-based). Retest the soil each year, since pH tends to drift back toward the native level.",
   },
 ];
 
