@@ -379,10 +379,18 @@ export default function FrostAlertPage() {
         />
       )}
 
-      {verdict && byAction && byAction.cover.length + byAction.lost.length > 0 && (
+      {verdict && byAction && (
         <AmazonPicks
-          heading="Frost cloth for the crops on your cover list"
-          intro="Bedsheets work in a pinch. Frost cloth is made for the job: it is light, cuts to any size, and lets air, light and moisture through to the plants."
+          heading={
+            byAction.cover.length + byAction.lost.length > 0
+              ? "Frost cloth for the crops on your cover list"
+              : "Have cover ready before the first cold night"
+          }
+          intro={
+            byAction.cover.length + byAction.lost.length > 0
+              ? "Bedsheets work in a pinch. Frost cloth is made for the job: it is light, cuts to any size, and lets air, light and moisture through to the plants."
+              : "Nothing on your list needs cover in this forecast. When a cold night does show up, bedsheets work in a pinch, but frost cloth is made for the job: it is light, cuts to any size, and lets air, light and moisture through to the plants."
+          }
           picks={[
             { asin: "B0CH86PT5B", role: "Frost cloth", name: "KLEWEE Plant Covers Freeze Protection, 10 x 50 ft", note: "A 10 x 50 ft roll of 1.5 oz/yd² spun polypropylene. Cut it to the size of your beds, and use a doubled or tripled layer on the coldest nights." },
           ]}
