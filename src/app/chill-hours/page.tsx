@@ -247,7 +247,7 @@ export default function ChillHoursPage() {
           value={zip}
           onChange={setZip}
           onResolved={runLookup}
-          placeholder="Enter your ZIP to pull winter chill data"
+          placeholder="Enter your ZIP code"
         />
         {error && (
           <p className="mt-2 text-xs text-[var(--color-frost-ink)]" role="alert">

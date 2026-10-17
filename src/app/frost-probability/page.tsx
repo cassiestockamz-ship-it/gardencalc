@@ -196,7 +196,7 @@ export default function FrostProbabilityPage() {
           value={zip}
           onChange={setZip}
           onResolved={runCalc}
-          placeholder="Enter your ZIP to pull 30 years of history"
+          placeholder="Enter your ZIP code"
         />
         {error && (
           <p className="mt-2 text-xs text-[var(--color-frost-ink)]" role="alert">

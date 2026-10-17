@@ -226,7 +226,7 @@ export default function SuccessionPlantingPage() {
           value={zip}
           onChange={setZip}
           onResolved={onResolved}
-          placeholder="Enter your ZIP to auto-fill zone and planting date"
+          placeholder="Enter your ZIP code"
         />
         {placeName && (
           <p className="mt-2 text-xs text-[var(--color-text-muted)]">

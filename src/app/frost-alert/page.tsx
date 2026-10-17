@@ -216,7 +216,7 @@ export default function FrostAlertPage() {
           value={zip}
           onChange={setZip}
           onResolved={runFetch}
-          placeholder="Enter your ZIP for a live 72-hour check"
+          placeholder="Enter your ZIP code"
         />
         {error && (
           <p className="mt-2 text-xs text-[var(--color-frost-ink)]" role="alert">

@@ -291,7 +291,7 @@ export default function SeedStartCalendarPage() {
           value={zip}
           onChange={setZip}
           onResolved={runLookup}
-          placeholder="Enter your ZIP to build your seed calendar"
+          placeholder="Enter your ZIP code"
         />
         {error && (
           <p className="mt-2 text-xs text-[var(--color-frost-ink)]" role="alert">

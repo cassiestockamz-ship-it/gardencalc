@@ -210,7 +210,7 @@ export default function PlantingDatesPage() {
           value={zip}
           onChange={setZip}
           onResolved={fetchZone}
-          placeholder="Enter your ZIP for planting dates"
+          placeholder="Enter your ZIP code"
         />
         {error && (
           <p className="mt-2 text-xs text-[var(--color-frost-ink)]" role="alert">
