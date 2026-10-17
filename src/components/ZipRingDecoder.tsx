@@ -3,13 +3,25 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { lookupZipPrefix } from "@/lib/zipTable";
 import { formatMonthDay, nextOccurrence, daysBetween } from "@/lib/frostDates";
+
+type MonthDay = { month: number; day: number };
+
+/** The frost that comes next from today: the fall first frost between spring and fall, else the spring last frost. */
+function nextFrostEvent(lastFrost: MonthDay, firstFrost?: MonthDay) {
+  const nextLast = nextOccurrence(lastFrost.month, lastFrost.day);
+  if (firstFrost) {
+    const nextFirst = nextOccurrence(firstFrost.month, firstFrost.day);
+    if (nextFirst < nextLast) return { label: "First Frost", md: firstFrost, date: nextFirst };
+  }
+  return { label: "Last Frost", md: lastFrost, date: nextLast };
+}
 import { frostNormalsFor } from "@/lib/zoneFrostDates";
 
 /**
  * ZIP Ring Decoder — the signature interaction.
  *
  * Five slots above the ZIP input that light up as the user types.
- * Slots: State, Zone, Latitude, Last Frost, Days Until Last Frost.
+ * Slots: State, Zone, Latitude, next frost (first frost in fall, else last frost), Days Until it.
  *
  * Pure client JS for the partial paint. On keystroke we read the
  * 3-digit prefix table and fill slots immediately, with no network
@@ -56,6 +68,7 @@ export default function ZipRingDecoder({
     lat: number;
     lng: number;
     lastFrost: string;
+    firstFrost?: string;
   } | null>(null);
   const [loading, setLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -94,6 +107,7 @@ export default function ZipRingDecoder({
             lat: finalLat,
             lng: finalLng,
             lastFrost: data.lastFrost,
+            firstFrost: data.firstFrost,
           });
           if (onResolved) {
             const lastFrostDate = new Date(`${data.lastFrost}T00:00:00`);
@@ -146,16 +160,13 @@ export default function ZipRingDecoder({
       };
       const normals = frostNormalsFor(partial.approxZone, partial.state);
       if (normals) {
+        const next = nextFrostEvent(normals.lastFrost, normals.firstFrost);
         base[3] = {
-          label: "Last Frost",
-          value: formatMonthDay(normals.lastFrost.month, normals.lastFrost.day),
+          label: next.label,
+          value: formatMonthDay(next.md.month, next.md.day),
           state: "partial",
         };
-        const nextDate = nextOccurrence(
-          normals.lastFrost.month,
-          normals.lastFrost.day
-        );
-        const days = daysBetween(new Date(), nextDate);
+        const days = daysBetween(new Date(), next.date);
         base[4] = {
           label: "Days Left",
           value: days > 0 ? `${days}` : "Now",
@@ -171,17 +182,17 @@ export default function ZipRingDecoder({
         value: formatLat(resolved.lat),
         state: "exact",
       };
-      const lastFrostDate = new Date(`${resolved.lastFrost}T00:00:00`);
-      const refDate =
-        lastFrostDate < new Date()
-          ? new Date(
-              lastFrostDate.getFullYear() + 1,
-              lastFrostDate.getMonth(),
-              lastFrostDate.getDate()
-            )
-          : lastFrostDate;
+      const toMd = (iso: string) => {
+        const d = new Date(`${iso}T00:00:00`);
+        return { month: d.getMonth() + 1, day: d.getDate() };
+      };
+      const next = nextFrostEvent(
+        toMd(resolved.lastFrost),
+        resolved.firstFrost ? toMd(resolved.firstFrost) : undefined
+      );
+      const refDate = next.date;
       base[3] = {
-        label: "Last Frost",
+        label: next.label,
         value: refDate.toLocaleDateString("en-US", {
           month: "short",
           day: "numeric",
