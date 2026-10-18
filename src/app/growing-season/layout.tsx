@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { ZONE_FROST_DATES } from "@/lib/zoneFrostDates";
 const days = (z: string) => ZONE_FROST_DATES[z].growingSeason;
 
-const TITLE = "Growing Season Length by ZIP: Days Between Frosts";
+// Answer first (10-18): 0 clicks at pos 5 on "how long is a growing season" with the old title.
+const TITLE = `How Long Is a Growing Season? ${days("3a")} to ${days("9b")} Days by ZIP`;
 const DESCRIPTION =
   `Your growing season is the days between the last spring frost and the first fall frost: about ${days("3a")} days in zone 3a, ${days("5a")} in 5a, ${days("7a")} in 7a. Enter your ZIP for yours.`;
 
