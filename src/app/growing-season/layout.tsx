@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
-import { ZONE_FROST_DATES } from "@/lib/zoneFrostDates";
+import { ZONE_FROST_DATES, frostFreeDays } from "@/lib/zoneFrostDates";
+import { getAllZoneGuides } from "@/data/zone-guides";
 const days = (z: string) => ZONE_FROST_DATES[z].growingSeason;
 
 // Answer first (10-18): 0 clicks at pos 5 on "how long is a growing season" with the old title.
-const TITLE = `How Long Is a Growing Season? ${days("3a")} to ${days("9b")} Days by ZIP`;
+// Same zones 3-10 range as the answer box in page.tsx, so title and page agree.
+const SEASONS = getAllZoneGuides().filter((z) => z.zone >= 3 && z.zone <= 10).map((z) => frostFreeDays(z.lastFrost, z.firstFrost));
+const TITLE = `How Long Is a Growing Season? ${Math.min(...SEASONS)} to ${Math.max(...SEASONS)} Days by ZIP`;
 const DESCRIPTION =
   `Your growing season is the days between the last spring frost and the first fall frost: about ${days("3a")} days in zone 3a, ${days("5a")} in 5a, ${days("7a")} in 7a. Enter your ZIP for yours.`;
 
