@@ -17,7 +17,7 @@ interface SavedZip {
 }
 
 /**
- * StickyZipBar — a thin persistent bar that appears below the main
+ * StickyZipBar: a thin persistent bar that appears below the main
  * header once the user has entered a ZIP anywhere on the site. Stores
  * the ZIP context in localStorage so navigation across routes keeps
  * the bar in place. Tap to change.
@@ -63,6 +63,8 @@ export default function StickyZipBar() {
   // Same subzone dates /api/zone gives the ZIP tools; state average only as a fallback.
   const normals = frostNormalsFor(saved.zone, saved.state);
   let daysLabel = "";
+  // Fall frost within 30 days: the label links to /frost-alert (this week's cover-or-lose check for the saved ZIP).
+  let frostSoon = 0;
   if (normals) {
     const now = new Date();
     const year = now.getFullYear();
@@ -78,6 +80,7 @@ export default function StickyZipBar() {
     // last frost is likely next spring), show days to first frost instead.
     if (daysToFirst < daysToLast) {
       daysLabel = `${daysToFirst} days to first frost (${formatMonthDay(normals.firstFrost.month, normals.firstFrost.day)})`;
+      if (daysToFirst <= 30) frostSoon = daysToFirst;
     } else {
       daysLabel = `${daysToLast} days to last frost (${formatMonthDay(normals.lastFrost.month, normals.lastFrost.day)})`;
     }
@@ -95,11 +98,25 @@ export default function StickyZipBar() {
             {daysLabel && (
               <>
                 <span className="mx-1.5 hidden text-[var(--color-text-faint)] sm:inline">·</span>
-                <span className="hidden sm:inline">{daysLabel}</span>
+                {frostSoon ? (
+                  <Link href="/frost-alert" className="hidden underline underline-offset-2 hover:no-underline sm:inline">
+                    {daysLabel}: check this week
+                  </Link>
+                ) : (
+                  <span className="hidden sm:inline">{daysLabel}</span>
+                )}
               </>
             )}
           </span>
         </div>
+        {frostSoon > 0 && (
+          <Link
+            href="/frost-alert"
+            className="whitespace-nowrap font-semibold underline underline-offset-2 sm:hidden"
+          >
+            Frost in {frostSoon}d
+          </Link>
+        )}
         <Link
           href="/"
           className="whitespace-nowrap rounded-md border border-[var(--color-primary)]/30 bg-white/60 px-2 py-1 text-[11px] font-semibold hover:bg-white"
