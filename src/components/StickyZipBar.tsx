@@ -114,7 +114,7 @@ export default function StickyZipBar() {
             href="/frost-alert"
             className="whitespace-nowrap font-semibold underline underline-offset-2 sm:hidden"
           >
-            Frost in {frostSoon}d
+            Frost check
           </Link>
         )}
         <Link
