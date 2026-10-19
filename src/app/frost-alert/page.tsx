@@ -270,6 +270,22 @@ export default function FrostAlertPage() {
               </div>
             </div>
 
+            {/* Compact frost cloth link inside the verdict: on the first screen at 390px. Same rule as the card below. */}
+            {(byAction.cover.length + byAction.lost.length > 0 || parseInt(String(resultZone ?? "0"), 10) < 10) && (
+              <a
+                href="https://www.amazon.com/dp/B0CH86PT5B?tag=kawaiiguy0f-pc-20"
+                target="_blank"
+                rel="sponsored nofollow noopener"
+                className="mt-4 flex items-center justify-between gap-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] px-3 py-2 text-sm hover:border-[var(--color-primary)]"
+              >
+                <span className="text-[var(--color-text)]">
+                  {byAction.cover.length + byAction.lost.length > 0 ? "For your cover list: " : "For the first cold night: "}
+                  <span className="font-semibold">frost cloth, 10 x 50 ft roll</span>
+                </span>
+                <span className="shrink-0 font-semibold text-[var(--color-primary)]">Amazon &rarr;</span>
+              </a>
+            )}
+
             <div className="mt-5 grid grid-cols-4 gap-2 border-t border-[var(--color-border)] pt-4">
               <CountTile label="Lose" count={byAction.lost.length} tone="frost" />
               <CountTile label="Harvest" count={byAction.harvest.length} tone="watch" />
