@@ -78,6 +78,8 @@ export default function FrostAlertPage() {
   const [error, setError] = useState<string | null>(null);
   const [placeName, setPlaceName] = useState<string | null>(null);
   const [resultZip, setResultZip] = useState<string | null>(null);
+  // Zone 10 and up rarely sees frost; show cover products there only when the forecast needs them.
+  const [resultZone, setResultZone] = useState<string | null>(null);
   const [forecast, setForecast] = useState<DailyForecast[]>([]);
   const [selectedCrops, setSelectedCrops] = useState<Set<string>>(
     () =>
@@ -122,6 +124,7 @@ export default function FrostAlertPage() {
     try {
       const loc = await lookupZip(decoded.zip);
       setResultZip(decoded.zip);
+      setResultZone(decoded.zone ? String(decoded.zone) : null);
       if (!loc) {
         setError("Could not look up that ZIP code.");
         return;
@@ -379,7 +382,7 @@ export default function FrostAlertPage() {
         />
       )}
 
-      {verdict && byAction && (
+      {verdict && byAction && (byAction.cover.length + byAction.lost.length > 0 || parseInt(String(resultZone ?? "0"), 10) < 10) && (
         <AmazonPicks
           heading={
             byAction.cover.length + byAction.lost.length > 0
