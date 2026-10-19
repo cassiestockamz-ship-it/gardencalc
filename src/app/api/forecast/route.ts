@@ -7,6 +7,7 @@ const HEADERS = { "User-Agent": UA, Accept: "application/geo+json" };
 
 interface Period {
   startTime: string;
+  endTime: string;
   isDaytime: boolean;
   temperature: number;
   temperatureUnit: string;
@@ -26,13 +27,18 @@ export async function GET(req: NextRequest) {
     if (!p.ok) return NextResponse.json({ error: "no forecast for this location" }, { status: 404 });
     const forecastUrl: string | undefined = (await p.json())?.properties?.forecast;
     if (!forecastUrl) return NextResponse.json({ error: "no forecast for this location" }, { status: 404 });
-    const f = await fetch(forecastUrl, { headers: HEADERS, next: { revalidate: 1800 } });
+    // No data cache: a cached forecast is served stale on the first hit after it expires, and
+    // for a rarely checked ZIP that was a week-old forecast (10-19: Minneapolis showed Oct 12).
+    const f = await fetch(forecastUrl, { headers: HEADERS, cache: "no-store" });
     if (!f.ok) return NextResponse.json({ error: "forecast unavailable" }, { status: 502 });
     const periods: Period[] = (await f.json())?.properties?.periods ?? [];
 
     // Group 12-hour periods by local calendar date (the offset in startTime).
     const byDate = new Map<string, number[]>();
+    const now = Date.now();
     for (const per of periods) {
+      // Belt and braces: never return a period that has already ended.
+      if (per.endTime && Date.parse(per.endTime) < now) continue;
       const t = per.temperatureUnit === "C" ? per.temperature * 1.8 + 32 : per.temperature;
       const date = per.startTime.slice(0, 10);
       byDate.set(date, [...(byDate.get(date) ?? []), t]);
