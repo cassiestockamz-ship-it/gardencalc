@@ -8,6 +8,8 @@ type MonthDay = { month: number; day: number };
 
 /** The frost that comes next from today: the fall first frost between spring and fall, else the spring last frost. */
 function nextFrostEvent(lastFrost: MonthDay, firstFrost?: MonthDay) {
+  // Frost-free zones (Jan 1 to Dec 31): there is no frost to count down to.
+  if (firstFrost && frostFreeDays(lastFrost, firstFrost) === 365) return null;
   const nextLast = nextOccurrence(lastFrost.month, lastFrost.day);
   if (firstFrost) {
     const nextFirst = nextOccurrence(firstFrost.month, firstFrost.day);
@@ -15,7 +17,7 @@ function nextFrostEvent(lastFrost: MonthDay, firstFrost?: MonthDay) {
   }
   return { label: "Last Frost", md: lastFrost, date: nextLast };
 }
-import { frostNormalsFor } from "@/lib/zoneFrostDates";
+import { frostNormalsFor, frostFreeDays } from "@/lib/zoneFrostDates";
 
 /**
  * ZIP Ring Decoder — the signature interaction.
@@ -161,6 +163,10 @@ export default function ZipRingDecoder({
       const normals = frostNormalsFor(partial.approxZone, partial.state);
       if (normals) {
         const next = nextFrostEvent(normals.lastFrost, normals.firstFrost);
+        if (!next) {
+          base[3] = { label: "Frost", value: "None typical", state: "partial" };
+          base[4] = { label: "Days Left", value: "n/a", state: "partial" };
+        } else {
         base[3] = {
           label: next.label,
           value: formatMonthDay(next.md.month, next.md.day),
@@ -172,6 +178,7 @@ export default function ZipRingDecoder({
           value: days > 0 ? `${days}` : "Now",
           state: "partial",
         };
+        }
       }
     }
 
@@ -190,6 +197,11 @@ export default function ZipRingDecoder({
         toMd(resolved.lastFrost),
         resolved.firstFrost ? toMd(resolved.firstFrost) : undefined
       );
+      if (!next) {
+        base[3] = { label: "Frost", value: "None typical", state: "exact" };
+        base[4] = { label: "Days Left", value: "n/a", state: "exact" };
+        return base;
+      }
       const refDate = next.date;
       base[3] = {
         label: next.label,

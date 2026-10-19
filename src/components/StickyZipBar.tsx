@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { daysBetween, formatMonthDay } from "@/lib/frostDates";
-import { frostNormalsFor } from "@/lib/zoneFrostDates";
+import { frostNormalsFor, frostFreeDays } from "@/lib/zoneFrostDates";
 
 const STORAGE_KEY = "pc_zip_context_v1";
 
@@ -65,7 +65,8 @@ export default function StickyZipBar() {
   let daysLabel = "";
   // Fall frost within 30 days: the label links to /frost-alert (this week's cover-or-lose check for the saved ZIP).
   let frostSoon = 0;
-  if (normals) {
+  // Frost-free zones (Jan 1 to Dec 31) get no countdown: there is no typical frost date.
+  if (normals && frostFreeDays(normals.lastFrost, normals.firstFrost) < 365) {
     const now = new Date();
     const year = now.getFullYear();
     const lastThis = new Date(year, normals.lastFrost.month - 1, normals.lastFrost.day);

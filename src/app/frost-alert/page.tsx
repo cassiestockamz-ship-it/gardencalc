@@ -320,6 +320,25 @@ export default function FrostAlertPage() {
         </section>
       )}
 
+      {/* Frost cloth card: right under the verdict so a phone visitor sees it on the first screen */}
+      {verdict && byAction && (byAction.cover.length + byAction.lost.length > 0 || parseInt(String(resultZone ?? "0"), 10) < 10) && (
+        <AmazonPicks
+          heading={
+            byAction.cover.length + byAction.lost.length > 0
+              ? "Frost cloth for the crops on your cover list"
+              : "Have cover ready before the first cold night"
+          }
+          intro={
+            byAction.cover.length + byAction.lost.length > 0
+              ? "Bedsheets work in a pinch. Frost cloth is made for the job: it is light, cuts to any size, and lets air, light and moisture through to the plants."
+              : "Nothing on your list needs cover in this forecast. When a cold night does show up, bedsheets work in a pinch, but frost cloth is made for the job: it is light, cuts to any size, and lets air, light and moisture through to the plants."
+          }
+          picks={[
+            { asin: "B0CH86PT5B", role: "Frost cloth", name: "KLEWEE Plant Covers Freeze Protection, 10 x 50 ft", note: "A 10 x 50 ft roll of 1.5 oz/yd² spun polypropylene. Cut it to the size of your beds, and use a doubled or tripled layer on the coldest nights." },
+          ]}
+        />
+      )}
+
       {/* Action-grouped crop lists */}
       {byAction && (
         <div className="space-y-4">
@@ -379,24 +398,6 @@ export default function FrostAlertPage() {
           heading={`Frost reminders for ${placeName ?? resultZip}`}
           blurb="Email me when to cover crops before frost, and when to start seeds and transplant next spring, for this ZIP. Nothing else, unsubscribe in one click. We will confirm by email once reminders launch."
           successText="Saved. We will confirm by email once frost reminders launch for your ZIP."
-        />
-      )}
-
-      {verdict && byAction && (byAction.cover.length + byAction.lost.length > 0 || parseInt(String(resultZone ?? "0"), 10) < 10) && (
-        <AmazonPicks
-          heading={
-            byAction.cover.length + byAction.lost.length > 0
-              ? "Frost cloth for the crops on your cover list"
-              : "Have cover ready before the first cold night"
-          }
-          intro={
-            byAction.cover.length + byAction.lost.length > 0
-              ? "Bedsheets work in a pinch. Frost cloth is made for the job: it is light, cuts to any size, and lets air, light and moisture through to the plants."
-              : "Nothing on your list needs cover in this forecast. When a cold night does show up, bedsheets work in a pinch, but frost cloth is made for the job: it is light, cuts to any size, and lets air, light and moisture through to the plants."
-          }
-          picks={[
-            { asin: "B0CH86PT5B", role: "Frost cloth", name: "KLEWEE Plant Covers Freeze Protection, 10 x 50 ft", note: "A 10 x 50 ft roll of 1.5 oz/yd² spun polypropylene. Cut it to the size of your beds, and use a doubled or tripled layer on the coldest nights." },
-          ]}
         />
       )}
 

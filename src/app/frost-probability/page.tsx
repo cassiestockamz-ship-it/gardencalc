@@ -10,6 +10,7 @@ import ShareResults from "@/components/ShareResults";
 import RelatedCalculators from "@/components/RelatedCalculators";
 import ZipRingDecoder, { type DecodedZip } from "@/components/ZipRingDecoder";
 import Link from "next/link";
+import AmazonPicks from "@/components/AmazonPicks";
 import { lookupZip, fetchHistoricalDaily } from "@/lib/weather";
 
 const STORAGE_KEY = "pc_zip_context_v1";
@@ -271,6 +272,17 @@ export default function FrostProbabilityPage() {
               icon="🛡️"
             />
           </div>
+
+          {/* Frost cloth card: under the answer, only when a frost on or after the chosen date has happened here */}
+          {frostOnOrAfter.length > 0 && (
+            <AmazonPicks
+              heading="Have cover ready if you plant out on this date"
+              intro={`In ${frostOnOrAfter.length} of the last ${yearResults.length} years this ZIP had a 32°F night on or after ${monthDayLabel(checkMonth, checkDay)}. If you plant tender crops before the 90% safe date, keep frost cloth on hand: it is light, cuts to any size, and lets air, light and moisture through to the plants.`}
+              picks={[
+                { asin: "B0CH86PT5B", role: "Frost cloth", name: "KLEWEE Plant Covers Freeze Protection, 10 x 50 ft", note: "A 10 x 50 ft roll of 1.5 oz/yd² spun polypropylene. Cut it to the size of your beds, and use a doubled or tripled layer on the coldest nights." },
+              ]}
+            />
+          )}
 
           {/* Exceedance table */}
           <div className="mt-6 overflow-hidden rounded-xl border border-[var(--color-border)] bg-white">
