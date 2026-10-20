@@ -19,6 +19,12 @@ function nextFrostEvent(lastFrost: MonthDay, firstFrost?: MonthDay) {
 }
 import { frostNormalsFor, frostFreeDays } from "@/lib/zoneFrostDates";
 
+/** Days tile: a fall first frost counts down as "Days Left"; once the fall frost has passed the next event is
+ * spring's last frost, so the tile says "Frost-Free In" (otherwise "Days Left 183" in October reads as days until frost). */
+function daysSlotLabel(nextLabel: string, hasFirstFrost: boolean) {
+  return nextLabel === "Last Frost" && hasFirstFrost ? "Frost-Free In" : "Days Left";
+}
+
 /**
  * ZIP Ring Decoder — the signature interaction.
  *
@@ -174,7 +180,7 @@ export default function ZipRingDecoder({
         };
         const days = daysBetween(new Date(), next.date);
         base[4] = {
-          label: "Days Left",
+          label: daysSlotLabel(next.label, !!normals.firstFrost),
           value: days > 0 ? `${days}` : "Now",
           state: "partial",
         };
@@ -213,7 +219,7 @@ export default function ZipRingDecoder({
       };
       const days = daysBetween(new Date(), refDate);
       base[4] = {
-        label: "Days Left",
+        label: daysSlotLabel(next.label, !!resolved.firstFrost),
         value: days > 0 ? `${days}` : "Now",
         state: "exact",
       };
