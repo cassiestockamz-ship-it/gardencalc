@@ -319,7 +319,12 @@ export function frostVerdict(
     } need action`;
   } else {
     level = "all-clear";
-    headline = "All clear";
+    headline =
+      crops.length === 0
+        ? "Pick your crops to check them"
+        : crops.length === 1
+          ? "Your crop needs no cover in the next 3 days"
+          : `None of your ${crops.length} crops need cover in the next 3 days`;
   }
 
   return {
