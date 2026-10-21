@@ -381,7 +381,7 @@ export default function FrostProbabilityPage() {
                 ].map(([p, note]) => (
                   <tr key={p}>
                     <td className={`px-5 py-2${p === 50 ? " bg-[var(--color-primary)]/5" : ""}`}>{p}%</td>
-                    <td className={`px-5 py-2 text-right font-semibold${p === 50 ? " bg-[var(--color-primary)]/5" : ""}`}>
+                    <td className={`whitespace-nowrap px-5 py-2 text-right font-semibold${p === 50 ? " bg-[var(--color-primary)]/5" : ""}`}>
                       {fallPercentile(p as number)}
                     </td>
                     <td className={`px-5 py-2 text-[var(--color-text-muted)]${p === 50 ? " bg-[var(--color-primary)]/5" : ""}`}>
