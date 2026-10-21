@@ -15,6 +15,14 @@ import { lookupZip, fetchHistoricalDaily } from "@/lib/weather";
 
 const STORAGE_KEY = "pc_zip_context_v1";
 
+type Season = "spring" | "fall";
+
+interface FallResult {
+  year: number;
+  firstFrostDate: string | null; // null = no 32°F night from Jul 1 to Dec 31 that year
+  tempF: number | null;
+}
+
 interface YearResult {
   year: number;
   lastFrostMonthDay: string; // MM-DD
@@ -44,8 +52,11 @@ function isOnOrAfter(
 
 export default function FrostProbabilityPage() {
   const [zip, setZip] = useState("");
-  const [checkMonth, setCheckMonth] = useState(5);
+  // Jul-Dec visitors are asking about the first fall frost, Jan-Jun about the last spring one.
+  const [season, setSeason] = useState<Season>(() => (new Date().getMonth() >= 6 ? "fall" : "spring"));
+  const [checkMonth, setCheckMonth] = useState(() => (new Date().getMonth() >= 6 ? 11 : 5));
   const [checkDay, setCheckDay] = useState(1);
+  const [fallResults, setFallResults] = useState<FallResult[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [placeName, setPlaceName] = useState<string | null>(null);
@@ -67,6 +78,7 @@ export default function FrostProbabilityPage() {
     setError(null);
     setLoading(true);
     setYearResults([]);
+    setFallResults([]);
     try {
       const loc = await lookupZip(decoded.zip);
       if (!loc) {
@@ -92,12 +104,12 @@ export default function FrostProbabilityPage() {
         /* ignore */
       }
 
-      // Pull Feb 1 through Jun 30 for 30 historical years
+      // Pull Feb 1 of the first year through Dec 31 of last year: 30 springs and 30 falls
       const currentYear = new Date().getFullYear();
       const startYear = currentYear - 30;
       const endYear = currentYear - 1;
       const startDate = `${startYear}-02-01`;
-      const endDate = `${endYear}-06-30`;
+      const endDate = `${endYear}-12-31`;
       const data = await fetchHistoricalDaily(loc.lat, loc.lng, startDate, endDate);
       if (!data || !data.dates.length) {
         setError("Could not load historical weather data");
@@ -129,6 +141,22 @@ export default function FrostProbabilityPage() {
 
       const results = Object.values(byYear).sort((a, b) => a.year - b.year);
       setYearResults(results);
+
+      // For each year, the FIRST fall frost (earliest date from Jul 1 where tmin <= 32°F).
+      // Every year is kept: a year with no fall frost counts as "no frost", not as missing.
+      const fall: Record<number, FallResult> = {};
+      for (let y = startYear; y <= endYear; y++) fall[y] = { year: y, firstFrostDate: null, tempF: null };
+      for (let i = 0; i < data.dates.length; i++) {
+        const d = data.dates[i];
+        const tmin = data.tmin[i];
+        if (tmin === null || tmin === undefined || !(tmin <= 32) || d.slice(5) < "07-01") continue;
+        const f = fall[Number(d.slice(0, 4))];
+        if (f && f.firstFrostDate === null) {
+          f.firstFrostDate = d;
+          f.tempF = tmin;
+        }
+      }
+      setFallResults(Object.values(fall).sort((a, b) => a.year - b.year));
     } catch {
       setError("Unexpected error. Try again.");
     } finally {
@@ -159,6 +187,31 @@ export default function FrostProbabilityPage() {
     return monthDayLabel(m, d);
   };
 
+  // Fall: share of years whose first frost came on or before the check date
+  const fallFrostBy = fallResults.filter(
+    (y) => y.firstFrostDate !== null && isOnOrAfter(checkDateMD, parseMonthDay(y.firstFrostDate))
+  );
+  const fallProbability =
+    fallResults.length > 0 ? (fallFrostBy.length / fallResults.length) * 100 : 0;
+  // Earliest first, no-frost years last: fallPercentile(10) is the early (risky) date.
+  const fallSorted = fallResults
+    .map((y) => (y.firstFrostDate ? y.firstFrostDate.slice(5) : null))
+    .sort((a, b) => (a === null ? 1 : b === null ? -1 : a < b ? -1 : a > b ? 1 : 0));
+  const fallPercentile = (p: number): string | null => {
+    if (!fallSorted.length) return null;
+    const idx = Math.max(0, Math.ceil((p / 100) * fallSorted.length) - 1);
+    const md = fallSorted[idx];
+    if (md === null) return "No frost";
+    const [m, d] = md.split("-").map(Number);
+    return monthDayLabel(m, d);
+  };
+  const checkLabel = monthDayLabel(checkMonth, checkDay);
+  const switchSeason = (next: Season) => {
+    setSeason(next);
+    setCheckMonth(next === "fall" ? 11 : 5);
+    setCheckDay(1);
+  };
+
   return (
     <CalculatorLayout
       title="Frost Probability Calculator"
@@ -171,7 +224,8 @@ export default function FrostProbabilityPage() {
           NOAA's Regional Climate Centers (the PRISM daily grid, about 4 km), finds the real
           last-frost date for each year, and gives you the probability that it freezes on
           or after any date you pick. Use the 90% column as the &ldquo;safe&rdquo; date
-          for tender crops like tomatoes.
+          for tender crops like tomatoes. Switch to Fall for the other end of the season:
+          the chance that the first fall frost has come by a date you pick.
         </p>
       }
       lastUpdated="April 2026"
@@ -209,13 +263,30 @@ export default function FrostProbabilityPage() {
         )}
         {placeName && !loading && (
           <p className="mt-2 text-xs text-[var(--color-text-muted)]">
-            {placeName} · {yearResults.length} years analyzed
+            {placeName} · {season === "fall" ? fallResults.length : yearResults.length} years analyzed
           </p>
         )}
       </div>
 
       <div className="grid gap-6 sm:grid-cols-1">
         <div>
+          <div className="mb-4 inline-flex rounded-lg border border-[var(--color-border)] p-1 text-sm" role="group" aria-label="Season">
+            {(["spring", "fall"] as Season[]).map((s) => (
+              <button
+                key={s}
+                type="button"
+                onClick={() => switchSeason(s)}
+                aria-pressed={season === s}
+                className={`rounded-md px-4 py-1.5 font-medium transition-colors ${
+                  season === s
+                    ? "bg-[var(--color-primary)] text-white"
+                    : "text-[var(--color-text-muted)] hover:text-[var(--color-text)]"
+                }`}
+              >
+                {s === "spring" ? "Spring: last frost" : "Fall: first frost"}
+              </button>
+            ))}
+          </div>
           <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-[var(--color-text-faint)]">
             Check date
           </label>
@@ -225,8 +296,8 @@ export default function FrostProbabilityPage() {
               onChange={(e) => setCheckMonth(Number(e.target.value))}
               className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-sm"
             >
-              {["Feb", "Mar", "Apr", "May", "Jun"].map((m, i) => (
-                <option key={m} value={i + 2}>
+              {(season === "fall" ? ["Aug", "Sep", "Oct", "Nov", "Dec"] : ["Feb", "Mar", "Apr", "May", "Jun"]).map((m, i) => (
+                <option key={m} value={i + (season === "fall" ? 8 : 2)}>
                   {m}
                 </option>
               ))}
@@ -244,12 +315,119 @@ export default function FrostProbabilityPage() {
             </select>
           </div>
           <p className="mt-1 text-xs text-[var(--color-text-muted)]">
-            How often does a 32°F frost happen on or after this date?
+            {season === "fall"
+              ? "How often has the first 32°F frost come by this date?"
+              : "How often does a 32°F frost happen on or after this date?"}
           </p>
         </div>
       </div>
 
-      {yearResults.length > 0 && (
+      {season === "fall" && fallResults.length > 0 && (
+        <>
+          <div className="mt-10 grid gap-4 sm:grid-cols-3">
+            <ResultCard
+              label={`First frost by ${checkLabel}`}
+              value={`${fallProbability.toFixed(0)}%`}
+              unit={`${fallFrostBy.length} of ${fallResults.length} yrs`}
+              highlight
+              icon="❄️"
+            />
+            <ResultCard
+              label="50% (median first frost)"
+              value={fallPercentile(50) ?? "n/a"}
+              unit="typical date"
+              icon="📊"
+            />
+            <ResultCard
+              label="10% early date"
+              value={fallPercentile(10) ?? "n/a"}
+              unit="cover tender crops from here"
+              icon="🛡️"
+            />
+          </div>
+
+          {/* Frost cloth card: only when a first frost by the chosen date has happened here */}
+          {fallFrostBy.length > 0 && (
+            <AmazonPicks
+              heading="Have cover ready before the first fall frost"
+              intro={`In ${fallFrostBy.length} of the last ${fallResults.length} years this ZIP had its first 32°F night by ${checkLabel}. To keep tomatoes, peppers and beans going through the first cold nights, keep frost cloth on hand: it is light, cuts to any size, and lets air, light and moisture through to the plants.`}
+              picks={[
+                { asin: "B0CH86PT5B", role: "Frost cloth", name: "KLEWEE Plant Covers Freeze Protection, 10 x 50 ft", note: "A 10 x 50 ft roll of 1.5 oz/yd² spun polypropylene. Cut it to the size of your beds, and use a doubled or tripled layer on the coldest nights." },
+              ]}
+            />
+          )}
+
+          <div className="mt-6 overflow-hidden rounded-xl border border-[var(--color-border)] bg-white">
+            <div className="border-b border-[var(--color-border)] bg-[var(--color-surface-alt)] px-5 py-3">
+              <h2 className="text-sm font-bold uppercase tracking-wide text-[var(--color-text)]">
+                First fall frost probability
+              </h2>
+            </div>
+            <table className="w-full text-sm">
+              <thead className="text-xs uppercase tracking-wide text-[var(--color-text-muted)]">
+                <tr>
+                  <th className="px-5 py-2 text-left">Chance first frost has come by</th>
+                  <th className="px-5 py-2 text-right">Date</th>
+                  <th className="px-5 py-2 text-left">Interpretation</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[var(--color-border)]">
+                {[
+                  [10, "Early frost, about 1 year in 10"],
+                  [30, "Cover tender crops on cold nights"],
+                  [50, "Median first frost date"],
+                  [70, "Most years have frozen by now"],
+                  [90, "Frost has come in 9 of 10 years"],
+                ].map(([p, note]) => (
+                  <tr key={p}>
+                    <td className={`px-5 py-2${p === 50 ? " bg-[var(--color-primary)]/5" : ""}`}>{p}%</td>
+                    <td className={`px-5 py-2 text-right font-semibold${p === 50 ? " bg-[var(--color-primary)]/5" : ""}`}>
+                      {fallPercentile(p as number)}
+                    </td>
+                    <td className={`px-5 py-2 text-[var(--color-text-muted)]${p === 50 ? " bg-[var(--color-primary)]/5" : ""}`}>
+                      {note}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <details className="mt-6">
+            <summary className="cursor-pointer text-sm font-medium text-[var(--color-primary)]">
+              Show all {fallResults.length} individual years
+            </summary>
+            <div className="mt-3 grid gap-2 sm:grid-cols-4 text-sm">
+              {fallResults.map((y) => (
+                <div
+                  key={y.year}
+                  className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2"
+                >
+                  <div className="font-semibold text-[var(--color-text)]">{y.year}</div>
+                  <div className="text-xs text-[var(--color-text-muted)]">
+                    {y.firstFrostDate
+                      ? `${monthDayLabel(...parseMonthDay(y.firstFrostDate))} · ${(y.tempF ?? 0).toFixed(0)}°F`
+                      : "No frost"}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </details>
+
+          <ShareResults
+            title={`${fallProbability.toFixed(0)}% chance of the first frost by ${checkLabel} in ${placeName}`}
+            text={`In ${fallResults.length} years of history, the first fall frost came by ${checkLabel} in ${fallFrostBy.length} of them.`}
+            card={{
+              headline: `${fallProbability.toFixed(0)}%`,
+              label: `First frost by ${checkLabel}`,
+              sub: `${placeName ?? ""} · ${fallResults.length}-year climatology`,
+              calc: "frost-probability",
+            }}
+          />
+        </>
+      )}
+
+      {season === "spring" && yearResults.length > 0 && (
         <>
           <div className="mt-10 grid gap-4 sm:grid-cols-3">
             <ResultCard
@@ -417,9 +595,9 @@ const frostProbFAQ = [
       "NOAA's Regional Climate Centers, through their ACIS data service. We read the PRISM daily temperature grid, which covers the lower 48 states at about 4 km resolution from 1981 onward and is built from thousands of weather stations. The 32°F threshold is the standard light-freeze definition used by NOAA NCEI and cooperative extension services.",
   },
   {
-    question: "Why only February through June?",
+    question: "Does it cover the first fall frost?",
     answer:
-      "This tool looks specifically at the last spring frost for planting-out decisions. The fall first-frost question is symmetrically important but belongs in a separate tool, so we fetch a narrower window and keep it fast. A fall frost probability tool is on the roadmap.",
+      "Yes. Switch to Fall and the tool finds, for each of the last 30 years, the first night at or below 32°F from July 1 onward, then gives the chance that the first frost has come by the date you pick. Years with no fall frost at all count as no frost, so in warm ZIPs the chance stays low. The 10% date is the early end: from then on, cover tender crops on cold nights.",
   },
   {
     question: "Does this account for microclimate?",
