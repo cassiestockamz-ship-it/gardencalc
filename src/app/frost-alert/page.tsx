@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { funnelStep } from "@/lib/funnelStep";
 import Link from "next/link";
 import CalculatorLayout from "@/components/CalculatorLayout";
 import CalculatorSchema from "@/components/CalculatorSchema";
@@ -136,6 +137,7 @@ export default function FrostAlertPage() {
         return;
       }
       setForecast(f.slice(0, 3));
+      funnelStep("zip-result");
 
       try {
         localStorage.setItem(
