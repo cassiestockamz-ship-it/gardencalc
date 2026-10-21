@@ -357,6 +357,11 @@ export default function FrostProbabilityPage() {
             />
           )}
 
+          {fallResults.every((y) => y.firstFrostDate === null) ? (
+            <p className="mt-6 rounded-xl border border-[var(--color-border)] bg-white px-5 py-4 text-sm text-[var(--color-text-muted)]">
+              No night at or below 32°F from July through December in any of the last {fallResults.length} years here.
+            </p>
+          ) : (
           <div className="mt-6 overflow-hidden rounded-xl border border-[var(--color-border)] bg-white">
             <div className="border-b border-[var(--color-border)] bg-[var(--color-surface-alt)] px-5 py-3">
               <h2 className="text-sm font-bold uppercase tracking-wide text-[var(--color-text)]">
@@ -392,6 +397,7 @@ export default function FrostProbabilityPage() {
               </tbody>
             </table>
           </div>
+          )}
 
           <details className="mt-6">
             <summary className="cursor-pointer text-sm font-medium text-[var(--color-primary)]">
