@@ -259,7 +259,7 @@ export default function FrostProbabilityPage() {
           </p>
         )}
         {loading && (
-          <p className="mt-2 text-xs text-[var(--color-text-faint)]">Loading 30 years of daily records…</p>
+          <p className="mt-2 text-xs text-[var(--color-text-faint)]" role="status">Loading 30 years of daily records from NOAA climate centers. This usually takes 5 to 15 seconds.</p>
         )}
         {placeName && !loading && (
           <p className="mt-2 text-xs text-[var(--color-text-muted)]">
