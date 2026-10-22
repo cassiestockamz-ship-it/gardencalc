@@ -341,7 +341,7 @@ export default function FrostProbabilityPage() {
             <ResultCard
               label="10% early date"
               value={fallPercentile(10) ?? "n/a"}
-              unit="cover tender crops from here"
+              unit="start covering"
               icon="🛡️"
             />
           </div>
