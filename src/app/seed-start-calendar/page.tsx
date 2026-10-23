@@ -171,8 +171,10 @@ export default function SeedStartCalendarPage() {
       const years = Object.keys(byYear);
       const avgDoy =
         years.reduce((s, y) => s + byYear[Number(y)], 0) / years.length;
-      // Use the CURRENT year for the calendar dates
-      const lastFrost = new Date(currentYear, 0, Math.round(avgDoy));
+      // Calendar for the coming spring: from July on, this year's spring has passed,
+      // so a visitor is planning next year's.
+      const calendarYear = new Date().getMonth() >= 6 ? currentYear + 1 : currentYear;
+      const lastFrost = new Date(calendarYear, 0, Math.round(avgDoy));
       setLastFrostDate(lastFrost);
     } catch {
       setError("Unexpected error. Try again.");
