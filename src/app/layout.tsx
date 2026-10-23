@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     template: "%s: PlantingCalc",
   },
   description:
-    "Free frost date, planting calendar and soil calculators that read your 7-day forecast. Enter a ZIP to see what to plant this week and what to cover tonight.",
+    "Free frost date, planting calendar and soil calculators that read your 7-day forecast. Enter a ZIP to see what to plant this week and what to cover.",
   openGraph: {
     type: "website",
     siteName: "PlantingCalc",
