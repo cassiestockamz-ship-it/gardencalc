@@ -38,8 +38,9 @@ export default function PrivacyPage() {
             <li>
               <strong className="text-[var(--color-text)]">We do not store the values you enter into calculators.</strong>
               {" "}Bed dimensions, ZIP codes, plant selections, and everything else you type into our tools is processed
-              in your browser or sent to our API for a one-shot lookup and then discarded. We do not build a profile of
-              your garden.
+              in your browser or sent to our API for a one-shot lookup and then discarded. Your browser remembers your
+              last ZIP so you do not have to type it on every page; that copy stays on your device. We do not build a
+              profile of your garden. The one exception is a frost reminder signup, described below.
             </li>
             <li>
               <strong className="text-[var(--color-text)]">We do not sell, rent, or share email addresses.</strong>
@@ -65,7 +66,8 @@ export default function PrivacyPage() {
             <li>
               <strong className="text-[var(--color-text)]">Opt-in email addresses.</strong> If you voluntarily submit your
               email address through one of our subscribe forms, we store the address plus the source page of the signup
-              in our database. We use the address only to send the mailing list you opted into. You can unsubscribe from
+              in our database, and the ZIP code when the form asks for it (frost reminder forms do, so reminders can
+              match your local dates). We use the address only to send the mailing list you opted into. You can unsubscribe from
               any email we send, and unsubscribing deletes your address from our active list.
             </li>
           </ul>
@@ -111,9 +113,11 @@ export default function PrivacyPage() {
               policy for details.
             </li>
             <li>
-              <strong className="text-[var(--color-text)]">Public APIs we call</strong>. USDA phzmapi.org for zone
-              lookup and NOAA climate normals for frost dates. When you use the planting-dates calculator, your ZIP code
-              is sent to these public services for a one-shot lookup and is not retained by us.
+              <strong className="text-[var(--color-text)]">Public services our tools call</strong>. phzmapi.org for your
+              USDA zone and zippopotam.us to turn a ZIP into a place and coordinates. Live forecasts come from the
+              National Weather Service (api.weather.gov) and historical temperatures from NOAA&apos;s Regional Climate
+              Centers (data.rcc-acis.org); those receive the coordinates of your ZIP. Each is a one-shot lookup, and we
+              do not keep the result.
             </li>
           </ul>
         </section>

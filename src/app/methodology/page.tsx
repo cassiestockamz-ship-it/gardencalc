@@ -147,7 +147,7 @@ export default function MethodologyPage() {
         <section>
           <h2 className="text-xl font-bold text-[var(--color-text)]">5. What we deliberately don&apos;t do</h2>
           <ul className="mt-3 list-disc space-y-2 pl-5">
-            <li>We don&apos;t store your ZIP, bed dimensions, or any other calculator inputs.</li>
+            <li>We don&apos;t store your ZIP, bed dimensions, or any other calculator inputs. The only ZIP we keep is one you give with your email for frost reminders.</li>
             <li>We don&apos;t sell, rent, or share email addresses collected through our subscribe forms.</li>
             <li>We don&apos;t accept payment from seed companies, fertilizer brands, or nursery chains to influence our recommendations.</li>
             <li>We don&apos;t invent spacing, timing, or fertilizer values. If we state a number, it comes from a named source.</li>
