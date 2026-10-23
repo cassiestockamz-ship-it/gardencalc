@@ -318,8 +318,8 @@ export default function FrostDatesPage() {
     <CalculatorLayout
       title="Frost Date Lookup"
       description="Find your first and last frost dates by ZIP code. See your frost-free growing window, season status, and days until the next frost event."
-      lastUpdated="March 2026"
-      intro="Frost dates are the foundation of garden planning. Your last spring frost tells you when it is safe to transplant tender crops outdoors, and your first fall frost tells you when to harvest or protect cold-sensitive plants. Enter your ZIP code below to get frost date estimates based on your USDA hardiness zone and 30-year NOAA averages."
+      lastUpdated="October 2026"
+      intro="Frost dates are the foundation of garden planning. Your last spring frost tells you when it is safe to transplant tender crops outdoors, and your first fall frost tells you when to harvest or protect cold-sensitive plants. Enter your ZIP code below to get frost date estimates based on typical dates for your USDA hardiness subzone."
     >
       <CalculatorSchema
         name="Frost Date Lookup by ZIP Code"
@@ -534,11 +534,12 @@ export default function FrostDatesPage() {
         </h2>
         <p className="text-sm leading-relaxed text-[var(--color-text-muted)]">
           We look up your USDA hardiness zone using the USDA Plant Hardiness
-          Zone Map API (phzmapi.org) based on your ZIP code, then cross-reference
-          it with 30-year average frost date normals from NOAA. Frost dates are
-          estimates based on the 50% probability date, meaning there is a 50%
-          chance of frost occurring after the last spring frost date and before
-          the first fall frost date. Actual frost dates can vary by 2 to 3 weeks
+          Zone Map API (phzmapi.org) based on your ZIP code, then read the
+          typical last spring and first fall frost dates for that subzone. A typical
+          date is a midpoint, not a safe date: in many years frost comes after the
+          last spring date or before the first fall date. For the odds at your exact
+          ZIP from 30 years of daily NOAA climate records, use the{" "}
+          <a href="/frost-probability" className="text-[var(--color-primary)] hover:underline">frost probability calculator</a>. Actual frost dates can vary by 2 to 3 weeks
           depending on local microclimates, elevation, and weather patterns.
           To see how many frost-free days fall between those two dates at your
           ZIP, use the{" "}

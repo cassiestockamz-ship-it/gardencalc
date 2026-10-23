@@ -288,12 +288,12 @@ export const frostDatesFAQ = [
   {
     question: "What is a frost date and why does it matter for gardening?",
     answer:
-      "A frost date is the average date of the last spring frost or first fall frost in your area, based on 30 years of weather data. It matters because frost kills or damages warm-season crops like tomatoes, peppers, squash, and beans. Knowing your frost dates helps you time seed starting, transplanting, and fall harvest protection so you do not lose plants to unexpected freezes.",
+      "A frost date is the typical date of the last spring frost or first fall frost in your area. It matters because frost kills or damages warm-season crops like tomatoes, peppers, squash, and beans. Knowing your frost dates helps you time seed starting, transplanting, and fall harvest protection so you do not lose plants to unexpected freezes.",
   },
   {
     question: "How accurate are frost date estimates?",
     answer:
-      "Frost dates are based on the 50% probability date from NOAA historical data, meaning there is a 50% chance frost could still occur after the last spring date or before the first fall date. In practice, actual frost dates can vary by 2 to 3 weeks from the average depending on yearly weather patterns, elevation, and local microclimates. For extra safety, many experienced gardeners wait 1 to 2 weeks past the average last frost before planting tender crops.",
+      "The dates on this page are typical dates for your USDA hardiness subzone, not a forecast and not a safe date: frost can still come after the last spring date or before the first fall date. In practice, actual frost dates can vary by 2 to 3 weeks from the typical date depending on yearly weather patterns, elevation, and local microclimates. For extra safety, many experienced gardeners wait 1 to 2 weeks past the average last frost before planting tender crops.",
   },
   {
     question: "What is the difference between a frost and a freeze?",

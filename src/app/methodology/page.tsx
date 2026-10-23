@@ -117,8 +117,9 @@ export default function MethodologyPage() {
               when you submit a ZIP. No staleness.
             </li>
             <li>
-              <strong className="text-[var(--color-text)]">NOAA frost normals</strong> update on a multi-year cycle; we
-              align to the current published release.
+              <strong className="text-[var(--color-text)]">Typical frost dates</strong> come from a table of dates per USDA
+              subzone. The frost probability and seed start tools instead compute from NOAA climate records for your
+              ZIP, fetched live.
             </li>
             <li>
               <strong className="text-[var(--color-text)]">Extension spacing and fertilizer data</strong> lives as
