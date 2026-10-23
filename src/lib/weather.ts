@@ -83,30 +83,47 @@ export async function fetchHistoricalDaily(
     }
   | null
 > {
+  // ACIS streams a 30-year grid request slowly (10 to 90 s on 2026-10-23);
+  // the same range as 10-year chunks fetched in parallel returns in about 2 s.
+  const ranges: [string, string][] = [];
+  const endYear = Number(endDate.slice(0, 4));
+  let from = startDate;
+  while (from <= endDate) {
+    const chunkEndYear = Math.min(Number(from.slice(0, 4)) + 9, endYear);
+    const to = chunkEndYear === endYear ? endDate : `${chunkEndYear}-12-31`;
+    ranges.push([from, to]);
+    from = `${chunkEndYear + 1}-01-01`;
+  }
   try {
-    const r = await fetch("https://data.rcc-acis.org/GridData", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        loc: `${lng},${lat}`,
-        sdate: startDate,
-        edate: endDate,
-        grid: "21",
-        elems: "mint,maxt",
-      }),
-    });
-    if (!r.ok) return null;
-    const j = await r.json();
-    const rows: [string, number, number][] = j.data ?? [];
+    const chunks = await Promise.all(
+      ranges.map(async ([sdate, edate]) => {
+        const r = await fetch("https://data.rcc-acis.org/GridData", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            loc: `${lng},${lat}`,
+            sdate,
+            edate,
+            grid: "21",
+            elems: "mint,maxt",
+          }),
+        });
+        if (!r.ok) throw new Error(`ACIS ${r.status}`);
+        const j = await r.json();
+        return (j.data ?? []) as [string, number, number][];
+      })
+    );
     const dates: string[] = [];
     const tmin: number[] = [];
     const tmax: number[] = [];
-    for (const [d, lo, hi] of rows) {
-      // ACIS marks missing values as -999; skip those days.
-      if (lo <= -999 || hi <= -999) continue;
-      dates.push(d);
-      tmin.push(lo);
-      tmax.push(hi);
+    for (const rows of chunks) {
+      for (const [d, lo, hi] of rows) {
+        // ACIS marks missing values as -999; skip those days.
+        if (lo <= -999 || hi <= -999) continue;
+        dates.push(d);
+        tmin.push(lo);
+        tmax.push(hi);
+      }
     }
     return { dates, tmin, tmax };
   } catch {
