@@ -78,32 +78,32 @@ export default function MethodologyPage() {
           </p>
           <ul className="mt-3 list-disc space-y-3 pl-5">
             <li>
-              <strong className="text-[var(--color-text)]">Planting dates</strong> use the standard extension office
+              <strong className="text-[var(--color-text)]">Planting dates</strong>{" "}use the standard extension office
               formula: your typical last frost date (from your ZIP → USDA subzone) plus or minus an offset per
               crop (e.g., &quot;tomatoes: last frost + 14 days&quot;) from published extension schedules.
             </li>
             <li>
-              <strong className="text-[var(--color-text)]">Soil volume</strong> is a straight cubic-foot calculation
+              <strong className="text-[var(--color-text)]">Soil volume</strong>{" "}is a straight cubic-foot calculation
               from your bed dimensions with a default 10–15% buffer to account for settling, the same rule of thumb
               extension guides use.
             </li>
             <li>
-              <strong className="text-[var(--color-text)]">Seed spacing</strong> pulls the recommended in-row and
+              <strong className="text-[var(--color-text)]">Seed spacing</strong>{" "}pulls the recommended in-row and
               between-row spacing for each vegetable from extension publications and divides your bed area by those
               values to estimate plants per bed.
             </li>
             <li>
-              <strong className="text-[var(--color-text)]">Companion planting</strong> uses a compatibility matrix
+              <strong className="text-[var(--color-text)]">Companion planting</strong>{" "}uses a compatibility matrix
               built from extension research and widely cited companion planting publications. Relationships are tagged
               as compatible, antagonistic, or neutral.
             </li>
             <li>
-              <strong className="text-[var(--color-text)]">Fertilizer</strong> uses crop-specific NPK demand values
+              <strong className="text-[var(--color-text)]">Fertilizer</strong>{" "}uses crop-specific NPK demand values
               from published soil science research, converted into pounds-per-square-foot estimates for common
               fertilizer blends.
             </li>
             <li>
-              <strong className="text-[var(--color-text)]">Watering schedule</strong> uses base rates from agricultural
+              <strong className="text-[var(--color-text)]">Watering schedule</strong>{" "}uses base rates from agricultural
               research, adjusted by multipliers for climate zone, soil type, container vs. in-ground, and growth stage.
             </li>
           </ul>
@@ -117,21 +117,21 @@ export default function MethodologyPage() {
           <h2 className="text-xl font-bold text-[var(--color-text)]">3. Refresh cadence</h2>
           <ul className="mt-3 list-disc space-y-2 pl-5">
             <li>
-              <strong className="text-[var(--color-text)]">USDA zone data</strong> is looked up live from phzmapi.org
+              <strong className="text-[var(--color-text)]">USDA zone data</strong>{" "}is looked up live from phzmapi.org
               when you submit a ZIP. No staleness.
             </li>
             <li>
-              <strong className="text-[var(--color-text)]">Typical frost dates</strong> come from a table of dates per USDA
+              <strong className="text-[var(--color-text)]">Typical frost dates</strong>{" "}come from a table of dates per USDA
               subzone. The frost probability and seed start tools instead compute from NOAA climate records for your
               ZIP, fetched live.
             </li>
             <li>
-              <strong className="text-[var(--color-text)]">Extension spacing and fertilizer data</strong> lives as
+              <strong className="text-[var(--color-text)]">Extension spacing and fertilizer data</strong>{" "}lives as
               structured data in our codebase and is reviewed at least once per year against the latest extension
               publications.
             </li>
             <li>
-              <strong className="text-[var(--color-text)]">Zone guides</strong> are refreshed whenever any upstream
+              <strong className="text-[var(--color-text)]">Zone guides</strong>{" "}are refreshed whenever any upstream
               source updates, with a version note in the repo.
             </li>
           </ul>
