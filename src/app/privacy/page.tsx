@@ -98,7 +98,7 @@ export default function PrivacyPage() {
           <h2 className="text-xl font-bold text-[var(--color-text)]">Third-party services we use</h2>
           <ul className="mt-3 list-disc space-y-2 pl-5">
             <li>
-              <strong className="text-[var(--color-text)]">Google AdSense</strong> may display contextual advertisements
+              <strong className="text-[var(--color-text)]">Google AdSense</strong>{" "}may display contextual advertisements
               on some pages. Google&apos;s advertising cookies and technologies are governed by{" "}
               <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer" className="text-[var(--color-primary)] underline">
                 Google&apos;s advertising policies
@@ -108,7 +108,7 @@ export default function PrivacyPage() {
               </a>.
             </li>
             <li>
-              <strong className="text-[var(--color-text)]">Vercel</strong> hosts the site and may log standard HTTP
+              <strong className="text-[var(--color-text)]">Vercel</strong>{" "}hosts the site and may log standard HTTP
               request metadata (IP, user agent, path) as part of normal server operation. See Vercel&apos;s privacy
               policy for details.
             </li>
