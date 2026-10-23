@@ -34,7 +34,7 @@ export default function DisclaimerPage() {
           <h2 className="text-xl font-bold text-[var(--color-text)]">Data sources and accuracy</h2>
           <p className="mt-3">
             Our calculators and growing guides are built on publicly available data from the USDA Plant Hardiness Zone
-            Map, NOAA 30-year climate normals for frost dates, and peer-reviewed agricultural extension publications
+            Map, typical frost dates by USDA subzone, daily temperature records from NOAA&apos;s Regional Climate Centers, and peer-reviewed agricultural extension publications
             from land-grant universities. We do not alter the underlying government datasets themselves. We reformat
             and compute on them so they&apos;re easier to apply to a real backyard garden.
           </p>

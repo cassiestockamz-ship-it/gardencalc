@@ -43,10 +43,14 @@ export default function MethodologyPage() {
               store the ZIP.
             </li>
             <li>
-              <strong className="text-[var(--color-text)]">NOAA 30-year climate normals</strong>. The 30-year moving
-              average of first-frost and last-frost dates maintained by the National Oceanic and Atmospheric
-              Administration. These are the same averages published by USDA in their extension guides and are the
-              industry-standard reference for &quot;average last frost date in your area.&quot; We use them unaltered.
+              <strong className="text-[var(--color-text)]">Typical frost dates</strong>. A table of typical last-frost and
+              first-frost dates for each USDA hardiness subzone, with state averages where a subzone has no entry. Your
+              ZIP gives your subzone, and the subzone gives the dates. These are midpoints, not safe dates.
+            </li>
+            <li>
+              <strong className="text-[var(--color-text)]">NOAA climate records</strong>. The frost probability and seed
+              start tools fetch daily low temperatures for your ZIP from NOAA&apos;s Regional Climate Centers (ACIS,
+              PRISM grid) and compute frost dates from those years directly.
             </li>
             <li>
               <strong className="text-[var(--color-text)]">University agricultural extension publications</strong> ,
@@ -75,7 +79,7 @@ export default function MethodologyPage() {
           <ul className="mt-3 list-disc space-y-3 pl-5">
             <li>
               <strong className="text-[var(--color-text)]">Planting dates</strong> use the standard extension office
-              formula: your last local frost date (from NOAA, via your ZIP → USDA zone) plus or minus an offset per
+              formula: your typical last frost date (from your ZIP → USDA subzone) plus or minus an offset per
               crop (e.g., &quot;tomatoes: last frost + 14 days&quot;) from published extension schedules.
             </li>
             <li>

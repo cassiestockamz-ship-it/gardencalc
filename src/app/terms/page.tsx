@@ -32,8 +32,8 @@ export default function TermsPage() {
           <p className="mt-3">
             PlantingCalc is a free, independent collection of gardening calculators and growing guides for home gardeners
             in the United States. We calculate soil volumes, planting dates, seed spacing, companion planting compatibility,
-            fertilizer needs, watering schedules, and related planning information from USDA hardiness zone data, NOAA
-            frost-date normals, and university agricultural extension publications. We are not a government agency,
+            fertilizer needs, watering schedules, and related planning information from USDA hardiness zone data, typical
+            frost dates by USDA subzone, NOAA daily temperature records, and university agricultural extension publications. We are not a government agency,
             university extension office, seed company, or licensed agronomist, and the Service is not a substitute for
             professional horticultural advice.
           </p>
