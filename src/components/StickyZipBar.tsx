@@ -80,10 +80,10 @@ export default function StickyZipBar() {
     // If we're in the growing season (last frost > 60 days out, meaning
     // last frost is likely next spring), show days to first frost instead.
     if (daysToFirst < daysToLast) {
-      daysLabel = `about ${daysToFirst} days to first frost (${formatPartOfMonth(normals.firstFrost.month, normals.firstFrost.day).toLowerCase()})`;
+      daysLabel = `about ${daysToFirst} days to first frost (${formatPartOfMonth(normals.firstFrost.month, normals.firstFrost.day).replace(/^\w+/, (w) => w.toLowerCase())})`;
       if (daysToFirst <= 30) frostSoon = daysToFirst;
     } else {
-      daysLabel = `about ${daysToLast} days to last frost (${formatPartOfMonth(normals.lastFrost.month, normals.lastFrost.day).toLowerCase()})`;
+      daysLabel = `about ${daysToLast} days to last frost (${formatPartOfMonth(normals.lastFrost.month, normals.lastFrost.day).replace(/^\w+/, (w) => w.toLowerCase())})`;
     }
   }
 
