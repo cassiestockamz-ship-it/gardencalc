@@ -284,7 +284,7 @@ export default function HarvestDatePage() {
         />
         {placeName && (
           <p className="mt-2 text-xs text-[var(--color-text-muted)]">
-            {placeName} &middot; planting date auto-set from your last frost
+            {placeName}{" \u00b7 "}planting date auto-set from your last frost
           </p>
         )}
       </div>

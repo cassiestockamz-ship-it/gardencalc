@@ -230,7 +230,7 @@ export default function SuccessionPlantingPage() {
         />
         {placeName && (
           <p className="mt-2 text-xs text-[var(--color-text-muted)]">
-            {placeName} &middot; first planting date auto-set from your last frost
+            {placeName}{" \u00b7 "}first planting date auto-set from your last frost
           </p>
         )}
       </div>

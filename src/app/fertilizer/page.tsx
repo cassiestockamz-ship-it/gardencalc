@@ -167,7 +167,7 @@ export default function FertilizerCalculatorPage() {
                     {nutrient.label}
                   </span>
                   <span className="text-[var(--color-text-muted)]">
-                    {nutrient.value} &middot; {nutrient.desc}
+                    {nutrient.value}{" \u00b7 "}{nutrient.desc}
                   </span>
                 </div>
                 <div className="h-6 w-full overflow-hidden rounded-full bg-[var(--color-border)]">
