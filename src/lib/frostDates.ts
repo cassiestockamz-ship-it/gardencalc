@@ -100,6 +100,13 @@ export function daysBetween(a: Date, b: Date): number {
   return Math.round(ms / (1000 * 60 * 60 * 24));
 }
 
+/** Part-of-month wording for dates taken from zone or state averages ("Late Apr"); only ZIP-level data may print a day. */
+export function formatPartOfMonth(month: number, day: number): string {
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const part = day <= 10 ? "Early" : day <= 20 ? "Mid" : "Late";
+  return `${part} ${months[month - 1]}`;
+}
+
 export function formatMonthDay(month: number, day: number): string {
   const months = [
     "Jan", "Feb", "Mar", "Apr", "May", "Jun",

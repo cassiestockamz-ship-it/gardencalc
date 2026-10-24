@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { daysBetween, formatMonthDay } from "@/lib/frostDates";
+import { daysBetween, formatPartOfMonth } from "@/lib/frostDates";
 import { frostNormalsFor, frostFreeDays } from "@/lib/zoneFrostDates";
 
 const STORAGE_KEY = "pc_zip_context_v1";
@@ -80,10 +80,10 @@ export default function StickyZipBar() {
     // If we're in the growing season (last frost > 60 days out, meaning
     // last frost is likely next spring), show days to first frost instead.
     if (daysToFirst < daysToLast) {
-      daysLabel = `${daysToFirst} days to first frost (${formatMonthDay(normals.firstFrost.month, normals.firstFrost.day)})`;
+      daysLabel = `about ${daysToFirst} days to first frost (${formatPartOfMonth(normals.firstFrost.month, normals.firstFrost.day).toLowerCase()})`;
       if (daysToFirst <= 30) frostSoon = daysToFirst;
     } else {
-      daysLabel = `${daysToLast} days to last frost (${formatMonthDay(normals.lastFrost.month, normals.lastFrost.day)})`;
+      daysLabel = `about ${daysToLast} days to last frost (${formatPartOfMonth(normals.lastFrost.month, normals.lastFrost.day).toLowerCase()})`;
     }
   }
 

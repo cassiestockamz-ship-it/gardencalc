@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { lookupZipPrefix } from "@/lib/zipTable";
-import { formatMonthDay, nextOccurrence, daysBetween } from "@/lib/frostDates";
+import { formatPartOfMonth, nextOccurrence, daysBetween } from "@/lib/frostDates";
 
 type MonthDay = { month: number; day: number };
 
@@ -175,7 +175,7 @@ export default function ZipRingDecoder({
         } else {
         base[3] = {
           label: next.label,
-          value: formatMonthDay(next.md.month, next.md.day),
+          value: formatPartOfMonth(next.md.month, next.md.day),
           state: "partial",
         };
         const days = daysBetween(new Date(), next.date);
@@ -211,10 +211,7 @@ export default function ZipRingDecoder({
       const refDate = next.date;
       base[3] = {
         label: next.label,
-        value: refDate.toLocaleDateString("en-US", {
-          month: "short",
-          day: "numeric",
-        }),
+        value: formatPartOfMonth(refDate.getMonth() + 1, refDate.getDate()),
         state: "exact",
       };
       const days = daysBetween(new Date(), refDate);
