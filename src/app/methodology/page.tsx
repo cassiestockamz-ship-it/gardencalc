@@ -84,8 +84,8 @@ export default function MethodologyPage() {
             </li>
             <li>
               <strong className="text-[var(--color-text)]">Soil volume</strong>{" "}is a straight cubic-foot calculation
-              from your bed dimensions with a default 10–15% buffer to account for settling, the same rule of thumb
-              extension guides use.
+              from your bed dimensions. The soil calculator lets you add an extra allowance for settling if you want
+              one; it adds nothing by default.
             </li>
             <li>
               <strong className="text-[var(--color-text)]">Seed spacing</strong>{" "}pulls the recommended in-row and
