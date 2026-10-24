@@ -16,7 +16,7 @@ import RelatedCalculators from "@/components/RelatedCalculators";
 import EmailCapture from "@/components/EmailCapture";
 import { successionPlantingFAQ } from "@/data/faq-data";
 import { nextOccurrence } from "@/lib/frostDates";
-import { frostNormalsFor } from "@/lib/zoneFrostDates";
+import { frostNormalsFor, frostFreeDays } from "@/lib/zoneFrostDates";
 import { lookupZip } from "@/lib/weather";
 
 const STORAGE_KEY = "pc_zip_context_v1";
@@ -82,6 +82,7 @@ export default function SuccessionPlantingPage() {
     }
   }, []);
 
+  const [frostAutoSet, setFrostAutoSet] = useState(false);
   const onResolved = useCallback(async (decoded: DecodedZip) => {
     const z = parseInt(decoded.zone, 10);
     if (!isNaN(z)) setZone(String(z));
@@ -90,7 +91,9 @@ export default function SuccessionPlantingPage() {
     // Auto-set first planting date from state frost normals if today is pre-spring
     const state = decoded.state || loc?.stateAbbr || "";
     const normals = frostNormalsFor(decoded.zone, state);
-    if (normals) {
+    setFrostAutoSet(false);
+    // Frost-free ZIPs (no typical frost) keep today; there is no last frost to plant after.
+    if (normals && frostFreeDays(normals.lastFrost, normals.firstFrost) !== 365) {
       const frostDate = nextOccurrence(normals.lastFrost.month, normals.lastFrost.day);
       const now = new Date();
       if (frostDate > now) {
@@ -99,6 +102,7 @@ export default function SuccessionPlantingPage() {
         const m = String(frostDate.getMonth() + 1).padStart(2, "0");
         const d = String(frostDate.getDate()).padStart(2, "0");
         setFirstPlantingDate(`${y}-${m}-${d}`);
+        setFrostAutoSet(true);
       }
     }
     try {
@@ -230,7 +234,7 @@ export default function SuccessionPlantingPage() {
         />
         {placeName && (
           <p className="mt-2 text-xs text-[var(--color-text-muted)]">
-            {placeName}{" \u00b7 "}first planting date auto-set from your last frost
+            {placeName}{frostAutoSet ? " \u00b7 "+"first planting date auto-set from your last frost" : ""}
           </p>
         )}
       </div>
