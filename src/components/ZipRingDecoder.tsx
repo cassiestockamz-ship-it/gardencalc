@@ -181,7 +181,7 @@ export default function ZipRingDecoder({
         const days = daysBetween(new Date(), next.date);
         base[4] = {
           label: daysSlotLabel(next.label, !!normals.firstFrost),
-          value: days > 0 ? `${days}` : "Now",
+          value: days > 0 ? `~${days}` : "Now",
           state: "partial",
         };
         }
@@ -217,7 +217,7 @@ export default function ZipRingDecoder({
       const days = daysBetween(new Date(), refDate);
       base[4] = {
         label: daysSlotLabel(next.label, !!resolved.firstFrost),
-        value: days > 0 ? `${days}` : "Now",
+        value: days > 0 ? `~${days}` : "Now",
         state: "exact",
       };
     }
