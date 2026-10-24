@@ -92,8 +92,9 @@ export default function SuccessionPlantingPage() {
     const state = decoded.state || loc?.stateAbbr || "";
     const normals = frostNormalsFor(decoded.zone, state);
     setFrostAutoSet(false);
-    // Frost-free ZIPs (no typical frost) keep today; there is no last frost to plant after.
-    if (normals && frostFreeDays(normals.lastFrost, normals.firstFrost) !== 365) {
+    // Frost-free ZIPs (no typical frost) plant from today; there is no last frost to plant after.
+    if (normals && frostFreeDays(normals.lastFrost, normals.firstFrost) === 365) setFirstPlantingDate(getDefaultDate());
+    else if (normals) {
       const frostDate = nextOccurrence(normals.lastFrost.month, normals.lastFrost.day);
       const now = new Date();
       if (frostDate > now) {
